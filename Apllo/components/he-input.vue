@@ -41,7 +41,7 @@ export default {
         line-height: 32px;
         padding: 8px;
         box-sizing: border-box;
-        border:1px solid red;
+        border:1px solid #b3b8c1;
         border-radius: 4px;
     }
 }
