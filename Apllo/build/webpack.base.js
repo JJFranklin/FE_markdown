@@ -39,7 +39,15 @@ const baseWebpack= {
     module: {
         rules: [{
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                use:{
+                    loader: 'vue-loader',
+                    options:{
+                        // 去掉元素间的空格
+                        compilerOptions: {
+                            preserveWhitespace: false
+                        }
+                    }
+                },
             },
             {
                 test:/\.js$/,
@@ -58,9 +66,9 @@ const baseWebpack= {
                     {
                         loader:'style-loader'
                     },
-                    {
-                        loader:MinCssExtractPlugin.loader,
-                    },
+                    // {
+                    //     loader:MinCssExtractPlugin.loader,
+                    // },
                     {
                         loader:'css-loader'
                     },
@@ -82,6 +90,9 @@ const baseWebpack= {
         new HtmlWebpackPlugin({
             template:path.resolve(__dirname,'../index.html'),
             filename:'index.html',
+            minify:{
+                collapseWhitespace:true
+            }
         }),
         new CleanWebpackPlugin({
             cleanStaleWebpackAssets:true,
