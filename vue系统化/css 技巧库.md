@@ -36,11 +36,33 @@
 
    [2、BFC ](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context)
 
-   
+4、自定义滚动条样式
 
-   
+```css
+// .scorll 出现滚动条样式的dom元素
+/*滚动条整体样式*/
+.scorll::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+}
 
-   
+/*滚动条滑块*/
+.scorll::-webkit-scrollbar-thumb {
+    background: #fff;
+}
 
-   
+/*滚动条轨道*/
+.scorll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
+    background: rgb(135,90,207);
+}
+```
+
+
+
+
+
+
+
+
 
