@@ -9,7 +9,7 @@
 <script>
 import heInput from "@components/he-input";
 import WxUiTest from "@components/wx-ui-test";
-import CssTrack from "@components/css.vue";
+import CssTrack from "@components/css-track";
 export default {
     data(){
         return{

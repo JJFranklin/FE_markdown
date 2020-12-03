@@ -141,6 +141,4 @@ const baseWebpack= {
         }
     }
 }
-console.log(baseWebpack);
-
 module.exports = baseWebpack;
