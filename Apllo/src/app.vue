@@ -1,13 +1,15 @@
 <template>
 <div class="wrapper">
     <!-- <he-input></he-input> -->
-    <wx-ui-test></wx-ui-test>
+    <!-- <wx-ui-test></wx-ui-test> -->
+    <css-track></css-track>
 </div>
 </template>
 
 <script>
 import heInput from "@components/he-input";
 import WxUiTest from "@components/wx-ui-test";
+import CssTrack from "@components/css.vue";
 export default {
     data(){
         return{
@@ -23,7 +25,8 @@ export default {
     },
     components:{
         'he-input':heInput,
-        "wx-ui-test":WxUiTest
+        "wx-ui-test":WxUiTest,
+        CssTrack,
     }
 }
 </script>
