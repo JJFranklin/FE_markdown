@@ -1,7 +1,9 @@
 const path = require('path');
 const VueLoader = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 const MinCssExtractPlugin = require('mini-css-extract-plugin');
 // 压缩js文件
 const ParalleUglifyPlugin = require('webpack-parallel-uglify-plugin');
@@ -23,25 +25,25 @@ let isProductMode = ENV_MODE == 'production';
 let devServer = {
     contentBase: '../dist',
     compress: true,
-    port: 9090,
-    host:'localhost',
-    quiet:false,
-    hot:true,
+    port: 6688,
+    host: 'localhost',
+    quiet: false,
+    hot: true,
 };
 
 
-const baseWebpack= {
-    entry: path.resolve(__dirname,'../src/index.js'),
+const baseWebpack = {
+    entry: path.resolve(__dirname, '../src/index.js'),
     output: {
-        filename: 'js/index.[hash].js',
+        filename: 'js/index.js',
         path: path.resolve(__dirname, '../dist'),
     },
     module: {
         rules: [{
                 test: /\.vue$/,
-                use:{
+                use: {
                     loader: 'vue-loader',
-                    options:{
+                    options: {
                         // 去掉元素间的空格
                         compilerOptions: {
                             preserveWhitespace: false
@@ -50,7 +52,7 @@ const baseWebpack= {
                 },
             },
             {
-                test:/\.js$/,
+                test: /\.js$/,
                 exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader',
@@ -60,60 +62,63 @@ const baseWebpack= {
                 }
             },
             {
-                test:/\.scss$/,
-                use:[
-                    // isProductMode ? MinCssExtractPlugin.loader : 'style-loader',
+                test: /\.scss$/,
+                use: [
+                    isProductMode ? MinCssExtractPlugin.loader : 'style-loader',
                     {
-                        loader:'style-loader'
-                    },
-                    // {
-                    //     loader:MinCssExtractPlugin.loader,
-                    // },
-                    {
-                        loader:'css-loader'
+                        loader: 'css-loader'
                     },
                     {
-                        loader:'sass-loader'
+                        loader: 'sass-loader'
+                    },
+                    {
+                        // 全局获取scss的变量
+                        loader: 'sass-resources-loader',
+                        options: {
+                            sourceMap: isProductMode,
+                            resources: path.resolve(__dirname, '../resource/scss/variable.scss')
+                        }
                     }
                 ]
 
             }
         ]
     },
-    optimization: {    // 1. 这个配置必须
+    optimization: { // 1. 这个配置必须
         minimize: isProductMode,
     },
-    devtool:isProductMode?false:'source-map', // 2. 这个配置必须
-    mode:ENV_MODE,
+    devtool: isProductMode ? 'source-map' : false, // 2. 这个配置必须
+    mode: ENV_MODE,
     plugins: [
         new VueLoader(),
         new HtmlWebpackPlugin({
-            template:path.resolve(__dirname,'../index.html'),
-            filename:'index.html',
-            minify:{
-                collapseWhitespace:true
+            template: path.resolve(__dirname, '../index.html'),
+            filename: 'index.html',
+            minify: {
+                collapseWhitespace: true
             }
         }),
         new CleanWebpackPlugin({
-            cleanStaleWebpackAssets:true,
+            cleanStaleWebpackAssets: true,
             cleanOnceBeforeBuildPatterns: [
                 path.resolve(__dirname, 'dist'),
                 '**/*'
             ],
         }),
         new MinCssExtractPlugin({
-            // filename:'[name].css',
-            chunkFilename:'[id].css'
+            filename: 'css/[name].css',
+            chunkFilename: '[name].css'
         }),
+        new webpack.HotModuleReplacementPlugin(),
         new ParalleUglifyPlugin({
-            uglifyJS:{
-                output:{
-                    beautify:false,
-                    comments:false
+            uglifyJS: {
+                output: {
+                    beautify: false,
+                    comments: false
                 },
-                warnings:false,
-                compress:{
-                    drop_console:false,     
+                warnings: false,
+                compress: {
+                    drop_console: false,
                 }
             },
         }),
@@ -133,11 +138,11 @@ const baseWebpack= {
         }),
     ],
     devServer: devServer,
-    resolve:{
-        extensions:['.js','.vue','.scss'],
-        alias:{
-            '@resource':path.resolve(__dirname,'../resource'),
-            '@components':path.resolve(__dirname,'../components'),
+    resolve: {
+        extensions: ['.js', '.vue', '.scss'],
+        alias: {
+            '@resource': path.resolve(__dirname, '../resource'),
+            '@components': path.resolve(__dirname, '../components'),
         }
     }
 }
