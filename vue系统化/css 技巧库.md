@@ -79,6 +79,12 @@ flex-shrink
 
 
 
+5、使用padding 水平居中显示显示
+
+```css
+padding:calc(父元素宽度50% - 子元素宽度*50%);
+```
+
 
 
 
