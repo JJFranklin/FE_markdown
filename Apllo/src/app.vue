@@ -1,9 +1,11 @@
 <template>
 <div class="wrapper">
+    <menu-group></menu-group>
 </div>
 </template>
 
 <script>
+import Menu from "@components/menu";
 export default {
     data(){
         return{
@@ -18,7 +20,7 @@ export default {
     mounted(){
     },
     components:{
-        CssTrack,
+        "menu-group":Menu
     }
 }
 </script>
