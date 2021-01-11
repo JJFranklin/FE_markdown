@@ -12,6 +12,18 @@
 
 <script>
 export default {
+    props:{
+        count:{
+            type:Number,
+            default:0
+        },
+        newMenus:{
+            type:Object,
+            default:function(){
+                return {}
+            }
+        }
+    },
     data() {
         return {
             curIndex:0,
@@ -27,7 +39,6 @@ export default {
                     title:"菜单3",
                     detail:["1",2,3,4,5]
                 }
-                
             ]
 
         };
@@ -35,9 +46,10 @@ export default {
     computed: {
 
     },
-    mounted() {
+    created() {
+        console.log(`运行次${this.count}次数：`,this.count,this.newMenus);
         this.menus = this.menus.map((menu,index)=>{
-            menu.show = index == 0
+            menu.show = index == 0;
             return menu;
         });
     },
@@ -67,12 +79,6 @@ export default {
     }
     &-detail{
         height: 120px;
-        &.close{
-            display: none;
-        }
-        &.open{
-            display: inline-block;
-        }
     }
 }
 
