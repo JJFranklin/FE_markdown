@@ -3,7 +3,7 @@
         <div class="menu" v-for="(menu,index) in menus" :key="index">
             <div class="title" @click.stop="changeTab(index)">{{menu.title}}</div>
             <div class="menu-detail" v-if="menu.show"> 
-                <div v-for="(item,findex) in menu.detail" :key="findex">{{item}}</div>
+                <div v-for="(item,findex) in menu.detail" :key="findex" @click.stop="del(findex,index)">{{item}}~{{findex+1}}</div>
             </div>
         </div>
 
@@ -30,7 +30,7 @@ export default {
             menus:[
                 {
                     title:"菜单1",
-                    detail:["1",2,3,4,5]
+                    detail:["1",4,5,6,7,8,9]
                 },
                 {
                     title:"菜单2",
@@ -63,6 +63,9 @@ export default {
                 return menu;
             });
             this.curIndex = curIndex;
+        },
+        del(findex,index){
+            this.menus[index].detail.splice(findex,1);
         }
     }
 };
@@ -79,6 +82,9 @@ export default {
     }
     &-detail{
         height: 120px;
+        div{
+            cursor: pointer;
+        }
     }
 }
 

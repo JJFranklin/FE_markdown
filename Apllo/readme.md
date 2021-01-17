@@ -9,3 +9,10 @@
 - python
 ##### 数据库 
 - mongodb
+
+#### 安装依赖包
+yarn 
+#### 开发
+npm run dev
+#### 生产环境
+npm run build
