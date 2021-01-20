@@ -1,6 +1,6 @@
 <template>
     <div class='border'>
-问题
+        <div class="float-div"> cdsasf</div>
     </div>
 </template>
 
