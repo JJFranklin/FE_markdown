@@ -82,9 +82,12 @@ export default {
     }
     &-detail{
         height: 120px;
+<<<<<<< Updated upstream:Apllo/vue2/components/menu.vue
         div{
             cursor: pointer;
         }
+=======
+>>>>>>> Stashed changes:Apllo/components/menu.vue
     }
 }
 
