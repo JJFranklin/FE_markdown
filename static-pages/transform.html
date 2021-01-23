@@ -1,0 +1,103 @@
+<!-- 形变和形状 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .skew{
+            width: 400px;
+            height: 100px;
+            background: #b3b8c1;
+            /* transform: skewX(-30deg); */
+            background: 
+                        linear-gradient(-45deg,#fff 10px,red 0) bottom right,
+                        linear-gradient(135deg,#fff 10px,red 0) top right;
+            /* background-size: 50% 50%; */
+            background-repeat: no-repeat;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+        }
+        /* .skew::before{
+            content: " ";
+            position: absolute;
+            top: 0;bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            background: red;
+            
+        } */
+        .skew>div{
+            /* transform: skewX(30deg); */
+        }
+        .skew:first-child{
+            margin-left: 100px;
+        }
+
+        .rotate{
+            margin-left: 200px;
+            width: 250px;
+            transform: rotate(45deg);
+            overflow: hidden;
+        }
+        .rotate img{
+            max-width: 100%;
+            transform: rotate(-45deg) scale(1.45)
+        }
+
+        .pie{
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: yellowgreen;
+            background-image: linear-gradient(to right,transparent 50%,#655 0);
+        }
+        .pie::before{
+            content: ' ';
+            height: 100%;
+            display: block;
+            margin-left: 50%;
+            border-radius: 0 100% 100% 0;
+            transform-origin: left; 
+            background-color: inherit;
+            /* transform: rotate(0.1turn); */
+            animation:spin 1s linear infinite,
+                       bg 3s step-end infinite;
+        }
+
+        @keyframes spin {
+            to{
+                transform: rotate(.5turn);
+                /* background-color: yellowgreen; */
+            }
+            
+        }
+        @keyframes bg {
+            50%{
+                background: #655;
+                /* transform: rotate(.1turn); */
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="skew">
+        <div>
+            1、skew 形变，以对象的中心点为基准，正值为逆时针，负值为顺时针，skewX，平行于Y轴的边倾斜；skewX，平行于X的边倾斜
+            2、内部的元素会跟随形变，可以在内部嵌套元素，设置一个和父元素相反的形变值
+        </div>
+    </div>
+
+    <div class="rotate">
+        <img src="./img/test1.png">
+    </div>
+
+    <div class="pie"></div>
+</body>
+</html>
