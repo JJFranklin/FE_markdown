@@ -1,9 +1,7 @@
 <template>
 <div class="wrapper">
-<<<<<<< Updated upstream:Apllo/vue2/src/app.vue
-=======
-    <menu-group v-if="showMenu" :count="count" :newMenus="newMenus"></menu-group>
->>>>>>> Stashed changes:Apllo/src/app.vue
+    <group-menu v-if="showMenu"></group-menu>
+    <button @click.stop="dismiss">消失</button>
 </div>
 </template>
 
@@ -13,7 +11,7 @@ export default {
     data(){
         return{
             count:0,
-            showMenu:false,
+            showMenu:true,
             newMenus:{id:"312",obj:{
                 arr:{
                     a:1
@@ -22,19 +20,25 @@ export default {
         }   
     },
     methods:{
+        dismiss(){
+            this.showMenu = false;
+        }
     },
     computed:{
     },
     watch:{
     },
     mounted(){
-        setTimeout(()=>{
-            this.showMenu = true;
-            this.count = 1;
-            this.newMenus.obj.arr.a = 2;
-        },1000);
+       
+    },
+    beforeDestroy() {
+        console.log("p:disstorye");
+    },
+    destroyed(){
+        console.log("p:destoryed");
     },
     components:{
+        "group-menu":Menu
     }
 }
 </script>
