@@ -1,3 +1,5 @@
+#### Vue 的基本梳理
+
 - 语法
 
 - 事件绑定、事件处理缩写
@@ -184,3 +186,52 @@ vue触发事件传输的event 对象是原生的event 对象
   > history.popState();// 前进后退
   >
   > 切换到对应的单页面
+
+#### webpack 基本梳理
+
+webpack 基本配置
+
+> webpack-merge 合并公共部分和开发和生产环境的配置，避免重复性的公共代码
+
+webpack 构建和打包
+
+webpack 高级配置
+
+> 多入口配置
+>
+> entry 需要设置多个js 文件，设置多个入口文件
+>
+> HtmlWebpackPlugin配置需要设置chunks
+>
+> chunks 设置页面引入哪些js 文件
+>
+> splitChunks：抽离第三方模块打包
+
+webpack 中loader 和plugin
+
+webpack 构建优化—构建速度
+
+> Dllplugin: 将同一个第三方库直接打包好，不用每次构建都需要打包
+>
+> 1、先使用Dllplugin，预打包；
+>
+> 2、使用DllReferPlugin ，引用打包的文件
+>
+> 优化bable-loader ：
+>
+> happyPack：开启多进程打包
+>
+> IgnorePlugin：利用正则表达式，对插件中某些部分，不进行打包
+>
+> noPrase：设置不需要解析的文件/模块，比如第三方库等
+>
+> ParallUglifyPlugin：多进程压缩js，一般在生产环境；
+>
+> 热更新：状态不会丢失，网页不刷新；
+>
+> 自动刷新：状态会丢失，整个网页全部刷新，速度较慢
+
+多进程打包：对于大项目来说，可以提高构建速度；小项目，可能会降低速度，因为开启多进程会有开销；
+
+
+
