@@ -29,6 +29,8 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "cssnano": "^4.1.10",
+    "element-ui": "^2.14.1",
+    "fast-sass-loader": "^1.5.0",
     "html-webpack-plugin": "^4.4.1",
     "loadsh": "^0.0.4",
     "mini-css-extract-plugin": "^0.11.0",
@@ -37,7 +39,7 @@
     "sass-loader": "^10.0.2",
     "sass-resources-loader": "^2.1.1",
     "style-loader": "^1.2.1",
-    "webpack-parallel-uglify-plugin": "^1.1.2",
-    "element-ui":"^2.14.1"
+    "webpack-merge": "^5.7.3",
+    "webpack-parallel-uglify-plugin": "^1.1.2"
   }
 }

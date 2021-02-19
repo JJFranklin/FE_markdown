@@ -14,9 +14,12 @@ const webpack = require('webpack');
 // webpack-dev-server 开发者模式下 hot=true 开启hrm;
 // MinCssExtractPlugin 组件不支持热更新，不能在hrm 模式下使用;
 // hrm模式下，使用style-loader 进行样式热更新,在开发模式使用;
-// 非hrm模式下，可以使用MinCssExtractPlugin 进行样式热更新,在生产模式使用;
+// 非hrm模式下，可以使用MinCssExtractPlugin 进行热更新,在生产模式使用;
 // style-loader 和MinCssExtractPlugin 不在一起使用
 
+// 上面说的有些问题
+// 热更新在开发模式下使用，
+// 生产环境不用热更新，只需要打包一次就行了
 
 // 环境变量
 let ENV_MODE = process.env.NODE_ENV;
@@ -69,7 +72,7 @@ const baseWebpack = {
                         loader: 'css-loader'
                     },
                     {
-                        loader: 'sass-loader'
+                        loader: 'fast-sass-loader'
                     },
                     {
                         // 全局获取scss的变量
@@ -105,11 +108,10 @@ const baseWebpack = {
                 '**/*'
             ],
         }),
-        new MinCssExtractPlugin({
-            filename: 'css/[name].css',
-            chunkFilename: '[name].css'
-        }),
+
         new webpack.HotModuleReplacementPlugin(),
+        
+        // 开启多进程压缩js
         new ParalleUglifyPlugin({
             uglifyJS: {
                 output: {
@@ -118,10 +120,16 @@ const baseWebpack = {
                 },
                 warnings: false,
                 compress: {
-                    drop_console: false,
+                    drop_console:true,
                 }
             },
         }),
+
+        new MinCssExtractPlugin({
+            filename: 'css/[name].css',
+            chunkFilename: '[name].css'
+        }),
+
         new OptiminizeCssPlugin({
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano'),

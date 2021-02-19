@@ -186,8 +186,16 @@ vue触发事件传输的event 对象是原生的event 对象
   > history.popState();// 前进后退
   >
   > 切换到对应的单页面
+  
+  路由守卫
+  
+  > 
 
 #### webpack 基本梳理
+
+https://juejin.cn/post/6844903726981840904
+
+https://notes.jindll.com/webpack/20%20Webpack%20%E4%BC%98%E5%8C%96%E4%B9%8B%E9%80%9F%E5%BA%A6%E4%BC%98%E5%8C%96.html#%E5%88%A9%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8F%90%E5%8D%87%E6%9E%84%E5%BB%BA%E9%80%9F%E5%BA%A6
 
 webpack 基本配置
 
@@ -207,7 +215,27 @@ webpack 高级配置
 >
 > splitChunks：抽离第三方模块打包
 
+
+
 webpack 中loader 和plugin
+
+loader
+
+> 主要将依赖的非js 的模块，转化为能够识别的js语言。
+>
+> 转化的时机：加载依赖模块的时候
+>
+> 比如，less-loader 将less 语言转化为css
+>
+> css-loader:将css 转化能够识别的js模块
+>
+> style-loader : 将转化的css模块生成style 标签插入到dom 结构中
+
+plugin
+
+> webpack 的插件，扩展丰富webpack 的功能
+>
+> 作用于webpack的整个流程
 
 webpack 构建优化—构建速度
 
@@ -215,7 +243,7 @@ webpack 构建优化—构建速度
 >
 > 1、先使用Dllplugin，预打包；
 >
-> 2、使用DllReferPlugin ，引用打包的文件
+> 2、需要使用第三方依赖库的时候，使用DllReferPlugin在manifest.json 查找是否有第三方库，如果有，直接引用打包的文件
 >
 > 优化bable-loader ：
 >
@@ -233,5 +261,27 @@ webpack 构建优化—构建速度
 
 多进程打包：对于大项目来说，可以提高构建速度；小项目，可能会降低速度，因为开启多进程会有开销；
 
+splitChunks：代码分割，避免重复打包，减少打包的后的体积
 
+https://segmentfault.com/a/1190000021074403
+
+> 作用:
+>
+> 单独分割出公共部分依赖；
+>
+> 提高代码打包的速度；
+>
+> 使用场景：
+>
+> 1、将代码按照需要分割，按照每个页面需要得依赖进行加载，一般和有多个入口文件配合使用；
+>
+> 2、打包的时候，避免重复打包依赖；
+
+多入口文件打包配置
+
+> entry：需要多个js
+>
+> 配置多个 min-css-extract-plugin 配置
+>
+> 配置 多个 htmlWebpackPlugin 插件
 
