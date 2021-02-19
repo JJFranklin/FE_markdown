@@ -152,6 +152,7 @@ const baseCtor = context.$options._base
 
 // plain options object: turn it into a constructor
 if (isObject(Ctor)) {
+  // Vue 构造函数和vue 实例构造函数参数合在一起
   Ctor = baseCtor.extend(Ctor)
 }
 ```
@@ -168,6 +169,7 @@ export default {
   }
 }
 ```
+Ctor 是 vue 的对象实例
 这里 export 的是一个对象，所以 `createComponent` 里的代码逻辑会执行到 `baseCtor.extend(Ctor)`，在这里 `baseCtor` 实际上就是 Vue，这个的定义是在最开始初始化 Vue 的阶段，在 `src/core/global-api/index.js` 中的 `initGlobalAPI` 函数有这么一段逻辑：
 
 ```js
