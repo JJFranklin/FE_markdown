@@ -279,9 +279,26 @@ https://segmentfault.com/a/1190000021074403
 
 多入口文件打包配置
 
-> entry：需要多个js
+> entry：需要多个入口js文件
 >
-> 配置多个 min-css-extract-plugin 配置
+> 需要配置多个 min-css-extract-plugin 
 >
-> 配置 多个 htmlWebpackPlugin 插件
+> 需要配置 多个 htmlWebpackPlugin 
 
+webpack 开发环境需要放的配置
+
+> 热更新
+>
+> 代理配置
+>
+> sourceMap:方便调试
+>
+> eslint 等规范工具
+
+webpack  生产环境需要放的配置
+
+> 压缩css、js 代码
+>
+> 去除注释和console
+>
+> 提取公共代码
