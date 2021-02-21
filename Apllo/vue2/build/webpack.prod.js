@@ -1,5 +1,15 @@
-const merge = require("webpack-merge");
+const {merge} = require("webpack-merge");
+const path = require("path");
 const baseCommon = require("./webpack.base");
+const webpack = require("webpack");
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
+const MinCssExtractPlugin = require('mini-css-extract-plugin');
+// 压缩js文件
+const ParalleUglifyPlugin = require('webpack-parallel-uglify-plugin');
+// 压缩css文件
+const OptiminizeCssPlugin = require('optimize-css-assets-webpack-plugin');
  
 module.exports = merge(baseCommon,{
     devtool:false,
@@ -49,6 +59,9 @@ module.exports = merge(baseCommon,{
             },
             canPrint: true
         }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
     ],
 
 });
