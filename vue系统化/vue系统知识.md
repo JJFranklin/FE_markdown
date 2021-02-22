@@ -213,7 +213,7 @@ webpack 高级配置
 >
 > chunks 设置页面引入哪些js 文件
 >
-> splitChunks：抽离第三方模块打包
+> splitChunks：根据实际的需求进行打包
 
 
 
@@ -302,3 +302,14 @@ webpack  生产环境需要放的配置
 > 去除注释和console
 >
 > 提取公共代码
+
+es6 module 和
+
+
+
+
+
+vuex
+
+https://www.yht7.com/news/9777
+
