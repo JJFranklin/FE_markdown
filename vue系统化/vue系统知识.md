@@ -303,11 +303,11 @@ webpack  生产环境需要放的配置
 >
 > 提取公共代码
 
-es6 module 和
+es6 module 和 commjs 的区别
 
+mutation 什么建议是同步
 
-
-
+> https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/65
 
 vuex
 
