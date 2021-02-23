@@ -2,6 +2,7 @@ const path = require('path');
 const VueLoader = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MinCssExtractPlugin = require('mini-css-extract-plugin');
+const CpoyWebpackPlugin = require("copy-webpack-plugin");
 // 压缩js文件
 
 // webpack-dev-server 开发者模式下 hot=true 开启hrm;
@@ -80,7 +81,14 @@ const baseWebpack = {
                 collapseWhitespace: true
             }
         }),
-           
+        new CpoyWebpackPlugin({
+            patterns:[
+                {
+                    from:path.resolve(__dirname, '../static'),
+                    to:path.resolve(__dirname, '../dist/static')
+                }
+            ]
+        }),
     ],
     
     resolve: {

@@ -7,6 +7,7 @@
 
 <script>
 import Menu from "@components/menu";
+import axios from "axios";
 export default {
     data(){
         return{
@@ -29,7 +30,9 @@ export default {
     watch:{
     },
     mounted(){
-       
+        axios.get("/api/cart.json").then(res=>{
+            console.log("res",res.data);
+        });
     },
     beforeDestroy() {
         console.log("p:disstorye");

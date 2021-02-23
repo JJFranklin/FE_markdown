@@ -12,6 +12,14 @@ module.exports = merge(baseCommon,{
         host: 'localhost',
         quiet: false,
         hot: true,
+        proxy:{
+            "/api":{
+                target:"http://localhost:6688/",
+                pathRewrite:{
+                    "^/api":"/static/mock"
+                }
+            }
+        }
     },
     plugins:[
         new webpack.DefinePlugin({
