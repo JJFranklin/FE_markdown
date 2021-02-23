@@ -95,7 +95,7 @@ const baseWebpack = {
         extensions: ['.js', '.vue', '.scss'],
         alias: {
             '@resource': path.resolve(__dirname, '../resource'),
-            '@components': path.resolve(__dirname, '../components'),
+            '@components': path.resolve(__dirname, '../src/components'),
         }
     }
 }
