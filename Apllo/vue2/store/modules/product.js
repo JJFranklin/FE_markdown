@@ -29,6 +29,8 @@ export default {
     actions:{
         // 获得产品信息
         getProductInfo({commit}){
+            // context 中有 commit dispatch getter,rootgetter,rootstate,state 属性
+            // console.log('context',context);
             axios.get("/api/product.json").then(res=>{
                 if(200 === res.status){
                     commit("getProductInfo",res.data);
