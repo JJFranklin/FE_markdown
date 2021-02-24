@@ -1,7 +1,17 @@
 [
     {
-        "id":"1",
+        "prodId":"1",
         "name":"手机",
-        "price":100
+        "price":3499
+    },
+    {
+        "prodId":"2",
+        "name":"ipad",
+        "price":2499
+    },{
+        "prodId":"3",
+        "name":"imac",
+        "price":13479
     }
+
 ]
