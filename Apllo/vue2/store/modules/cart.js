@@ -20,7 +20,7 @@
     // 对state 进行进一步加工，联合其他的store中数据，组合成新的数据
     getters:{
         carts(state,getter,rootState){
-            let carts =  _.cloneDeep(state.carts);;
+            let carts =  _.cloneDeep(state.carts);
             let products = rootState.product.products;
             let copyCarts = [];
             products.map(item=>{
@@ -63,13 +63,12 @@
             }
         },
         delProdInCart(state,prodId){
-            state.carts.map((item,index)=>{
+            state.carts = state.carts.filter(item=>{
                 if(prodId == item.prodId && item.count>0){
                     item.count--;
                 };
-                return item;
+                return item.count>0;
             });
-            state.carts = state.carts.filter(item=>item.count>0);
         }
     },
     
