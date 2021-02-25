@@ -1,11 +1,11 @@
 /* @flow */
 
 export default class VNode {
-  tag: string | void;
-  data: VNodeData | void;
-  children: ?Array<VNode>;
-  text: string | void;
-  elm: Node | void;
+  tag: string | void; // dom 标签名
+  data: VNodeData | void; // 当前节点对象，包含接节点的一些属性和样式信息
+  children: ?Array<VNode>; // 子节点
+  text: string | void; // 内部的文本节点
+  elm: Node | void; // 虚拟节点对应的真实dom节点
   ns: string | void;
   context: Component | void; // rendered in this component's scope
   key: string | number | void;
