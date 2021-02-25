@@ -401,6 +401,7 @@ export function createPatchFunction (backend) {
     }
   }
 
+  // 更新组件
   function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
     let oldStartIdx = 0
     let newStartIdx = 0
@@ -498,6 +499,7 @@ export function createPatchFunction (backend) {
     }
   }
 
+  // diff 的核心 更新node
   function patchVnode (
     oldVnode,
     vnode,
