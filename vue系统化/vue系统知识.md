@@ -10,6 +10,10 @@
 
 - Vue 模板
 
+- vue 响应式原理
+
+  https://blog.windstone.cc/vue/source-study/observer/
+
 - 父子组件传值、兄弟组件传值
 
   ```
