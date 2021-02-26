@@ -10,7 +10,7 @@ export default class VNode {
   context: Component | void; // rendered in this component's scope
   key: string | number | void;
   componentOptions: VNodeComponentOptions | void;
-  componentInstance: Component | void; // component instance
+  componentInstance: Component | void; // component instance 节点对应的组件实例
   parent: VNode | void; // component placeholder node
 
   // strictly internal

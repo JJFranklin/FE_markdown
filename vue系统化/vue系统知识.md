@@ -102,7 +102,7 @@ vue触发事件传输的event 对象是原生的event 对象
 
 - Vue 原理
 
-   Object.defineProperty 缺点
+  Object.defineProperty 缺点
 
   > 1、循环遍历嵌套对象，不能用到时进行再进行遍历
   >
@@ -134,6 +134,8 @@ vue触发事件传输的event 对象是原生的event 对象
   ```
 
    diff 基本方式
+
+  https://www.infoq.cn/article/udlcpkh4iqb0cr5wgy7f
 
   >0、是一个树结构的数据 
   >
