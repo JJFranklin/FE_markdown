@@ -142,6 +142,7 @@ export function createPatchFunction (backend) {
       // associated DOM element for it.
       vnode = ownerArray[index] = cloneVNode(vnode)
       
+
     }
 
     vnode.isRootInsert = !nested // for transition enter check
