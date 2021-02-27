@@ -14,7 +14,7 @@ import shoppingCart from './modules/shoppingCart'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  // strict: true,
+  strict: true,
   modules: {
     user,
     shoppingCart
