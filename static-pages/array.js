@@ -8,6 +8,7 @@
 
 
 let s  = [{a:1},{a:2},{a:3}];
+
 // s.map((item,index)=>{
 //     // let _item = {...item};
 //     if(item.a == 2){
