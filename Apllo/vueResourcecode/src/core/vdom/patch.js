@@ -67,7 +67,6 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
   for (i = beginIdx; i <= endIdx; ++i) {
     key = children[i].key
     if (isDef(key)) map[key] = i
-    
   }
   return map
 }
