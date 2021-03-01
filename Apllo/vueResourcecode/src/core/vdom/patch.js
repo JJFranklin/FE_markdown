@@ -192,6 +192,7 @@ export function createPatchFunction (backend) {
           insert(parentElm, vnode.elm, refElm)
         }
       } else {
+        // 创造子节点
         createChildren(vnode, children, insertedVnodeQueue)
         if (isDef(data)) {
           invokeCreateHooks(vnode, insertedVnodeQueue)
@@ -428,8 +429,6 @@ export function createPatchFunction (backend) {
     }
     // diff 算法核心
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
-
-
       if (isUndef(oldStartVnode)) {
         oldStartVnode = oldCh[++oldStartIdx] // Vnode has been moved left
       } else if (isUndef(oldEndVnode)) {
@@ -445,12 +444,14 @@ export function createPatchFunction (backend) {
         oldStartVnode = oldCh[++oldStartIdx]
         newStartVnode = newCh[++newStartIdx]
       } else if (sameVnode(oldEndVnode, newEndVnode)) {
-        patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx)
+        patchVnode(
+          oldEndVnode, 
+          newEndVnode, 
+          insertedVnodeQueue, 
+          newCh, 
+          newEndIdx)
         oldEndVnode = oldCh[--oldEndIdx]
         newEndVnode = newCh[--newEndIdx]
-
-
-
       } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
         /**
          * 当前的开始节点和当前新节点是同一个节点
@@ -474,7 +475,6 @@ export function createPatchFunction (backend) {
       } 
       
       
-      
       else {    
         if (isUndef(oldKeyToIdx)) {
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)
@@ -494,7 +494,7 @@ export function createPatchFunction (backend) {
             newStartIdx
           )
         } else {
-          // 在老节点中找到和新节点相同缩影的节点
+          // 在旧节点中找到和新节点相同索引的节点
           vnodeToMove = oldCh[idxInOld]
           // 如果两个节点完全相同
           if (sameVnode(vnodeToMove, newStartVnode)) {
@@ -535,9 +535,9 @@ export function createPatchFunction (backend) {
       if (isDef(key)) {
         if (seenKeys[key]) {
           warn(
-            `Duplicate keys detected: '${key}'. This may cause an update error.`,
+            `Duplicate keys detected: '$
+          ){key}'. This may cause an update error.`,
             vnode.context
-          )
         } else {
           seenKeys[key] = true
         }
