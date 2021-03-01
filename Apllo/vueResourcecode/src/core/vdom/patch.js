@@ -13,7 +13,6 @@
 import VNode, { cloneVNode } from './vnode'
 import config from '../config'
 import { SSR_ATTR } from 'shared/constants'
-
 import { registerRef } from './modules/ref'
 import { traverse } from '../observer/traverse'
 import { activeInstance } from '../instance/lifecycle'
