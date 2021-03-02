@@ -11,7 +11,6 @@
  */
 
 import VNode, { cloneVNode } from './vnode'
-
 import config from '../config'
 import { SSR_ATTR } from 'shared/constants'
 import { registerRef } from './modules/ref'
