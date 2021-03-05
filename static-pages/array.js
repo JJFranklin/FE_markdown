@@ -36,5 +36,3 @@ for (let index = 0; index < s.length; index++) {
     }
 }
 
-console.log(s);
-
