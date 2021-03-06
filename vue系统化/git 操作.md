@@ -1,10 +1,6 @@
 Git 
 
-
-
 https://juejin.im/post/6844903895160881166
-
-
 
 git clone 慢
 
@@ -35,8 +31,6 @@ git fetch 可选
    	   git reabse —continue 会自动完成git commit ，所以不用手动执行git commit 
 
 5、git push 
-
-
 
 ·  git add -A  提交所有变化
 
