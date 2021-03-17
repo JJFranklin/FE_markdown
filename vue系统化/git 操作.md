@@ -24,9 +24,9 @@ git stash apply // 解决完冲突，可选，还原更改
 
 git fetch 可选
 
-4、git pull —rebase
+4、git pull —-rebase
 
-​	4.1 如果有冲突，解决完冲突之后，先执行git add . ,在执行git rebase —contunue,
+​	4.1 如果有冲突，解决完冲突之后，先执行git add . ,在执行git rebase —continue,
 
    	   git reabse —continue 会自动完成git commit ，所以不用手动执行git commit 
 
