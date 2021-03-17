@@ -37,3 +37,7 @@ git fetch 可选
 · git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
 
 · git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
+
+
+本地git操作出现443，将全局的地址修改为
+>  git config --global remote.origin.url "https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git"
