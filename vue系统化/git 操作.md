@@ -32,7 +32,7 @@ git fetch 可选
 
 5、git push 
 
-·  git add -A  提交所有变化
+· git add -A  提交所有变化
 
 · git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
 

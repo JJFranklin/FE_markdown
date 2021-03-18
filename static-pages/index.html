@@ -1,141 +1,31 @@
+<!-- 用作功能测试页面 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>异步测试</title>
-    <link rel="stylesheet/less" type="text/css" href="style.less" />
+    <title>Document</title>
     <style>
-        .p{
-            background: gray;
-            height: 100px;
-            width: 200px;
-            
-        }
-        .p:hover{
-            height: 800px;  
-            width: 500px;
-            transition: 3s height ease-in-out,3s 4s width ease-in-out;
-        }
-        .c1{
-            height: 200px;
-        }
-        .float-div{
-            height: 400px;
-            /* float:ight; */
+        .content{
+            width:400px;
+            height: 300px;
+            margin: 75px auto 0 auto;
+            color: #000;
+            font-size: 16px;
+            line-height: 300px;
+            text-align: center;
+            border:1px solid #b3b8c1;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
     </style>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.11.1/less.min.js" ></script>
-
-</head>
+    <script src="./jquery.js"></script>
+</head> 
 <body>
-    <div class="p">
-        <div class="c1">fdfsafsfsad</div>
-        <div class="float-div">fsafsfs</div>
-    </div>
-    
+    <div class="content">0</div>
+    <script src="./throttle-debounce.js"></script>
 </body>
+
 </html>
-
-<script>
-const baiduDecodeUrlwuhan = "http://api.map.baidu.com/geocoding/v3/?address=武汉&output=json&ak=HK7DyiPvQZlT8VzP1jtU4SBp1Pr0YluL&callback=showLocation&callback=foo";
-const baiduDecodeUrlbeiijing = "http://api.map.baidu.com/geocoding/v3/?address=北京&output=json&ak=HK7DyiPvQZlT8VzP1jtU4SBp1Pr0YluL&callback=showLocation&callback=boo";
-function addScriptTag(src) {
- var script = document.createElement('script');
- script.setAttribute("type","text/javascript");
- script.src = src;
- document.body.appendChild(script);
-}
-// 当使用采用jsonp 的方式执行跨域的时候，callback=foo 中的回调函数名不能相同；
-let foo = null;
-function getURL1(url,tag) {
-    return new Promise(function (resolve, reject) {
-        foo = function(result){
-            if(result){
-                let resultdata = JSON.stringify(result);                
-                resolve(resultdata);
-            } else {
-                reject("请求错误");
-            }
-        }
-        addScriptTag(url);
-        // console.log("promise"+tag);
-    });
-}
-
-let boo = null;
-function getURL2(url,tag) {
-    return new Promise(function (resolve, reject) {
-        boo = function(result){
-            if(result){
-                let resultdata = JSON.stringify(result);                
-                resolve(resultdata);
-            } else {
-                reject("请求错误");
-            }
-        }
-        addScriptTag(url);
-    });
-}
-// let getUrl2 = getURL1(baiduDecodeUrlbeiijing,"2");
-// let getUrl1 = getURL2(baiduDecodeUrlwuhan,"1");
-
-// Promise.all([getUrl1,getUrl2]).then(res=>{
-//     console.log('res',res);
-// }).catch(err=>{
-//     console.log(err);
-// });
-
-
-// async function getCommons(){
-//     try {
-//         let comments1 = await getURL1(baiduDecodeUrlwuhan,"1");
-//         console.log('comment1',comments1);
-//         let comments2 = await getURL1(baiduDecodeUrlbeiijing,"2");
-//         console.log('comments2',comments2);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-// getCommons();
-
-let urls = [{url:baiduDecodeUrlwuhan,fun:getURL1},{url:baiduDecodeUrlbeiijing,fun:getURL2}];
-async function printPromise(){
-    let promises = urls.map(async function(item,index){
-        return await item['fun'](item.url);
-    });
-    console.log("promises",promises);
-    for(let i=0,len=promises.length;i<len;i++){
-        let promise = await promises[i];
-        debugger;
-        console.log('promise',promise);
-    }
-};
-
-printPromise();
-
-console.log("ceshi");
-
-
-function Animal(){
-    this.sex = "male";
-
-}
-
-Animal.prototype.getname = function(){
-    console.log("franklin",window.sex);
-}
-
-function Cat(){
-
-}
-
-Cat.prototype = new Animal();
-
-let hellokitty = new Cat();
-// hellokitty = Animal.prototype;
-hellokitty.getname();
-console.log(hellokitty.sex);
-</script>
