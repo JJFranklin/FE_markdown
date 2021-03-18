@@ -41,3 +41,10 @@ git fetch 可选
 
 本地git操作出现443，将全局的地址修改为
 >  git config --global remote.origin.url "https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git"
+
+
+core.quotepath=false
+user.email=JJFranklin@https://github.com
+user.name=JJFranklin
+remote.origin.url=https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git
+http.sslbackend=openssl
