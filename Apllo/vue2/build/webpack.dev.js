@@ -4,7 +4,7 @@ const webpack = require("webpack");
  
 module.exports = merge(baseCommon,{
     mode: "development",
-    devtool:'source-map', // 2. 这个配置必须
+    devtool:'eval-source-map', // 2. 这个配置必须
     devServer: {
         contentBase: '../dist',
         compress: true,

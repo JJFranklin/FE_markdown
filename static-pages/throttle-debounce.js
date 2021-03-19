@@ -53,7 +53,7 @@ function throttle2(func,wait){
  * 防抖
  * 1、在等待的时间内接收到新的请求时重新计时，
  * 2、直到新的等待时间内，没有新的请求吗，就执行最近的回调请求
- * 相当于每次处罚的时候重新生成一个新的定时器
+ * 相当于每次触发的时候重新生成一个新的定时器
  * */ 
 
 function debounce(func,wait){
@@ -75,6 +75,6 @@ let count = 0;
 function setHtml() {
     $(this).html(count++);
 }
-let newSetHtml = debounce(setHtml, 500,a=1);
+let newSetHtml = debounce(setHtml,500,a=1);
 
 $(".content").on("mousemove", newSetHtml);
