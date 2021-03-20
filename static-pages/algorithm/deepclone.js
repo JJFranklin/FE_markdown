@@ -29,10 +29,10 @@ function shallowCopy(obj) {
 function deepClone(obj){
     if(!isObject(obj)) return obj;
     // 区分出数组和对象
-    let target = Array.isArray(obj)?[]:{};
+    let target = Array.isArray(obj) ? [] : {};
     let keys = Object.keys(obj);
-    keys.map(key=>{
-        if(isObject(obj[key])){
+    keys.map(key => {
+        if (isObject(obj[key])) {
             target[key] = deepClone(obj[key]);
         } else {
             target[key] = obj[key];

@@ -75,6 +75,6 @@ let count = 0;
 function setHtml() {
     $(this).html(count++);
 }
-let newSetHtml = debounce(setHtml,500,a=1);
 
+let newSetHtml = debounce(setHtml, 500,a=1);
 $(".content").on("mousemove", newSetHtml);
