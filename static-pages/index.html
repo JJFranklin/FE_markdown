@@ -1,31 +1,18 @@
-<!-- 用作功能测试页面 -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .content{
-            width:400px;
-            height: 300px;
-            margin: 75px auto 0 auto;
-            color: #000;
-            font-size: 16px;
-            line-height: 300px;
-            text-align: center;
-            border:1px solid #b3b8c1;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-    </style>
-    <script src="./jquery.js"></script>
-</head> 
+<html>
 <body>
-    <div class="content">0</div>
-    <script src="./throttle-debounce.js"></script>
+    <h2>Hello</h2>
+    <script>
+    function printH2() {
+        console.log('first script', document.querySelectorAll('h2'));
+    }
+    printH2()
+    setTimeout(printH2)
+    </script>
+    <!-- <link href="./index.css"> -->
+    <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.4/css/bootstrap.css"> -->
+    <h2>World</h2>
+    <script>
+    console.log('second script');
+    </script>
 </body>
-
 </html>
