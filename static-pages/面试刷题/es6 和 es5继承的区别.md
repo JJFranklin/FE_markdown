@@ -3,7 +3,7 @@ https://zh.javascript.info/class-inheritancex
 ES5 继承
 ```
 1、首先生成子类对象实例，
-2、然后在调用子类的构造函数，将父类的属性和方法添加到对象实例的this上；
+2、然后在子类的构造函数中，将父类的属性和方法添加到对象实例的this上；
 ```
 
 ES6
