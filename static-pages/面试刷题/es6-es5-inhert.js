@@ -4,7 +4,7 @@ class A {
 
 class B extends A {
     constructor() {
-        super();
+        super();// 相当于执行了 A.prototype.constructor.call(this) 
     }
 }
 
