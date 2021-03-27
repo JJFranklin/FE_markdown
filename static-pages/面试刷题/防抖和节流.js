@@ -20,7 +20,7 @@ function throttle2(cb,wait){
     let timer = null;
     return function(){
         let that = this;
-        clearTimeout(timer);
+        !timer && clearTimeout(timer);
         // 只有执行完成之后，才能进行下一次请求
         if(!timer){
             timer = setTimeout(function(){

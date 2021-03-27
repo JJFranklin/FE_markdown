@@ -4,3 +4,15 @@ var b = 10;
     b = 20;
     console.log(b);  // 函数 b  
 })();
+
+
+var a = 10;
+(function () {
+    var a;
+    console.log(a) //  undefined
+    a = 5
+    console.log(window.a) // 10
+    a = 20;
+    console.log(a) //20
+})()
+
