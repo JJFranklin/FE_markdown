@@ -44,6 +44,7 @@ Function.prototype.newBind = function(obj){
         return that.apply(obj,newArgs);
     }
 };
+
 let person = {
     name:"franklin",
     sex:"fmale",
