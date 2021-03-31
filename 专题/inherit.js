@@ -13,7 +13,7 @@ function Child(name, age) {
     this.age = age;
 }
 
-// 关键的三步
+// 关键的三步 计生组合继承
 var F = function () {};
 
 F.prototype = Parent.prototype;
