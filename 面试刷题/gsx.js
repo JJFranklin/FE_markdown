@@ -179,9 +179,26 @@ perfectInhert(Child,BaseClass);
 // c.arr.push("45");
 // console.log(c.name,c.arr,c1.arr);
 
+// promise 的实现
+// https://github.com/YvetteLau/Blog/issues/2
+function *add(a,b){
+    yield a + b;
+    yield 1+2;
+    yield 3+4;
+    return
+}
 
 
+let resultAdd = add(4,5);
 
+function gernerate(result){
+    let res = result.next();
+    console.log("res",res);
+    if(!res.done){
+        gernerate(result);
+    }   
+}
+gernerate(resultAdd);
 
 
 

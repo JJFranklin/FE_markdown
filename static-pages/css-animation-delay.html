@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .loading{
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            position: relative;
+            /* background-color: red; */
+        }
+        span{
+            height: 20px;
+            width: 4px;
+            /* display: inline-block; */
+            background-color: #f2f3f4;
+            position: absolute;
+            left:30px;
+            margin-left: -2px;
+            -webkit-animation: loading 1s infinite;
+        }
+        .line1{
+            background-color: #051433;
+            -webkit-animation-delay: 0.1s;
+                    /* animation-delay: 0.1s; 延迟多长时间才执行 */
+        }
+
+        .line2{
+            -webkit-transform: rotate(45deg);
+                    transform: rotate(45deg);
+            top: 3px;
+            left: 37px;
+            -webkit-animation-delay: 0.2s;
+                    animation-delay: 0.2s;
+        }
+
+        .line3{
+            -webkit-transform: rotate(90deg);
+                    transform: rotate(90deg);
+            top: 10px;
+            left: 40px;
+            -webkit-animation-delay: 0.3s;
+                    animation-delay: 0.3s;
+        }
+        .line4{
+            -webkit-transform: rotate(135deg);
+                    transform: rotate(135deg);
+            top: 17px;
+            left: 37px;
+            -webkit-animation-delay: 0.4s;
+                    animation-delay: 0.4s;
+        }
+
+        .line5{
+            -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+            top: 17px;
+            left: 30px;
+            -webkit-animation-delay: 0.5s;
+                    animation-delay: 0.5s;
+        }
+        .line6{
+            -webkit-transform: rotate(225deg);
+                    transform: rotate(225deg);
+            top: 17px;
+            left: 23px;
+            -webkit-animation-delay: 0.6s;
+                    animation-delay: 0.6s;
+        }
+        .line7{
+            -webkit-transform: rotate(270deg);
+                    transform: rotate(270deg);
+            top: 10px;
+            left: 20px;
+            -webkit-animation-delay: 0.7s;
+                    animation-delay: 0.7s;
+        }
+        .line8{
+            -webkit-transform: rotate(315deg);
+                    transform: rotate(315deg);
+            top: 3px;
+            left: 23px;
+            -webkit-animation-delay: 0.8s;
+                    animation-delay: 0.8s;
+        }
+
+        @-webkit-keyframes loading {
+            0%{
+                background-color: #f2f3f4;
+            }
+            50%{
+                background-color: #051433;
+            }
+            100%{
+                background-color: #b3b8c1;
+            } 
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <span class="line1"></span>
+        <span class="line2"></span>
+        <span class="line3"></span>
+        <span class="line4"></span>
+        <span class="line5"></span>
+        <span class="line6"></span>
+        <span class="line7"></span>
+        <span class="line8"></span>
+    </div>
+</body>
+</html>
