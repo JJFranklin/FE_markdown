@@ -50,10 +50,13 @@ function addScriptTag(src) {
 // 当使用采用jsonp 的方式执行跨域的时候，callback=foo 中的回调函数名不能相同；
 let foo = null;
 function getURL1(url,tag) {
+    console.log('222');
     return new Promise(function (resolve, reject) {
+        console.log('333');
         foo = function(result){
             if(result){
-                let resultdata = JSON.stringify(result);                
+                let resultdata = JSON.stringify(result); 
+                console.log('444');               
                 resolve(resultdata);
             } else {
                 reject("请求错误");
@@ -88,54 +91,34 @@ function getURL2(url,tag) {
 // });
 
 
-// async function getCommons(){
-//     try {
-//         let comments1 = await getURL1(baiduDecodeUrlwuhan,"1");
-//         console.log('comment1',comments1);
-//         let comments2 = await getURL1(baiduDecodeUrlbeiijing,"2");
-//         console.log('comments2',comments2);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-// getCommons();
-
-let urls = [{url:baiduDecodeUrlwuhan,fun:getURL1},{url:baiduDecodeUrlbeiijing,fun:getURL2}];
-async function printPromise(){
-    let promises = urls.map(async function(item,index){
-        return await item['fun'](item.url);
-    });
-    console.log("promises",promises);
-    for(let i=0,len=promises.length;i<len;i++){
-        let promise = await promises[i];
-        debugger;
-        console.log('promise',promise);
+async function getCommons(){
+    try {
+        let comments1 = await getURL1(baiduDecodeUrlwuhan,"1");
+        console.log(comments1);
+        console.log('111')
+        
+        // let comments2 = await getURL1(baiduDecodeUrlbeiijing,"2");
+        // console.log('comments2',comments2);
+    } catch (error) {
+        console.log(error);
     }
-};
-
-printPromise();
-
-console.log("ceshi");
-
-
-function Animal(){
-    this.sex = "male";
-
 }
 
-Animal.prototype.getname = function(){
-    console.log("franklin",window.sex);
-}
+getCommons();
 
-function Cat(){
+// let urls = [{url:baiduDecodeUrlwuhan,fun:getURL1},{url:baiduDecodeUrlbeiijing,fun:getURL2}];
+// async function printPromise(){
+//     let promises = urls.map(async function(item,index){
+//         return await item['fun'](item.url);
+//     });
+//     console.log("promises",promises);
+//     for(let i=0,len=promises.length;i<len;i++){
+//         let promise = await promises[i];
+//         console.log('promise',promise);
+//     }
+// };
 
-}
+// printPromise();
 
-Cat.prototype = new Animal();
 
-let hellokitty = new Cat();
-// hellokitty = Animal.prototype;
-hellokitty.getname();
-console.log(hellokitty.sex);
 </script>

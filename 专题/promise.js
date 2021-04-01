@@ -11,71 +11,34 @@
 如果其中一个没有异常处理，返回异常，会直接被promise.all的catch捕获，
 */ 
 
-// function setname(name){
-//     return new Promise((resove,reject)=>{
-//         if(name){
-//             resove(name);
-//         }else {
-//             reject("错误的名字！");
-//         }
-//     });
-// }
+function setname(name){
+    return new Promise((resove,reject)=>{
+        if(name){
+            resove(name);
+        }else {
+            reject("错误的名字！");
+        }
+    });
+}
 
-// // 方式2  可
-// let newName = '';
+// 方式2  可
+let newName = '';
 
-// function setage(d){
-//     console.log(d+100);
-// }
+function setage(d){
+    console.log(d+100);
+}
 
-// function p(){
-//     setname("franklin").then(res=>{
-//         setage(res);
-//     }).catch(error=>{
-//         console.log(error);
-//     });
-//     console.log('innner ',newName);
-// }
-// p();
+function p(){
+    setname("franklin").then(res=>{
+        setage(res);
+    }).catch(error=>{
+        console.log(error);
+    });
+    console.log('innner ',newName);
+}
+p();
 
-// console.log('outter ',newName);
-
-
-// promise 实际测试
-
-// http://azu.github.io/promises-book/json/comment.json
-// http://azu.github.io/promises-book/json/people.json
-// const commentUrl = "http://azu.github.io/promises-book/json/comment.json";
-// const peopleUrl = "http://azu.github.io/promises-book/json/people.json";
-
-// function getURL(URL) {
-//     return new Promise(function (resolve, reject) {
-//         console.log("promise");
-//         var req = new XMLHttpRequest();
-//         req.open('GET', URL, true);
-//         req.onload = function () {
-//             if (req.status === 200) {
-//                 resolve(req.responseText);
-//             } else {
-//                 reject(new Error(req.statusText));
-//             }
-//         };
-//         req.onerror = function () {
-//             reject(new Error(req.statusText));
-//         };
-//         req.send();
-//     });
-// }
-
-// async function getCommons(){
-//     let comments = await getURL(commentUrl);
-//     console.log(comments);
-// }
-
-// getCommons();
-
-// console.log("ceshi");
-
+console.log('outter ',newName);
 
 function red(){
     console.log('red');
@@ -151,5 +114,5 @@ function light2(){
     });
 }
 
-light2();
+// light2();
 

@@ -198,7 +198,21 @@ function gernerate(result){
         gernerate(result);
     }   
 }
-gernerate(resultAdd);
+// gernerate(resultAdd);
+
+async function timeout(){
+    console.log("111");
+    let timefunc = await setTimeout(()=>{
+        console.log(100);
+    },0);
+    console.log("33333",timefunc);
+}
+timeout();
+
+
+
+
+
 
 
 
