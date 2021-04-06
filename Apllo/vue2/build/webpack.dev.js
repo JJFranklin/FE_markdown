@@ -11,7 +11,7 @@ module.exports = merge(baseCommon,{
         port: 6688,
         host: 'localhost',
         quiet: false,
-        hot: true,
+        hot: true, // 开启了模块热更新
         proxy:{
             "/api":{
                 target:"http://localhost:6688/",

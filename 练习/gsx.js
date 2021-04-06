@@ -240,8 +240,8 @@ async function timeout() {
 
 Promise.resolve() // 将普通对象转化成promise 对象
 // 等效为
-new Promise(resolve => {
-    return resolve()
+let p1 = new Promise(resolve => {
+    return resolve("我是p1")
 });
 
 // Promise.resolve(2).finally(() => {
@@ -253,18 +253,13 @@ setTimeout(function () {
 
 function newPrint(){
     return new Promise((resolve,reject)=>{
-        resolve("1231");
+        return resolve(p1);
     });
 }
 
-Promise.resolve().then(function () {
-    console.log('two');
+
+newPrint().then(function (res) {
+    console.log('res',res);
+}).catch(r=>{
+    console.log("r",r)
 });
-
-newPrint().then(res=>{
-    console.log('four')
-});
-
-
-
-console.log('one');
