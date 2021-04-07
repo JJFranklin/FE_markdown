@@ -215,11 +215,11 @@ webpack 高级配置
 >
 > entry 需要设置多个js 文件，设置多个入口文件
 >
-> HtmlWebpackPlugin配置需要设置chunks
+> HtmlWebpackPlugin 为每一个多入口文件生成对应的html页面
 >
 > chunks 设置页面引入哪些js 文件
 >
-> splitChunks：根据实际的需求进行打包
+> splitChunks：根据实际的需求进行打包，分块打包，提取公共的部分，避免重复打包
 
 
 
