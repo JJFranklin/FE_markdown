@@ -247,11 +247,18 @@ let p1 = new Promise(resolve => {
 // Promise.resolve(2).finally(() => {
 //     console.log('res', res)
 // }, () => {})
-setTimeout(function () {
-    console.log('three');
-}, 0);
 
-function newPrint(){
+// generator 异步使用
+// async/await 
+/**
+遇到 await 会先返回promise 对象，
+然后等到异步执行完成之后，在执行后面的代码
+await 返回是Promise 执行的结果,等同于，先返回Promise 对象之后，等待异步执行完毕之后，执行then的回调，输出最后的结果
+async 返回的是Promise 对象，可以执行then 的链式回调
+async 函数的多个await 所在行的代码是同步执行的，整个async 是异步执行的
+*/
+function print(){
+    console.log("1");
     return new Promise((resolve,reject)=>{
         return resolve(p1);
     });
@@ -263,3 +270,75 @@ newPrint().then(function (res) {
 }).catch(r=>{
     console.log("r",r)
 });
+
+async function output(){
+    console.log("3")
+    let res = await print();
+    console.log('res1',res);
+    console.log("4");
+}
+
+// output().then(res=>{
+//     console.log("re2",res)
+// });
+
+const say = async (num) => {
+    console.log(num, 'begin:')
+    await new Promise(resolve => {
+      setTimeout(() => {
+        console.log(num)
+        resolve()
+      }, num * 1000)
+    })
+  }
+  
+  const nums = [2, 1]
+  
+  // 遍历 nums 打印
+  async function for_Result() {
+    for (let n of nums) {
+      await say(n)
+    }
+  }
+  
+  // 遍历 nums 打印
+  function forEach_Result() {
+    nums.forEach(async function(n){
+        await say(n)
+    });
+  }
+  
+  // 思考分别调用下面两个方法的结果：
+//   for_Result()
+  forEach_Result()
+
+// 模拟 有回调函数的遍历 map,foreach等
+function newForEach(cb){
+    ch();
+}
+// 所以forEach_Result 可以变成
+function forEach_Result() {
+    let a = async function(n){
+        await say(n)
+    }
+    nums.newForEach(function(n){
+        a(n);
+    });
+    // 可以看到回调函数的执行并没有被await修饰，所以不用等待上一个回调执行完毕，再执行下一个，同步执行
+    // for...of 或者其他的for循环的形式，没有回调函数，await 发挥了作用，会按照上一个执行完毕在执行下一个的顺序
+  }
+
+/**
+两个遍历方法分别使用了 for of 和 forEach 循环数组，并使用 await等待异步方法的执行。
+期望的都是实现同步执行，但是forEach并没有按照预期的去等待 say() 方法执行完毕。
+难道forEach中的 await没有生效？
+其实两种遍历并执行 say() 的方式是有区别的：
+for of会在遍历到每个元素后，执行say()方法。
+而forEach在遍历每个元素后，执行的是该方法接收的回调函数方法，然后在回调中，执行say()方法。
+forEach方法内部调用 回调函数 时，并没有使用await修饰，所以回调方法并不会等待上一个回调执行完毕。
+内部的 await 也就失去了意义。
+同理for()循环和for of原理一样，所以也能达到期望的效果。
+map 和 forEach 实现的效果是一样，都是并发执行，因为他的回调函数没有被await 修饰，
+不用等上一个执行完成，在执行下一个
+*/
+
