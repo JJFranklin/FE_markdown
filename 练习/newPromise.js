@@ -51,7 +51,8 @@ class NewPromise {
     newRejected(err) {
         if (this.status !== PENDING) return;
         this.value = err;
-        this.status = REJECTED;   this.rejectedArr.map(cb => cb(val));
+        this.status = REJECTED;   
+        this.rejectedArr.map(cb => cb(val));
     }
      
     // then 返回一个新的promise对象
