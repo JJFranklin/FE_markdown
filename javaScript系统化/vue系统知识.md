@@ -176,21 +176,16 @@ vue触发事件传输的event 对象是原生的event 对象
   >异步渲染
 
 -  Vue-router 的路由模式
-
   单页面(spa)应用：hash 模式和h5 history，都可以切换以页面，但是不刷新页面
 
   hash 
-
   > window.onhashchange();
-  >
   > 监听hash 变化，切换到对应的单页面
 
   h5-history:需要服务端支持
-
   > history.pushState();// 添加新的路由
-  >
   > history.popState();// 前进后退
-  >
+  或者 window.onpopState()
   > 切换到对应的单页面
   
   路由守卫
