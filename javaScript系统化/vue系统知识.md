@@ -94,7 +94,13 @@ vue触发事件传输的event 对象是原生的event 对象
 
 - vuex
 
-> 
+> 核心L:state、getter、actions、mutations、modules
+```javascript
+state：整个全局的数据对象，尽量不用太多嵌套，打平；
+getter：对于state中数据根据业务逻辑进一步封装，满足页面显示的内容；
+actions：提交mutations的地方，改变状态前的一个步骤，一个actions,可以包含多个mutation，也已包含异步操作；
+modules：多个复杂的项目，可以根据业务逻辑分多个模块，每一个模块中包含完整的（state,getter,actions,mutations）使用的时候，可以通过模块路径分别引用其中的state,action
+```
 
 - vue-router
 
