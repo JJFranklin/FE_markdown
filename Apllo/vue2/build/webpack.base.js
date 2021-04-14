@@ -21,9 +21,12 @@ let isProductMode = ENV_MODE == 'production';
 
 
 const baseWebpack = {
-    entry: path.resolve(__dirname, '../src/index.js'),
+    entry: {
+        "index":path.resolve(__dirname, '../src/index.js'),
+        "echartIndex":path.resolve(__dirname, '../src/echartIndex.js')
+    },
     output: {
-        filename: 'js/index.js',
+        filename: 'js/[name].js',
         path: path.resolve(__dirname, '../dist'),
     },
     module: {
@@ -45,13 +48,13 @@ const baseWebpack = {
                 use: {
                     loader: 'babel-loader?cacheDirectory',
                     options: {
-                        presets: ['@babel/preset-env'],
+                        // presets: ['@babel/preset-env'],
                         // include:path.resolve(__dirname,'src')
                     }
                 }
             },
             {
-                test: /\.scss$/,
+                test:/\.(sass|scss|less|css)$/,
                 use: [
                     isProductMode ? MinCssExtractPlugin.loader : 'style-loader',
                     {
@@ -69,8 +72,11 @@ const baseWebpack = {
                         }
                     }
                 ]
-
-            }
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+             }
         ]
     },
     plugins: [
@@ -78,9 +84,20 @@ const baseWebpack = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../index.html'),
             filename: 'index.html',
+            chunks: ['index'],
+            inject:true,
             minify: {
                 collapseWhitespace: true
-            }
+            },
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../echartIndex.html'),
+            filename: 'echartIndex.html',
+            chunks:["echartIndex"],
+            inject:true,
+            minify: {
+                collapseWhitespace: true
+            },
         }),
         new CpoyWebpackPlugin({
             patterns:[
