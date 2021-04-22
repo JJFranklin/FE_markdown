@@ -49,10 +49,10 @@ react事件都是挂在document事件上，减少资源消耗
  4.1、函数组件，没有状态，没有生命周期，只接受props控制页面进行渲染
 	4.2、UI 组件
 5、portals : 可以让组件渲染到父组件外面，比如说是 modal 弹窗
-	5.1、通过ReactDom.creatPortal(dom,"#id");zzz
+	5.1、通过ReactDom.creatPortal(dom,"#id");
 6、性能优化 
 	6.1、shouldComponentUpdate:默认返回true
-		父组件更新，会重触犯render 渲染子组件也会更新
+		父组件更新，会重新触发render 渲染，子组件也会更新
 		因此通过 shouldComponentUpdate,控制子组件进行是否更新
 		为什么不建议在其中进行深度比较
 	6.2、PureComponent:纯组件，在其中实现了浅比较 React.PureComponent
