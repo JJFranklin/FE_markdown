@@ -14,16 +14,24 @@
  * (3)、避免给属性添加多余的属性，执行完成之后，就删除属性
 */
 
+const obj = {
+    a:1,
+    func:()=>{}
+}
+
 Function.prototype.newCall = function(obj,...args){
     // 将方法作为对象的一个属性，属性中的this，就是对象的this;
     // obj为null的时候this 指向window 
     obj = obj||window;
-    obj.func = this;
+    obj.func = this; // 此时的this,就是调用此方法的函数 即funcA
     // 执行调用方法
     obj.func(...args);
     // 删除属性
     delete obj.func;
 }
+
+// funA.newACall(obj,a);
+// funA.call(obj,a);
 
 Function.prototype.newApply = function(obj,args){
     obj = obj || window;
@@ -35,7 +43,7 @@ Function.prototype.newApply = function(obj,args){
 Function.prototype.newBind = function(obj){
     // 获取参数；
     let args = Array.prototype.slice.call(arguments,1) || [];
-    // 返回一个闭包，避免this丢失
+    // 返回一个函数，形成闭包，避免this丢失
     let that = this;
     return function(){
         // 应对两次都可以传值的情况
