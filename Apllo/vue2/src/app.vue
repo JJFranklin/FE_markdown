@@ -3,7 +3,6 @@
     <div class="content">
         <product></product>
         <cart></cart>
-        <ulli></ulli>
     </div>
 </div>
 </template>
@@ -11,7 +10,6 @@
 <script>
 import product from '@components/product';
 import cart from '@components/cart';
-import ulli from "@components/ul-li.vue";
 export default {
     data(){
         return{
@@ -30,7 +28,6 @@ export default {
     components:{
         product,
         cart,
-        ulli
     }
 }
 </script>

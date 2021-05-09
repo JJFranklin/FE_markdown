@@ -4,8 +4,6 @@ import product from "./modules/product";
 import cart from "./modules/cart.js"
 
 Vue.use(Vuex);
-
-
 const store = new Vuex.Store(
     {
         // strict:true,

@@ -12,7 +12,12 @@
 import {mapActions, mapGetters} from "vuex";
 export default {
     name: 'product',
-    props: {},
+    props: {
+        printlog:{
+            default:function(){},
+            type:Function,
+        }
+    },
     data() {
         return {
         }

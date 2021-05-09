@@ -17,6 +17,7 @@ export default {
     props: {},
     data() {
         return {
+            cartName:"",
         }
     },
     computed:{
@@ -30,7 +31,16 @@ export default {
         },
         ...mapActions(['delProdInCart']),
     },
+    created(){
+        this.$bus.$on("getProductName",(res)=>{
+            this.cartName = res;
+        });
+    },
     mounted(){
+        
+    },
+    beforeDestroy(){
+        this.$bus.$off("getProductName");
     },
     components: {
         
