@@ -11,7 +11,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 export default {
-    name: 'product',
+    name: '',
     props: {
         printlog:{
             default:function(){},

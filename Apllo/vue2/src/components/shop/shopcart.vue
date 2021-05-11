@@ -13,7 +13,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 export default {
-    name: 'cart',
+    name: '',
     props: {},
     data() {
         return {
