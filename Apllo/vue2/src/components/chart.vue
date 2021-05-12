@@ -1,10 +1,11 @@
 <template>
     <div class=''>
-        图表组件
+        <echartmap></echartmap>
     </div>
 </template>
 
 <script>
+import Chart from "../echartmap";
 export default {
     props: {
 
@@ -26,6 +27,9 @@ export default {
     mounted() {
 
     },
+    components:{
+        "echartmap":Chart
+    }
 };
 </script>
 

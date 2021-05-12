@@ -1,7 +1,6 @@
 <template>
     <div class=''>
-        关于我们
-        <router-view></router-view>
+        关于自己的嵌套路由
     </div>
 </template>
 

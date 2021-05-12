@@ -4,6 +4,8 @@ import VueRouter from "vue-router";
 import Home from "@components/home";
 import Shop from "@components/shop/index";
 import About from "@components/about";
+import AboutChild from  "@components/aboutchild";
+import Chart from "@components/chart";
 
 
 Vue.use(VueRouter);
@@ -15,6 +17,11 @@ Vue.use(VueRouter);
  */
 
 const routes = [
+    {
+        path:"/",
+        name:"",
+        redirect:"/home"
+    },
     {
         path:"/home",
         name:"Home",
@@ -28,7 +35,19 @@ const routes = [
     {
         path:"/about",
         name:"About",
-        component:About
+        component:About,
+        children:[
+            {
+                path:"child",
+                name:"aboutchild",
+                component:AboutChild
+            }
+        ]
+    },
+    {
+        path:"/chart",
+        name:"Chart",
+        component:Chart
     }
 ];
 
@@ -37,6 +56,8 @@ const router = new VueRouter({
     routes
 });
 
-router.push({name:"Home"});
+router.beforeEach((to,from,next)=>{
+});
+
 
 export {router,routes};
