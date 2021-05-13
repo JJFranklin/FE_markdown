@@ -2,6 +2,13 @@
     "presets": [["@babel/preset-env", { "modules": false }]],
     "plugins": [
       [
+        "@babel/transform-runtime"
+        // {
+        //   "polyfill": false,
+        //   "regenerator": true
+        // }
+      ],
+      [
         "component",
         {
           "libraryName": "element-ui",
