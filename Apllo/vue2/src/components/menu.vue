@@ -1,14 +1,35 @@
 <template>
   <div class="">
     <el-menu>
-      <el-menu-item index="1-3" v-for="menu in menus" :key="menu.path">
-        <router-link class="router-link" :to="menu.path"
-          ><i class="menu-icon" :class="menu.icon"></i
-          >{{ menu.name }}</router-link
-        >
-      </el-menu-item>
+        <template v-for="menu in menus" >
+            <el-menu-item v-if="!menu.children" :key="menu.path">
+                <router-link 
+                    class="router-link" 
+                    :to="menu.path">
+                <i class="menu-icon" :class="menu.icon"></i>{{ menu.name }}
+                </router-link>
+            </el-menu-item>
+
+            <el-submenu  v-else :key="menu.path" index="2">
+                <template slot="title">
+                    <i :class="menu.icon"></i>
+                    <span>{{menu.name}}</span>
+                </template>
+
+                <el-menu-item-group>
+                  <el-menu-item index="" v-for="submenu in menu.children" :key="submenu.path">
+                       <router-link 
+                            class="router-link" 
+                            :to="`${menu.path}/${submenu.path}`">
+                       {{ submenu.name }}
+                        </router-link>
+                  </el-menu-item>
+                </el-menu-item-group>
+              
+            </el-submenu>
+        </template>
     </el-menu>
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -31,6 +52,21 @@ export default {
           name: "图表展示",
           path: "/chart",
           icon: "el-icon-s-data",
+        },
+        {
+            name:"基础组件",
+            icon:"el-icon-s-platform",
+            path:"/basecomponents",
+            children:[
+                {
+                    name:"无限滚动 1",
+                    path:"infinityscroll1",
+                },
+                {
+                    name:"无限滚动 2",
+                    path:"infinityscroll2"
+                }
+            ]
         },
         {
           name: "关于我们",
