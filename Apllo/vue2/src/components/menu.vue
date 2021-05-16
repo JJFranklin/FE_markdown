@@ -10,14 +10,14 @@
                 </router-link>
             </el-menu-item>
 
-            <el-submenu  v-else :key="menu.path">
+            <el-submenu index="1" v-else :key="menu.path">
                 <template slot="title">
                     <i :class="menu.icon"></i>
                     <span>{{menu.name}}</span>
                 </template>
 
                 <el-menu-item-group>
-                  <el-menu-item v-for="submenu in menu.children" :key="submenu.path">
+                  <el-menu-item index="2" v-for="submenu in menu.children" :key="submenu.path">
                        <router-link 
                             class="router-link" 
                             :to="`${menu.path}/${submenu.path}`">

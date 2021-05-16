@@ -20,19 +20,7 @@ module.exports = merge(baseCommon,{
     mode: "production",
     optimization: { 
         // minimize: true,
-        splitChunks:{
-            minSize: 10000,
-            chunks: 'all',
-            cacheGroups:{
-                vendor: {
-                    name: 'vendor', // chunk 名称
-                    priority: -10, // 权限更高，优先抽离，重要！！！
-                    test: /[\\/]node_modules[\\/]/, // 一般第三方模块都是从node_modules引进来如lodash
-                    minSize: 0,  // 大小限制
-                    minChunks: 1  // 最少复用过几次
-                },                     
-            }
-        }
+       
     },
     plugins: [
         // 开启多进程压缩js

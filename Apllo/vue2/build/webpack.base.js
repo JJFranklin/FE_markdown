@@ -108,6 +108,21 @@ const baseWebpack = {
             ]
         }),
     ],
+    optimization:{
+        splitChunks:{
+            minSize: 10000,
+            chunks: 'all',
+            cacheGroups:{
+                vendor: {
+                    name: 'vendor', // chunk 名称
+                    priority: -10, // 权限更高，优先抽离，重要！！！
+                    test: /[\\/]node_modules[\\/]/, // 一般第三方模块都是从node_modules引进来如lodash
+                    minSize: 20000,  // 大小限制
+                    minChunks: 1  // 最少复用过几次
+                },                     
+            }
+        },
+    },
     
     resolve: {
         extensions: ['.js', '.vue', '.scss'],
@@ -115,6 +130,6 @@ const baseWebpack = {
             '@resource': path.resolve(__dirname, '../resource'),
             '@components': path.resolve(__dirname, '../src/components'),
         }
-    }
+    },
 }
 module.exports = baseWebpack;
