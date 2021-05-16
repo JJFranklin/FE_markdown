@@ -30,7 +30,7 @@ export default {
                 price,
                 des
             } = result;
-            for (let i = 0; i < 23; i++) {
+            for (let i = 0; i < 199; i++) {
                 state.goodAllList.push({
                     index: i + 1,
                     name: `${name}${i + 1}`,

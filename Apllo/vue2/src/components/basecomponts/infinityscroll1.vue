@@ -87,7 +87,6 @@ export default {
         loadMore() {
             // 模拟分页请求；
             let param = Object.assign({}, { page: this.pageInfo.page + 1 });
-            console.log("加载更多...");
             this.getGoodListByParam(param);
             this.list = [...this.list, ...this.goodList];
             this.loaded = true;
