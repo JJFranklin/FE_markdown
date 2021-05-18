@@ -17,14 +17,15 @@
    清除浮动方式：
    1、挨着浮动元素的元素，设置clear:both 属性，清除掉浮动；
    2、根据原理，在父元素中，插入一个display:block；clear:both;height:0;的元素;
-   3、父元素设置伪元素:after{content:".";display:block;clear:both;height:0;}
+   3、父元素设置伪元素:after{content:" ";display:table;clear:both;}
    4、利用bfc 原理清除浮动：bfc 区域内外布局不会相互影响，会将浮动元素的高度计算在内；
    
    —— BFC 原理
+   独立的渲染区域，内部元素的选择不会影响外部元素的样式
    1、块状格式化上下文：能解决浮动的问题和上下margin,重叠的问题；
    产生bfc方式
    1、float不是 none;
-   2、display是inline-block、table-cell;
+   2、display是inline-block、table-cell、flex;
    3、position是absolute或者fixed;
    4、overflow不是visible;
    
@@ -85,7 +86,39 @@ flex-shrink
 padding:calc(父元素宽度50% - 子元素宽度*50%);
 ```
 
+marging 负值的情况
+
+Marging-top、margin-left  本身元素向上、向左移动
+
+Marigin-bottom、margin-ritgh 本身元素不变化，挨着的元素向上、向左移动
+
+![image-20210516213336538](/Users/hemingming/Library/Application Support/typora-user-images/image-20210516213336538.png)
 
 
 
+6、水平垂直居中
 
+```css
+// 需要知道子元素宽高或者子元素尺寸，兼容性好的情况
+ele{
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  margin:auto;
+}
+// transform  兼容性比较差
+ele{
+  position:absolute;
+  top:50%;
+  left:50%;
+	transform:translate(-50%,-50%);
+}
+```
+
+line-height 继承
+
+父级的line-height 是具体px 或者1.4、3这样的数字，那么子元素继承父元素的line-height 的值，然后和自己的font-size 的值相乘，得到本元素的line-height
+
+父元素的line-height 值是百分比，此时，子元素继承的是，父元素font-size * 父元素line-height 的值，子元素继承上面计算后的结果

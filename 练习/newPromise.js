@@ -56,7 +56,7 @@ class NewPromise {
     }
      
     // then 返回一个新的promise对象
-    newThen(onFulilled, onRejected) {
+    newThen( , onRejected) {
         let {
             status,
             value

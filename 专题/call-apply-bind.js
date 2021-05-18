@@ -40,16 +40,14 @@ Function.prototype.newApply = function(obj,args){
     delete obj.func;
 } 
 
-Function.prototype.newBind = function(obj){
+Function.prototype.newBind = function(){
     // 获取参数；
-    let args = Array.prototype.slice.call(arguments,1) || [];
+    let args = Array.prototype.slice.call(arguments) || [];
     // 返回一个函数，形成闭包，避免this丢失
+    let obj = args.shift(); // 取出第一项，新的绑定对象，就是新的this
     let that = this;
     return function(){
-        // 应对两次都可以传值的情况
-        let arr = Array.prototype.slice.call(arguments);
-        let newArgs = args.concat(arr);
-        return that.apply(obj,newArgs);
+        return that.apply(obj,args);
     }
 };
 
