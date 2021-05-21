@@ -128,3 +128,8 @@ webpack 编译打包原理及过程
 >
 > 例子2：在组成chunk的过程中，使用miniExtractCss 和 ParalleUglifyPlugin分别对css 和js文件进行提取的压缩；
 
+补充:
+安装babel的核心模块
+babel-core
+babel-env
+babel-loader

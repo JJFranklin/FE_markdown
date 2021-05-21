@@ -2,7 +2,11 @@
 
   设计原则
 
+
   1、api 请求资源路径里面使用名词
+  2、将url设计成资源标识
+  3、使用不同的方法标识不同的操作
+  4、不适用url 参数
 
   ```javascript
   https://api.example.com/v1/zoos  // 获取所有动物园信息

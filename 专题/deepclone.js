@@ -45,6 +45,10 @@ function isObject(obj){
     return obj && typeof obj === "object";
 }
 
+
+let res = deepClone(obj);
+res.c.e.h = 4;
+console.log(res,obj);
 // 深度优先遍历
 
 

@@ -26,7 +26,7 @@ const baseWebpack = {
         "echartIndex":path.resolve(__dirname, '../src/echartIndex.js')
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'js/[name].[hash].js',
         path: path.resolve(__dirname, '../dist'),
     },
     module: {

@@ -14,7 +14,7 @@ https://zybuluo.com/wangwangheng/note/53297
 
 git stash // 有冲突时，暂存更改,可选，
 
-git stash apply // 解决完冲突，可选，还原更改
+git stash pop // 解决完冲突，可选，还原更改
 
 1、git status // 列出有哪些更改
 
@@ -38,6 +38,36 @@ git fetch 可选
 
 · git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 
+合并分支
+切换到主分支，然后将其他的分支合并到主分支
+git checkout branchA // 切换到其他分支
+git pull origin branchA // 拉取更新
+git chechkout master // 切换到主分支
+git pull origin master // 更新master分支
+git merge branchA // 将branchA 合并到主分支
+
+git 常用操作
+git checkout -b branchA // 生成分支A
+git pull origin branchA // 获取远程分支A的更新到本地分支A上
+git cherry-pick 提交的hash值 // 将指定的更新，合并到当前分支
+
+合并提交记录
+git rebase -i HEAD~4 将最近的4条提交记录合并为一条
+
+用于将本地分支和远程的master分支不同步的时候
+git checkout feature
+git rebase master 表示以master为基础，将feature分支上的修改增加到master分支上，以合并后的版本，生成新的版本，并切回抹掉
+feature的提交记录，避免出现提交记录分叉，具体情况如下
+
+1、"feature"分支里的每个提交(commit)取消掉（就看不到分叉的提交记录了）；
+2、并且把它们临时保存为补丁(patch)(这些补丁放到".git/rebase"目录中),
+3、然后把"feature"分支更新 为最新的"origin"分支，最后把保存的这些补丁应用到"feature"分支上。
+4、此时就会指向最新的提交记录。
+
+git reset HEAD 文件 // 回退到当前版本，放弃缓存区的修改
+git reset --hard 提交版本号：将当前分支重置为指定版本。
+
+
 
 本地git操作出现443，将全局的地址修改为
 >  git config --global remote.origin.url "https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git"
@@ -48,3 +78,5 @@ user.email=JJFranklin@https://github.com
 user.name=JJFranklin
 remote.origin.url=https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git
 http.sslbackend=openssl
+
+
