@@ -67,10 +67,12 @@ function debounce(func,wait){
     return function(){
         let that = this;
         if(timer){
+            // 清除上一个定时器，重新生产新的定时器
             clearTimeout(timer);
         }
         timer = setTimeout(function(){
             func.apply(that,args);
+            timer = null;  // 每次运行完，重置定时器变量
         },wait)
     }
 }

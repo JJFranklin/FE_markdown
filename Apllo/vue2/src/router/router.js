@@ -21,29 +21,36 @@ const routes = [
     {
         path:"/home",
         name:"Home",
-        component:()=>import("../components/home")
+        // component:()=>import("../components/home")
+        component:(resolve) => require.ensure([], () => resolve(require('../components/home'))),
     },
     {
         path:"/shop",
         name:"Shop",
-        component:()=>import("../components/Shop")
+        // component:()=>import("../components/Shop")
+        component:(resolve) => require.ensure([], () => resolve(require('../components/home'))),
     },
     {
         path:"/about",
         name:"About",
-        component:()=>import("../components/About"),
+        // component:()=>import("../components/About"),
+        component:(resolve) => require.ensure([], () => resolve(require('../components/About'))),
+
         children:[
             {
                 path:"child",
                 name:"aboutchild",
-                component:()=>import("../components/AboutChild")
+                // component:()=>import("../components/AboutChild")
+                component:(resolve) => require.ensure([], () => resolve(require('../components/AboutChild'))),
+
             }
         ]
     },
     {
         path:"/chart",
         name:"Chart",
-        component:()=>import("../components/Chart")
+        // component:()=>import("../components/Chart")
+        component:(resolve) => require.ensure([], () => resolve(require('../components/Chart'))),
     },
     {
         path:"/basecomponents",
@@ -52,15 +59,19 @@ const routes = [
             {
                 path:"infinityscroll1",
                 name:"infinityscroll1",
-                component:()=>import("../components/basecomponts/infinityscroll1")    
+                // component:()=>import("../components/basecomponts/infinityscroll1")  
+                component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll1'))),
+  
             },
             {
                 path:"infinityscroll2",
                 name:"infinityscroll2",
-                component:()=>import("../components/basecomponts/infinityscroll2")    
+                // component:()=>import("../components/basecomponts/infinityscroll2") 
+                component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll2'))),
             },
         ],
-        component:()=>import("../components/basecomponts/index")
+        // component:()=>import("../components/basecomponts/index")
+        component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/index'))),
     }
 ];
 

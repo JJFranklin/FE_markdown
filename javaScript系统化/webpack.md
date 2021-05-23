@@ -24,7 +24,14 @@ webpack 高级配置
 
 
 
-webpack 中loader 和plugin
+webpack 中loader 和plugin、chunk
+
+chunk 
+组成最终打包完成的部分、几种情况下会产生chunk
+1、多入口
+2、根据需要分块 splitChunk 
+
+module 就是需要加载解析的代码
 
 loader
 
