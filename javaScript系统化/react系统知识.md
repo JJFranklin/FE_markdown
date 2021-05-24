@@ -8,7 +8,7 @@
 ```javascript
 react事件是合成事件，对原生事件进行了封装，
 模拟了document事件，同时屏蔽了浏览器的兼容性
-react事件都是挂在document事件上，减少资源消耗
+react事件都是挂在document事件上，代理模式，减少资源消耗
 ```
 - 受控组件和非受控组件
 ```javascript

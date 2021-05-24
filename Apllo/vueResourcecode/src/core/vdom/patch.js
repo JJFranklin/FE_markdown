@@ -40,8 +40,8 @@ function sameVnode (a, b) {
     a.key === b.key && (
       (
         a.tag === b.tag &&
-        a.isComment === b.isComment &&
-        isDef(a.data) === isDef(b.data) &&
+        a.isComment === b.isComment && // 是否空注释占位符
+        isDef(a.data) === isDef(b.data) && // vNode上的的data值，包括其所有的class、attribute属性、style属性已经绑定的时间
         sameInputType(a, b)
       ) || (
         isTrue(a.isAsyncPlaceholder) &&
@@ -131,7 +131,7 @@ export function createPatchFunction (backend) {
     vnode, // 新的节点
     insertedVnodeQueue,
     parentElm,
-    refElm, // 当前节点真实dom 对象
+    refElm, // 当前节点真实dom 对象 在 updataChildren中表示旧的节点
     nested, //是否嵌套
     ownerArray,// 子节点集合
     index
@@ -506,6 +506,7 @@ export function createPatchFunction (backend) {
             
             canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)
           } else {
+            // key 相同，但是元素不同，添加新的节点
             // same key but different element. treat as new element
             createElm(
               newStartVnode, 
