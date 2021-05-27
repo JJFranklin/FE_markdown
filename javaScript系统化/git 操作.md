@@ -56,7 +56,7 @@ git rebase -i HEAD~4 将最近的4条提交记录合并为一条
 
 用于将本地分支和远程的master分支不同步的时候,将远程分支更新拉取到本地分支
 git checkout feature
-git rebase master 表示以master为基础，将feature分支上的修改增加到master分支上，以合并后的版本，生成新的版本，并切回抹掉
+git rebase master 表示以master为基础，将feature分支上的修改增加到master分支上，以合并后的版本，生成新的版本，并且会抹掉
 feature的提交记录，避免出现提交记录分叉，具体情况如下
 
 1、"feature"分支里的每个提交(commit)取消掉（就看不到分叉的提交记录了）；
