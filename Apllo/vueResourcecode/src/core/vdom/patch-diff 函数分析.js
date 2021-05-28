@@ -474,17 +474,14 @@ export function createPatchFunction (backend) {
         canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm/*要插入的节点*/, oldStartVnode.elm/*原来要插入位置的节点*/)
         oldEndVnode = oldCh[--oldEndIdx]
         newStartVnode = newCh[++newStartIdx]
-      } 
-      
-      
-      else {    
+      } else {    
         if (isUndef(oldKeyToIdx)) {
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)
         } 
         idxInOld = isDef(newStartVnode.key)
           ? oldKeyToIdx[newStartVnode.key]  /*通过key检查当前比较的新节点是否是在旧节点中*/
           : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx) 
-          /*通过节点检查当前比较的新节点中没有key,就通过sameVnode 来比较*/
+          /*通过节点检查当前比较的新节点中是否有key,有就通过sameVnode 来比较*/
         if (isUndef(idxInOld)) { // New element
           // 新的节点在旧节点中不存在，直接生成新的节点，并插入到当前开始旧节点的前面
           createElm(

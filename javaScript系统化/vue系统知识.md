@@ -207,3 +207,7 @@ mutation 什么建议是同步
 > https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/65
 >
 > https://www.zhihu.com/question/48759748/answer/112823337
+
+#### Vue 源码解析
+依赖收集的是什么东西？
+> 依赖收集工作，收集的依赖是组件在模板里或者render里使用到的响应式属性。
