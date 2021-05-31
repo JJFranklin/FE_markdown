@@ -118,4 +118,5 @@
 jsonp 支持支get 请求
 
 cors 需要服务端支持
+Access-Control-Allow-Origin:""
 

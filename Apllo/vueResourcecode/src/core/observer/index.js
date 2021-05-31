@@ -147,12 +147,14 @@ export function defineReactive (
   }
 
   // cater for pre-defined getter/setters
+  // 复杂对象的属性，也需要设置响应式
   const getter = property && property.get
   const setter = property && property.set
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key]
   }
 
+  // 复杂对象的时候，递归遍历
   let childOb = !shallow && observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,

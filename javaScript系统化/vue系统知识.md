@@ -20,6 +20,8 @@
   1、props & emit 
   2、eventBus事件总线,触发事件$emit 接收触发事件$on 
   3、vuex
+  4、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style ；
+  5、$linstener：拿到所有在父组件中定义在子组件上的监听事件。
   ```
 
 - Vue 指令 v-if、v-show、v-for等
@@ -111,6 +113,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   > 1、循环遍历嵌套对象，不能用到时进行再进行遍历
   >
   > 2、对数组进行监听时，需要特殊处理：使用数组原型对象，Objecr.create生成一个新对象，基于数组对象原型上的方法重写方法，不影响数组对象上的方法。
+  > 3、vue 不能监听数组对元素下标的修改和数组长度改变，因为数组元素的length 是不可枚举和不可配置的
 
   虚拟dom的js对象结构
 
@@ -200,8 +203,6 @@ hash 模式下，刷新页面不会改变，增加历史记录；
 > replaceState // 改变当前历史的历史记录 也不触发跳转
 或者 window.onpopState()；
 
-es6 module 和 commjs 的区别
-
 mutation 什么建议是同步
 
 > https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/65
@@ -211,3 +212,6 @@ mutation 什么建议是同步
 #### Vue 源码解析
 依赖收集的是什么东西？
 > 依赖收集工作，收集的依赖是组件在模板里或者render里使用到的响应式属性。
+
+vue 编译选择顺序
+render 函数、template、outHtml;
