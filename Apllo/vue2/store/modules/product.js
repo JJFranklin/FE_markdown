@@ -4,7 +4,6 @@
  * 1、展示商品信息 名称，价格
  * 2、能够添加到购物车
  * */ 
-import axios from "axios";
 export default {
     namespaced: true,
     state:{
@@ -31,7 +30,7 @@ export default {
         getProductInfo({commit}){
             // context 中有 commit dispatch getter,rootgetter,rootstate,state 属性
             // console.log('context',context);
-            axios.get("/api/product.json").then(res=>{
+            this.$http.get("/api/product.json").then(res=>{
                 if(200 === res.status){
                     commit("getProductInfo",res.data);
                 }

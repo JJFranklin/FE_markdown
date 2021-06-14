@@ -1,4 +1,3 @@
-import axios from "axios";
 
 export default {
     state: {
@@ -60,7 +59,7 @@ export default {
             dispatch,
             state
         }) {
-            return axios.get("/api/good.json").then(res => {
+            return this.$http.get("/api/good.json").then(res => {
                 if (200 == res.status) {
                     commit("getGoodItem", res.data)
                 }
