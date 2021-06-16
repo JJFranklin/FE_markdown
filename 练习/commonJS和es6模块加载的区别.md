@@ -6,5 +6,5 @@
 - CommonJS运行时加载，ESModule编译阶段引用。
 - CommonJS在引入时是加载整个模块，生成一个对象，然后再从这个生成的对象上读取方法和属性。
 - ESModule 不是对象，而是通过export暴露出要输出的代码块，在import时使用静态命令的方法引用指定的输出代码块，并在import语句处执行这个要输出的代码，而不是直接加载整个模块。
-- 暴露方式的区别，commonJS modules.exports = {module};ES6 export default module 或者 export module
+- 暴露方式的区别，commonJS modules.exports = {module};ES6 export default module 或者 export {module} 
 - 引入方式 commonJS require("module") es6 import {moduleName} from "module"
