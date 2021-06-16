@@ -41,13 +41,14 @@ Function.prototype.newApply = function(obj,args){
 } 
 
 Function.prototype.newBind = function(){
-    // 获取参数；
-    let args = Array.prototype.slice.call(arguments) || [];
-    // 返回一个函数，形成闭包，避免this丢失
-    let obj = args.shift(); // 取出第一项，新的绑定对象，就是新的this
+    let args = Array.prototype.slice(arguments) || [];
+    let Obj = args.shift();
     let that = this;
     return function(){
-        return that.apply(obj,args);
+        // 可以第二次传值
+        let moreArgs = Array.prototype.slice(arguments) || [];
+        moreArgs = moreArgs.concat(args);
+        return that.apply(Obj,moreArgs);
     }
 };
 

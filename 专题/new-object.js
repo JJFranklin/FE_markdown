@@ -26,7 +26,7 @@ function newCreateObj(){
     obj = Object.create(baseClass.prototype); 
     // 此时 obj.__proto__= baseClass.prototype
     // 3、通过apply或者call改变构造函数的this的指向,this指向新的对象,此时会执行构造函数
-    baseClass.apply(obj,arguments)
+    baseClass.apply(obj,arguments);
     // 4、返回新的对象
     return obj;
 }
