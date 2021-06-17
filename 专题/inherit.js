@@ -8,6 +8,15 @@ Parent.prototype.getName = function () {
     console.log(this.name)
 }
 
+// 原型继承
+function Child1(){
+
+}
+let subchild = new Child1();
+subchild = Parent.prototype;
+subchild.Constrct = Child1;
+
+// 构造函数继承
 function Child(name, age) {
     Parent.call(this, name);
     this.age = age;

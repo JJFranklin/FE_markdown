@@ -62,6 +62,7 @@ Function.prototype.bind2 = function (context) {
  */
 // 原型继承：子类的原型对象是父类的对象实例
 // 原理：obj.__proto__ = BaseClass.prototype;
+
 /**
  * 缺点：引用类型的数据被所有数据共享，无论是定义在父类构造函数内的，还是定义在父类或者子类原型链上的
  * 引用类型的属性通常不定义在原型链上
@@ -77,8 +78,9 @@ function Child(name) {
     this.arr = [556666];
 }
 // 关键步骤
+// 子类原型对象是父类的实例
 Child.prototype = new BaseClass();
-// 构造函数还是自己
+// 构造函数指向自己
 Child.prototype.constructor = Child;
 
 // BaseClass.prototype.sexs= [1,2,3];
