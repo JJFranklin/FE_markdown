@@ -131,3 +131,19 @@ var B = /*#__PURE__*/ function (_A) {
 }(A);
 
 var b = new B();
+
+// class Animal{
+//     constructor(){
+//         this.name = "franklin";
+//     }
+// }
+
+// class Cat extends Animal{
+//     constructor(){
+//         super();
+//         console.log("this",this);
+//     }
+// }
+
+// let cat1 = new Cat();
+

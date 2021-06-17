@@ -103,6 +103,8 @@ var A = function A() {
 };
 
 var B = /*#__PURE__*/ function (_A) {
+    // 1、子类的原型指向父类，指向父类的this，就可以在子类的原型上访问到父类的静态属性
+    // 2、子类继承父类的原型对象，子类可以继承父类的属性
     _inherits(B, _A);
 
     var _super = _createSuper(B);

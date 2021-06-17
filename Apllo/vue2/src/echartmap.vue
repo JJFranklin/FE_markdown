@@ -1,5 +1,7 @@
 <template>
+
     <div class="wrap">
+        
         <div class="export">
             <span title="下载" class="el-icon-download" @click="exportExcle"></span>
         </div>
@@ -7,7 +9,7 @@
             <el-table-column prop="title" label="标题" width="180"> </el-table-column>
             <el-table-column prop="content" label="内容"> </el-table-column>
         </el-table>
-    
+        <el-button type="primary" @click="changeTheme">切换主题</el-button>
         <div class="section chartOfbar" ref="chartOfbar"></div>
     </div>
 </template>
@@ -20,6 +22,7 @@ export default {
         return {
             tableData: [],
             barOption: {
+                color:['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
                 xAxis: [{
                     type: "category",
                     data: ["2021-04-15", "2021-04-16", "2021-04-17", "2021-04-18"],
@@ -103,6 +106,7 @@ export default {
     },
     methods: {
         init() {
+            barChart && barChart.dispose();
             let barChartDom = this.$refs.chartOfbar;
             let barChart = this.$echart.init(barChartDom);
             this.barOption && barChart.setOption(this.barOption);
@@ -118,6 +122,11 @@ export default {
                     this.tableData = res.data;
                 }
             });
+        },
+        changeTheme(){
+            let color2 = ['#dd6b66','#759aa0','#e69d87','#8dc1a9','#ea7e53','#eedd78','#73a373','#73b9bc','#7289ab', '#91ca8c','#f49f42'];
+            this.barOption.color = color2;
+            this.init();
         }
     },
     computed: {},
