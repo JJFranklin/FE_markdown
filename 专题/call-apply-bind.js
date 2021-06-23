@@ -41,12 +41,12 @@ Function.prototype.newApply = function(obj,args){
 } 
 
 Function.prototype.newBind = function(){
-    let args = Array.prototype.slice(arguments) || [];
+    let args = Array.prototype.slice.call(arguments) || [];
     let Obj = args.shift();
     let that = this;
     return function(){
         // 可以第二次传值
-        let moreArgs = Array.prototype.slice(arguments) || [];
+        let moreArgs = Array.prototype.slice.call(arguments) || [];
         moreArgs = moreArgs.concat(args);
         return that.apply(Obj,moreArgs);
     }

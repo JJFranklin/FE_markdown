@@ -52,7 +52,12 @@ export function eventsMixin (Vue: Class<Component>) {
         this.$on(event[i], fn)
       }
     } else {
-      (vm._events[event] || (vm._events[event] = [])).push(fn)
+      // 消息队列，根据不同的事件类型生成
+      if(!vm._events[event]){
+        vm._events[event] = []
+      }
+      vm._events[event].push(fn);
+      // (vm._events[event] || (vm._events[event] = [])).push(fn)
       // optimize hook:event cost by using a boolean flag marked at registration
       // instead of a hash lookup
       if (hookRE.test(event)) {

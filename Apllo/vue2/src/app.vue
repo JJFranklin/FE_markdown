@@ -32,7 +32,14 @@ export default {
   methods: {},
   computed: {},
   watch: {},
-  mounted() {},
+  mounted() {
+   this.$bus.$on("changetheme",()=>{
+     console.log("1")
+   });
+  this.$bus.$on("changetheme",()=>{
+     console.log("2")
+   });
+  },
   components: {
     "div-menu": Menu,
     "div-header": Header,
