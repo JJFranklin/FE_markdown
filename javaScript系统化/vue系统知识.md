@@ -227,7 +227,7 @@ let url = "";
 let title = "";
 // 2、使用history.pushState() 打开一个新的路由
 history.pushState(state,title,url);
-// 3、服务端会根据state.name 的，看加载哪个页面；
+// 3、服务端会根据url，看返回或者加载哪个页面；
 
 // 第二部分：监听前进和后退
 window.onpopstate = (event)=>{

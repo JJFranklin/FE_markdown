@@ -1,22 +1,40 @@
-<script src="../专题/promise.js"></script>
-<script>
-function Animal(){
-    this.sex = "male";
-    console.log(this);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            height: 100%;
+        }
+        .p{
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+        .c1{
+            flex: 0 0 200px;
+            background: red;
+        }
+        .c2{
+            flex: 1;
+            background: yellow;
+        }
+        /* .c3{
+            flex: 0 0 300px;
+            background: rosybrown;
+        } */
 
-// Animal.prototype.getname = function(){
-//     console.log("franklin",this);
-// }
-
-// function Cat(){
-
-// }
-
-// Cat.prototype = new Animal();
-Animal();
-// let hellokitty = new Cat();
-// // hellokitty = Animal.prototype;
-// hellokitty.getname();
-// console.log(hellokitty.sex);
-</script>
+    </style>
+</head>
+<body>
+    <div class="p">
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <!-- <div class="c3"></div> -->
+    </div>
+    
+</body>
+</html>
