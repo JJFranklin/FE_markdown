@@ -41,45 +41,47 @@
 // console.log(arr) //?
 
 // 实现每100秒交替出现 红 黄 绿 灯
-function red(){
-    console.log("red");
-}
+// function red(){
+//     console.log("red");
+// }
 
-function yellow(){
-    console.log("yellow");
-}
+// function yellow(){
+//     console.log("yellow");
+// }
 
-function green(){
-    console.log("green");
-}
+// function green(){
+//     console.log("green");
+// }
 
-function light(cb,wait){
-    return new Promise((resolve,reject)=>{
-        setTimeout(() => {
-            cb()
-            resolve();
-        }, wait);
-    });
-}
+// function light(cb,wait){
+//     return new Promise((resolve,reject)=>{
+//         setTimeout(() => {
+//             cb()
+//             resolve();
+//         }, wait);
+//     });
+// }
 
-function step(){
-    Promise.resolve().then(()=>{
-        return light(red,1000);
-    }).then(()=>{
-        return light(yellow,1000);
-    }).then(()=>{
-        return light(green,1000);
-    }).then(()=>{
-        step();
-    });;
-}
+// function step(){
+//     Promise.resolve().then(()=>{
+//         return light(red,1000);
+//     }).then(()=>{
+//         return light(yellow,1000);
+//     }).then(()=>{
+//         return light(green,1000);
+//     }).then(()=>{
+//         step();
+//     });;
+// }
 
 // step();
 
-function test(){
-    let args = Array.prototype.shift.call(arguments,1);
-    console.log("args",args,arguments);
-}
-test(1);
+// function test(){
+//     let args = Array.prototype.shift.call(arguments,1);
+//     console.log("args",args,arguments);
+// }
+// test(1);
+
+
 
 
