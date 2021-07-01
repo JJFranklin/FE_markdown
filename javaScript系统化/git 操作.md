@@ -67,8 +67,6 @@ feature的提交记录，避免出现提交记录分叉，具体情况如下
 git reset HEAD 文件 // 回退到当前版本，放弃缓存区的修改
 git reset --hard 提交版本号：将当前分支重置为指定版本。
 
-
-
 本地git操作出现443，将全局的地址修改为
 >  git config --global remote.origin.url "https://github.com.cnpmjs.org/JJFranklin/FE_markdown.git"
 

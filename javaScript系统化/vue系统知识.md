@@ -216,7 +216,6 @@ window.onhashChange = (event)=>{
 > history.pushState();// 添加新的路由 添加历史记录，不触发跳转
 > history.popState();// 前进后退
 > replaceState // 改变当前历史的历史记录 也不触发跳转
-或者 window.onpopState()；
 
 history 代码实现
 ```javascript
