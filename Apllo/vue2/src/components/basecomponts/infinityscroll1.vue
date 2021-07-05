@@ -102,9 +102,9 @@ export default {
     watch: {},
     created() {
         this.list = [];
-        this.getAllGoodList().then((res) => {
-            this.list = [...this.list, ...this.goodList];
-        });
+        // this.getAllGoodList().then((res) => {
+        //     this.list = [...this.list, ...this.goodList];
+        // });
     },
 };
 </script>
