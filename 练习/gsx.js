@@ -141,6 +141,7 @@ Child.prototype.constructor = Child;
 // 原型继承 Object.Create的实现模式
 
 // 优化组合继承
+// 缺点，子类生成对象实例的时候会调用了2次基类
 function BaseClass(name, sex) {
     this.name = name;
     this.sex = sex;

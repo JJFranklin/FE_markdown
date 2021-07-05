@@ -82,6 +82,25 @@
 // }
 // test(1);
 
+// function BaseClass(name, sex) {
+//     console.log("1");
+//     this.name = name;
+//     this.sex = sex;
+//     this.arr = [1, 2, 23];
+// }
 
+// BaseClass.prototype.setName = function () {
+//     this.name = "23542533";
+// }
+
+// function Child() {
+//     console.log("2");
+//     BaseClass.call(this, ...arguments);
+// }
+
+// Child.prototype = new BaseClass();
+// Child.prototype.constructor = Child;
+
+// let a = new Child();
 
 
