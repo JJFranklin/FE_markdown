@@ -1,4 +1,4 @@
-let arr=[0,9,2,8,3,7,4,5,6,100];
+// let arr=[0,9,2,8,3,7,4,5,6,100];
 
 // 1
 // 洗牌算法
@@ -23,3 +23,19 @@ let arr=[0,9,2,8,3,7,4,5,6,100];
 // }
 
 // console.log(getMaxSum(arr));
+
+// 代码按照传入参数 分组
+
+function newSliceArr(arr,num){
+    if(!Array.isArray(arr) || num <=1) return arr;
+    let arrLen = arr.length;
+    let groupNum = Math.ceil(arrLen/num);
+    let finalArr = [];
+    for(let i=0;i<groupNum;i++){
+        finalArr[i] = arr.slice(i*num,(i+1)*num);
+    }
+    return finalArr;
+}
+
+let testArr = [1,2,3,4,5,6,7,8,8,9,10];
+console.log(newSliceArr(testArr,0));

@@ -103,4 +103,15 @@
 
 // let a = new Child();
 
+let arr = [];
+let arr1 = [1,2,3,4,55,5];
+
+arr1.forEach(item=>{
+    arr.push(item);
+});
+console.log("arr",arr);
+
+arr1.map(item=>{
+    arr.push(item);
+});
 

@@ -40,8 +40,8 @@ function sameVnode (a, b) {
     a.key === b.key && (
       (
         a.tag === b.tag &&
-        a.isComment === b.isComment && // 是否空注释占位符
-        isDef(a.data) === isDef(b.data) && // vNode上的的data值，包括其所有的class、attribute属性、style属性已经绑定的时间
+        a.isComment === b.isComment && // 是否是注释节点
+        isDef(a.data) === isDef(b.data) && // vNode上的的data值，包括其所有的class、attribute属性、style属性已经绑定的时间，只判断是否有data属性，不对data 具体值进行判断。
         sameInputType(a, b)
       ) || (
         isTrue(a.isAsyncPlaceholder) &&
