@@ -38,13 +38,21 @@ git fetch 可选
 
 · git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 
-合并分支
+将当前分支合并分支到主分支
 切换到主分支，然后将其他的分支合并到主分支
 git checkout branchA // 切换到其他分支
 git pull origin branchA // 拉取更新
 git chechkout master // 切换到主分支
 git pull origin master // 更新master分支
 git merge branchA // 将branchA 合并到主分支
+git push 
+
+将 master 分支更新到当前分支
+git checkout master
+git pull
+git checkout branchA
+git pull
+git merge master
 
 git 常用操作
 git checkout -b branchA // 生成分支A
