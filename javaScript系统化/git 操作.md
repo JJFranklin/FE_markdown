@@ -57,7 +57,9 @@ git merge master
 git 常用操作
 git checkout -b branchA // 生成分支A
 git pull origin branchA // 获取远程分支A的更新到本地分支A上
+
 git cherry-pick 提交的hash值 // 将指定的更新，合并到当前分支
+git cherry-pick 之后，直接使用 git push origin currentBranch 推送到当前的分支
 
 合并提交记录
 git rebase -i HEAD~4 将最近的4条提交记录合并为一条
