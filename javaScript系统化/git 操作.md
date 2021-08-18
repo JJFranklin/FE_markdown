@@ -52,7 +52,7 @@ git checkout master
 git pull
 git checkout branchA
 git pull
-git merge master
+git merge master new
 
 git 常用操作
 git checkout -b branchA // 生成分支A
