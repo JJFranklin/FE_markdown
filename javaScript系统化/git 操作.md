@@ -48,8 +48,8 @@ git push
 将 master 分支更新到当前分支
 git checkout master
 git pull origin master
-git checkout branchA
-git pull branchA
+git checkout branchB
+git pull branchB
 git merge master
 
 git 常用操作
