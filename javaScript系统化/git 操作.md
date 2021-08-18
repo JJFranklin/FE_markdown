@@ -33,9 +33,7 @@ git fetch 可选
 5、git push 
 
 · git add -A  提交所有变化
-
 · git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
-
 · git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 
 将当前分支合并分支到主分支
@@ -49,7 +47,9 @@ git push
 
 将 master 分支更新到当前分支
 git checkout master
+
 git pull
+
 git checkout branchA
 git pull
 git merge master
