@@ -47,11 +47,9 @@ git push
 
 将 master 分支更新到当前分支
 git checkout master
-
-git pull
-
+git pull origin master
 git checkout branchA
-git pull
+git pull branchA
 git merge master
 
 git 常用操作
