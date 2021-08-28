@@ -13,7 +13,7 @@ Vue.use(ElementUI);
 Vue.prototype.$echart = echarts;
 
 Vue.prototype.$http = axios.create({
-    baseURL:"http://localhost:3001/api"
+    baseURL:"http://127.0.0.1:3002/api"
 });
 
 Vue.prototype.$bus = new Vue(); // 全局使用事件总线，用于全局信息通信

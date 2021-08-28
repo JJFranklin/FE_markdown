@@ -9,7 +9,7 @@ module.exports = merge(baseCommon,{
         contentBase: '../dist',
         compress: true,
         port: 6688,
-        host: 'localhost',
+        host: '127.0.0.1',
         quiet: false,
         hot: true, // 开启了模块热更新
         // proxy:{

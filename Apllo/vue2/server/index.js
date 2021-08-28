@@ -6,11 +6,16 @@ app.use(require("cors")());
 app.use(express.json());
 
 app.get("/api/articles",async (req,res)=>{
-    let article = await Article.find();
+    // 向集合里面插入数据
+    // Article.create({
+    //     "title":"1",
+    //     "content":"1234567",
+    // })
+    let article = await Article.find({});
     res.send(article);
 });
 
-app.listen(3001);
+app.listen(3002);
 
 
 
