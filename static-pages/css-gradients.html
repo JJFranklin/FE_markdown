@@ -3,3 +3,68 @@
   https://codepen.io/thebabydino/full/qgoBL 
   https://www.jianshu.com/p/58b340a037ea
 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>渐变</title>
+  <!-- 
+    同心圆 
+    1、多层div 嵌套
+    2、div after before伪元素 最多只能添加2个同心圆
+    3、div box-shadow 可以添加多个同心圆 推荐 !!!
+    4、渐变，可以添加多个同心圆，但是圆环之间有渐变。不是纯色的同心圆环
+  -->
+  <!-- 
+    渐变
+    background-image: linear-gradient(deg,color1 start0, color2 start1, color3 start2...);
+    deg:从哪个角度开始渐变
+    color: 渐变的颜色
+    start : 渐变开始的点，对于第一个颜色，start的值表示从 0-start0 之间都是 color1
+    background-image: linear-gradient(135deg,black 30%,red 30%,white 70%,yellow 90%);
+    从135度角开始渐变，
+    0-30 位置是 black
+    30-60 从black 过渡到 red
+    30-70 从red 过渡到 white
+    70-90 从 white 过渡到 yellow
+   -->
+  <style>
+    .gradient{
+      width: 400px;
+      height: 400px;
+      position: absolute;
+      right: 0;
+    }
+    .gradient img{
+        height: 310px;
+        max-width: 100%;
+      }
+
+    .box-pie{
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      /* box-shadow: 0 0 0 50px red,0 0 0 100px green,0 0 0 150px yellow; 多层嵌套同心圆 */
+      background: radial-gradient(circle at 30% 30%,transparent 100px,#40ff2e 110px, red 140px);
+      margin-bottom: 10px;
+    }
+
+    .box-rect{
+      width: 300px;
+      height: 300px;
+      /* border-radius: 50%; */
+      background-image: linear-gradient(135deg,black 30%,red 30%,white 70%,yellow 90%);
+    }
+  </style>
+</head>
+<body>
+  <div class="gradient">
+    <img src="./img/渐变.png">
+  </div>
+  <div class="box-pie"></div>
+  <div class="box-rect"></div>
+  
+</body>
+</html>
