@@ -1,4 +1,4 @@
-<!-- css 渐变 -->
+<!-- css 渐变 & css 画各种图形-->
 <!-- 参考网址：
   https://codepen.io/thebabydino/full/qgoBL 
   https://www.jianshu.com/p/58b340a037ea
@@ -43,20 +43,38 @@
       }
 
     .box-pie{
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
       /* box-shadow: 0 0 0 50px red,0 0 0 100px green,0 0 0 150px yellow; 多层嵌套同心圆 */
-      background: radial-gradient(circle at 30% 30%,transparent 100px,#40ff2e 110px, red 140px);
+      /* background: radial-gradient(closest-side at 10% 50%, black, red); */
+      width: 400px; height: 200px;
+      /* border-radius: 50%; */
+      background: radial-gradient(50px 100px ellipse, transparent 40px, yellow 41px, red);
+      /* background-image: radial-gradient(cyan 0%, transparent 20%, salmon 40%); */
+      /* background: radial-gradient(farthest-side at 5% 80%, red, green); */
+      /* background: radial-gradient(farthest-corner at 10% 80%, red 30%, black); */
       margin-bottom: 10px;
     }
 
     .box-rect{
-      width: 300px;
-      height: 300px;
-      /* border-radius: 50%; */
-      background-image: linear-gradient(135deg,black 30%,red 30%,white 70%,yellow 90%);
+      width: 400px; height: 200px;
+      background: radial-gradient(circle 200px, yellow, red);
     }
+
+    .radial-gradient {
+      width: 100px; height: 100px;
+    border: 50px solid;
+    border-radius: 50%;
+    border-image: radial-gradient(circle, transparent 50px, yellow 51px, red) 50 stretch;
+
+}
+/* .radial-gradient:after {
+    content: '';
+    position: absolute;
+    height: 10px;
+    left:0 ; right: 0;
+    bottom: -10px;
+    background: radial-gradient(20px 15px ellipse at top, red 10px, transparent 11px);
+    background-size: 20px 10px;
+} */
   </style>
 </head>
 <body>
@@ -65,6 +83,7 @@
   </div>
   <div class="box-pie"></div>
   <div class="box-rect"></div>
+  <div class="radial-gradient"></div>
   
 </body>
 </html>
