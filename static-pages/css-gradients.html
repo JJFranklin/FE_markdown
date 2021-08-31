@@ -5,6 +5,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,42 +32,47 @@
     70-90 从 white 过渡到 yellow
    -->
   <style>
-    .gradient{
+    .gradient {
       width: 400px;
       height: 400px;
       position: absolute;
       right: 0;
     }
-    .gradient img{
-        height: 310px;
-        max-width: 100%;
-      }
 
-    .box-pie{
+    .gradient img {
+      height: 310px;
+      max-width: 100%;
+    }
+
+    .box-pie {
       /* box-shadow: 0 0 0 50px red,0 0 0 100px green,0 0 0 150px yellow; 多层嵌套同心圆 */
       /* background: radial-gradient(closest-side at 10% 50%, black, red); */
-      width: 400px; height: 200px;
+      width: 400px;
+      height: 400px;
       /* border-radius: 50%; */
-      background: radial-gradient(50px 100px ellipse, transparent 40px, yellow 41px, red);
       /* background-image: radial-gradient(cyan 0%, transparent 20%, salmon 40%); */
       /* background: radial-gradient(farthest-side at 5% 80%, red, green); */
       /* background: radial-gradient(farthest-corner at 10% 80%, red 30%, black); */
+      background-image: radial-gradient(at center center, transparent 20%, #cc419c 20% 25%, #4d81ee 25% 30%, #03dbda 30% 35%, #81e745 35% 40%, #f6fc5e 40% 45%, #fea805 45% 50%, #fe6859 50% 55%, transparent 55%);
       margin-bottom: 10px;
     }
 
-    .box-rect{
-      width: 400px; height: 200px;
+    .box-rect {
+      width: 400px;
+      height: 200px;
       background: radial-gradient(circle 200px, yellow, red);
     }
 
     .radial-gradient {
-      width: 100px; height: 100px;
-    border: 50px solid;
-    border-radius: 50%;
-    border-image: radial-gradient(circle, transparent 50px, yellow 51px, red) 50 stretch;
+      width: 100px;
+      height: 100px;
+      border: 50px solid;
+      border-radius: 50%;
+      border-image: radial-gradient(circle, transparent 50px, yellow 51px, red) 50 stretch;
 
-}
-/* .radial-gradient:after {
+    }
+
+    /* .radial-gradient:after {
     content: '';
     position: absolute;
     height: 10px;
@@ -77,6 +83,7 @@
 } */
   </style>
 </head>
+
 <body>
   <div class="gradient">
     <img src="./img/渐变.png">
@@ -84,6 +91,7 @@
   <div class="box-pie"></div>
   <div class="box-rect"></div>
   <div class="radial-gradient"></div>
-  
+
 </body>
+
 </html>
