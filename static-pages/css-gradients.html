@@ -23,9 +23,9 @@
     background-image: linear-gradient(deg,color1 start0, color2 start1, color3 start2...);
     deg:从哪个角度开始渐变
     color: 渐变的颜色
-    start : 渐变开始的点，对于第一个颜色，start的值表示从 0-start0 之间都是 color1
+    start : 渐变开始的点(不允许赋值)，对于第一个颜色，start的值表示从 0-start0 之间都是 color1
     background-image: linear-gradient(135deg,black 30%,red 30%,white 70%,yellow 90%);
-    从135度角开始渐变，
+    deg 从135度角开始渐变，
     0-30 位置是 black
     30-60 从black 过渡到 red
     30-70 从red 过渡到 white
@@ -60,7 +60,8 @@
     .box-rect {
       width: 400px;
       height: 200px;
-      background: radial-gradient(circle 200px, yellow, red);
+      background-image: repeating-linear-gradient(yellow 20px,red 100px);
+      margin-bottom: 10px;
     }
 
     .radial-gradient {
@@ -81,6 +82,24 @@
     background: radial-gradient(20px 15px ellipse at top, red 10px, transparent 11px);
     background-size: 20px 10px;
 } */
+
+.loading{
+    margin: 100px;
+    width: 400px;
+    height: 20px;
+    background: repeating-linear-gradient(45deg, #fff, 20%, #000 20% 40%);
+    background-size: 20%;
+    border: solid 1px #000;
+    animation: run 5s linear infinite both;
+}
+@keyframes run{
+    0%{
+        background-position: 0 0;
+    }
+    100%{
+        background-position: 100% 0;
+    }
+}
   </style>
 </head>
 
@@ -91,6 +110,7 @@
   <div class="box-pie"></div>
   <div class="box-rect"></div>
   <div class="radial-gradient"></div>
+  <div class="loading"></div>
 
 </body>
 
