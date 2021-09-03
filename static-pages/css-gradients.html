@@ -60,7 +60,10 @@
     .box-rect {
       width: 400px;
       height: 200px;
-      background-image: repeating-linear-gradient(yellow 20px,red 100px);
+      /* 
+          一个颜色指定了2个位置的值，表示两个位置之间都是同一种颜色，不存在渐变
+       */
+      background-image: radial-gradient(#69f 25%,#fd44ff 25%,#f64f59 50% 75%, #fbd786 75.5%);
       margin-bottom: 10px;
     }
 
