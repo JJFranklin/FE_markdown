@@ -12,6 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>渐变</title>
   <!-- 
+    三种渐变
+    radial-gradient
+    linear-gradient
+    conic-gradient 
+    repeating 重复
     同心圆 
     1、多层div 嵌套
     2、div after before伪元素 最多只能添加2个同心圆
@@ -61,20 +66,22 @@
       width: 400px;
       height: 200px;
       /* 
-          一个颜色指定了2个位置的值，表示两个位置之间都是同一种颜色，不存在渐变
+        一个颜色指定了2个位置的值，表示两个位置之间都是同一种颜色，不存在渐变
+        一个颜色指定了1个位置的值，表示上从上一个颜色的位置的值到当前位置的值之间，
+        两种颜色均匀进行渐变，一直到当前颜色位置的值结束；
+
        */
       background-image: radial-gradient(#69f 25%,#fd44ff 25%,#f64f59 50% 75%, #fbd786 75.5%);
       margin-bottom: 10px;
     }
 
-    .radial-gradient {
+    /* .radial-gradient {
       width: 100px;
       height: 100px;
       border: 50px solid;
       border-radius: 50%;
       border-image: radial-gradient(circle, transparent 50px, yellow 51px, red) 50 stretch;
-
-    }
+    } */
 
     /* .radial-gradient:after {
     content: '';
@@ -86,6 +93,14 @@
     background-size: 20px 10px;
 } */
 
+.conic{
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-image: repeating-conic-gradient(from -90deg,#69f -90deg -45deg, #fd44ff -45deg 0);
+  animation: rotate 5s linear infinite both; 
+}
+
 .loading{
     margin: 100px;
     width: 400px;
@@ -95,12 +110,33 @@
     border: solid 1px #000;
     animation: run 5s linear infinite both;
 }
-@keyframes run{
+/* 文字渐变 */
+.box-text{
+  width: 300px;
+  height: 200px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  background: radial-gradient(circle, #f29914 20%, #0bbbe3 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+@keyframes rotate{
     0%{
-        background-position: 0 0;
+      transform: rotate(45deg)
     }
     100%{
-        background-position: 100% 0;
+      transform: rotate(360deg)
+    }
+}
+
+@keyframes run{
+    0%{
+      background-position: 0 0;
+    }
+    100%{
+      background-position: 100% 0;
     }
 }
   </style>
@@ -113,8 +149,9 @@
   <div class="box-pie"></div>
   <div class="box-rect"></div>
   <div class="radial-gradient"></div>
+  <div class="conic"></div>
   <div class="loading"></div>
-
+  <div class="box-text">我是煎饼</div>
 </body>
 
 </html>
