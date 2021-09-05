@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>渐变示例</title>
+    <style>
+    .gradient-example{
+        width: 1400px;
+        margin: 25px auto;
+        box-shadow: 0 0 3px 3px rgba(0,0,0,0.1);
+        padding: 15px;
+        height: 95vh;
+        box-sizing: border-box;
+        position: relative;
+        overflow: auto;
+    }
+    .gradient {
+      width: 400px;
+      height: 400px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .gradient img {
+      height: 310px;
+      max-width: 100%;
+    }
+
+    section{
+        margin-bottom: 15px;
+        width: 900px;
+    }
+    section .title{
+        font-size: 16px;
+        font-weight: 600;
+
+    }
+    section .example-wrap{
+        margin-bottom: 10px;
+    }
+    section .example-wrap .subTitle{
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    /* 渐变代码 */
+
+    section .example{
+        height: 300px;
+        width: 300px;
+        margin-bottom: 15px;
+    }
+
+    .no1{
+        background-image:linear-gradient(red,black,green);
+    }
+    .no2{
+        background-image:linear-gradient(45deg, red,black,green);
+    }
+    .no3{
+        background-image:linear-gradient(90deg, red 20%,black 20% 40%,green 80%);
+    }
+    .no4{
+        background-image:linear-gradient(90deg, red 20%,black 20% 40%,green 40% 60%,yellow 60% 80%,blue 80%);
+    }
+    .no5{
+        background-image:repeating-linear-gradient(90deg,red 20px,black 40px,green 60px);
+    }
+    .no6{
+        height: 20px !important;
+        width: 100% !important;
+        background: linear-gradient(90deg, #fff 20%, #000 20% 40%);
+        background-size: 20%;
+        border: solid 1px #000;
+        animation: run 5s linear infinite both;
+    }
+    .no7{
+        width: 600px !important;
+        background-image: radial-gradient(red, black);
+    }
+    .no8{
+        background-image: radial-gradient(100px, red, green);
+    }
+    .no9{
+        background-image: radial-gradient(200px 50px, red, green);
+    }
+    .no10{
+        background-image: radial-gradient(circle at 50px 50px, red, green);
+    }
+    .no11{
+        background-image: radial-gradient(closest-side circle at 50px 50px, red, green);
+    }
+
+    .no12{
+        width: 600px !important;
+        background-image: radial-gradient(closest-side circle at center center, transparent 20%, #cc419c 20% 25%, #4d81ee 25% 30%, #03dbda 30% 35%, #81e745 35% 40%, #f6fc5e 40% 45%, #fea805 45% 50%, #fe6859 50% 55%, transparent 55%);
+    }
+
+    .no13{
+        background-image: conic-gradient(red, green); 
+    }
+
+    .no14{
+        background-image: conic-gradient(from 0deg at 50px 50px, red, green);
+    }
+
+    .no15{
+        background-image: repeating-conic-gradient(red 0 36deg, green 36deg 72deg);
+    }
+
+    .no16{
+        border: 40px solid;
+        border-image: radial-gradient(circle, transparent 10px, yellow 41px, red);
+        border-image-slice:50 80;
+        border-image-repeat:stretch; /* 如何填充边框 */
+    }
+
+    .no17{
+        font-size: 20px;
+        font-weight: 700;
+        background: linear-gradient(to right, red 25%, blue);
+        background-clip: text;
+        -webkit-background-clip: text;  /* border-box|padding-box|content-box|text（兼容性）; */
+        color: transparent;
+        text-align: center;
+        line-height: 300px;
+    }
+
+    .no18{
+        position: relative;
+        color: yellow;
+    }
+    .no18:before{
+        content: attr(text);
+        position: absolute;
+        z-index: 10;
+        color:pink;
+        -webkit-mask:linear-gradient(to left, red, transparent); 
+        /* 被mask遮住的区域不会显示出来 */
+    }
+
+    @keyframes run{
+    0%{
+      background-position: 0 0;
+    }
+    100%{
+      background-position: 100% 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    
+    <div class="gradient-example">
+        <div class="gradient">
+            <img src="./img/渐变.png">
+        </div> 
+        <section>
+            <p class="title">非重复渐变示例1：基础</p>
+            <div class="example no1"></div>
+            <p class="title">非重复渐变示例2：指定渐变角度</p>
+            <div class="example no2"></div>
+            <p class="title">非重复渐变示例3：指定颜色结束位置</p>
+            <div class="example no3"></div>
+            <p class="title">非重复渐变示例4：指定颜色结束位置和开始位置</p>
+            <div class="example no4"></div>
+
+
+            <p class="title">重复渐变示例1</p>
+            <div class="example no5"></div>
+            <p class="title">重复渐变示例2:进度条</p>
+            <div class="example no6"></div>
+
+
+            <p class="title" id="radinal">径向渐变：基础</p>
+            <div class="example no7"></div>
+
+            <p class="title" id="radinal">径向渐变：指定半径的圆</p>
+            <div class="example no8"></div>
+
+            <p class="title" id="radinal">径向渐变：指定长轴和短轴的椭圆</p>
+            <div class="example no9"></div>
+
+            <p class="title" id="radinal">径向渐变：指定渐变中心</p>
+            <div class="example no10"></div>
+
+            <p class="title" id="radinal">径向渐变：指定渐变边界</p>
+            <div class="example no11"></div>
+            
+            <p class="title" id="radinal">径向渐变：圆环</p>
+            <div class="example no12"></div>
+
+            <p class="title" id="radinal">圆锥渐变：基础</p>
+            <div class="example no13"></div>
+
+            <p class="title" id="radinal">圆锥渐变：改变锥心位置</p>
+            <div class="example no14"></div>
+
+            <p class="title" id="radinal">圆锥渐变：指定颜色起始位置</p>
+            <div class="example no15"></div>
+
+            <p class="title" id="radinal">边框渐变</p>
+            <div class="example no16"></div>
+
+            <p class="title" id="radinal">文字渐变</p>
+            <div class="example no17">我是文我是文字我是文字我是文字我是文字我是文字字</div>
+
+            <p class="title" id="radinal">文字渐变</p>
+            <div class="example no18" text="世界这么大世界这么大世界这么大世界这么大世界这么大">我是文字</div>
+        </section>
+    </div> 
+      
+</body>
+</html>

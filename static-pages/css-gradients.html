@@ -13,28 +13,32 @@
   <title>渐变</title>
   <!-- 
     三种渐变
-    radial-gradient
-    linear-gradient
+    radial-gradient：原型渐变
+    linear-gradient：
     conic-gradient 
     repeating 重复
-    同心圆 
-    1、多层div 嵌套
-    2、div after before伪元素 最多只能添加2个同心圆
-    3、div box-shadow 可以添加多个同心圆 推荐 !!!
-    4、渐变，可以添加多个同心圆，但是圆环之间有渐变。不是纯色的同心圆环
   -->
   <!-- 
-    渐变
-    background-image: linear-gradient(deg,color1 start0, color2 start1, color3 start2...);
-    deg:从哪个角度开始渐变
+    渐变：
+    background-image: linear-gradient(derection,color1 start0, color2 start1, color3 start2...);
+    derection:渐变方向，从哪个角度开始渐变，
     color: 渐变的颜色
-    start : 渐变开始的点(不允许赋值)，对于第一个颜色，start的值表示从 0-start0 之间都是 color1
+    start : 渐变结束，对于第一个颜色，start的值表示从 0-start0 之间都是 color1
     background-image: linear-gradient(135deg,black 30%,red 30%,white 70%,yellow 90%);
     deg 从135度角开始渐变，
     0-30 位置是 black
     30-60 从black 过渡到 red
     30-70 从red 过渡到 white
     70-90 从 white 过渡到 yellow
+   -->
+   <!-- 
+    应用
+    同心圆 
+    1、多层div 嵌套
+    2、div after before伪元素 最多只能添加2个同心圆
+    3、div box-shadow 可以添加多个同心圆 推荐 !!!
+    4、渐变，可以添加多个同心圆。
+    5、彩虹、仪表盘，饼状图，环形图、进度条...
    -->
   <style>
     .gradient {
