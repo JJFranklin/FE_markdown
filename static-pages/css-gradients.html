@@ -143,6 +143,27 @@
       background-position: 100% 0;
     }
 }
+
+/* 实现直角三角形 */
+.triangle{
+  width: 100px; 
+    height: 100px;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+.triangle::after {
+    content: '';
+    width: 140%;
+    height: 140%;
+    background-color: green;
+    border:1px solid red;
+    position: absolute;
+    left: -140%;
+    bottom: 0;
+    transform-origin: left bottom;
+    transform: rotate(45deg);
+}
   </style>
 </head>
 
@@ -156,6 +177,9 @@
   <div class="conic"></div>
   <div class="loading"></div>
   <div class="box-text">我是煎饼</div>
+
+
+  <div class="triangle"></div>
 </body>
 
 </html>
