@@ -68,7 +68,9 @@
         background-image:linear-gradient(90deg, red 20%,black 20% 40%,green 40% 60%,yellow 60% 80%,blue 80%);
     }
     .no5{
-        background-image:repeating-linear-gradient(90deg,red 20px,black 40px,green 60px);
+        /* 设置第一种颜色开始位置，重复渐变才能从第一种颜色开始，否则渐变不会以第一种颜色开始 */
+        background-image:repeating-linear-gradient(90deg,red 0 20px,black 40px,green 60px);
+        
     }
     .no6{
         height: 20px !important;
@@ -114,8 +116,9 @@
 
     .no16{
         border: 50px solid;
-        border-image: linear-gradient(0deg,#4381e4,#4752c6);
-        border-image-slice: 40%;
+        /* border-image: linear-gradient(0deg,#4381e4,#4752c6); */
+        border-image: url('./img/border-img.png');
+        border-image-slice: 50% fill;
     }
 
     .no17{
@@ -123,8 +126,8 @@
         font-weight: 700;
         background: linear-gradient(to right, red 25%, blue);
         background-clip: text;
-        -webkit-background-clip: text;  /* border-box|padding-box|content-box|text（兼容性）; */
-        color: transparent;
+        -webkit-background-clip: text;  /* border-box|padding-box|content-box|text（兼容性，webkit 内核浏览器才能生效）*/
+        color: transparent; /*文字渐变原理：让背景图从透过字体显示出来，所以一定要设置字体的颜色透明，渐变才能生效*/
         text-align: center;
         line-height: 300px;
     }
@@ -138,8 +141,7 @@
         position: absolute;
         z-index: 10;
         color:pink;
-        -webkit-mask:linear-gradient(to left, red, transparent); 
-        /* 被mask遮住的区域不会显示出来 */
+        -webkit-mask:linear-gradient(to left, red, transparent);  /* 被mask遮住的区域不会显示出来，兼容性，webkit 内核浏览器才能生效*/
     }
 
     @keyframes run{
