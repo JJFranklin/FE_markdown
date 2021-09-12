@@ -21,7 +21,7 @@ Foo.a();
 // 主任务中，所有的主任务执行完了，才执行异步任务
 function wait(n) {
     return new Promise(resolve =>
-      setTimeout(resolve, 10 * 100)
+      setTimeout(resolve, n * 100)
     )
   }
   
@@ -29,11 +29,16 @@ function wait(n) {
     console.time();
     const x = wait(1);
     const y = wait(2);
-    const z = wait(3); // 没有await 相当于同步运行了3个wait,生成了3个定时器，已经执行完成，
+    const z = wait(3); 
+    // 没有await 相当于同步运行了3个wait,生成了3个定时器，已经执行完成，
     await x;
     await y;
-    await z; // 顺序输出之执行完成的结果，三个await的任务几乎同时执行，所以每个await的间隔时间很短，最长的时间是定时器最长的等待时间加上间隔时间；
-    console.timeEnd(); // 时间大约10*1000 小于20*1000
+    await z; 
+    // 顺序输出之执行完成的结果，三个await的任务几乎同时执行，所以每个await的间隔时间很短，最长的时间是定时器最长的等待时间加上间隔时间；
+    console.timeEnd(); 
+    // 时间大约10*1000 小于20*1000
   }
   main();
+
+
   
