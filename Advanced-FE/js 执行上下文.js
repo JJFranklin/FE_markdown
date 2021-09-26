@@ -22,20 +22,34 @@
 // var result=f1();
 // result();
 
-var name = "window";
+// var name = "window";
 
-var p = {
-  name: 'Perter',
-  getName: function() {
+// var p = {
+//   name: 'Perter',
+//   getName: function() {
 
-    // 利用变量保存的方式保证其访问的是p对象
-    var self = this;
-    return function() {
-      return self.name;
-    }
+//     // 利用变量保存的方式保证其访问的是p对象
+//     var self = this;
+//     return function() {
+//       return self.name;
+//     }
+//   }
+// }
+
+// var getName = p.getName();
+// var _name = getName();
+// console.log(_name); // Perter
+
+// demo01
+function test() {
+  console.log(a);
+  console.log(foo());
+
+  var a = 1;
+  function foo() {
+      return 2;
   }
 }
 
-var getName = p.getName();
-var _name = getName();
-console.log(_name); // Perter
+test();
+// 2,1
