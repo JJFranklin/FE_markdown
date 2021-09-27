@@ -1,4 +1,3 @@
-
 /**
  * 上下文分为：全局执行上下文、函数执行上下文
  * 上下文存储在栈中，js 运行的时候，遇到新的上下文，就将上下文入栈；
@@ -40,16 +39,24 @@
 // var _name = getName();
 // console.log(_name); // Perter
 
-// demo01
-function test() {
-  console.log(a);
-  console.log(foo());
+// demo2
+/**
+ * 在生成变量对象阶段，已经存在变量对象中的以函数名，
+ * 在遇到同名的变量名作为属性名时不会覆盖掉，也就是不会被赋值为undefined
+ * **/
+// function test() {
+//   function foo() {
+//       return 'hello';
+//   }
+//   var foo;
+//   var bar;
+//   console.log(foo);
+//   console.log(bar);
 
-  var a = 1;
-  function foo() {
-      return 2;
-  }
-}
-
-test();
-// 2,1
+//   foo = 'Hello';
+//   console.log(foo);
+//   bar = function () {
+//       return 'world';
+//   }
+// }
+// test();
