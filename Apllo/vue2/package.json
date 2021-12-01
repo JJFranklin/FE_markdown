@@ -46,7 +46,7 @@
     "html-webpack-plugin": "^4.4.1",
     "mini-css-extract-plugin": "^0.11.0",
     "mongoose": "^5.12.13",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "nodemon": "^2.0.7",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "sass-loader": "^10.0.2",
