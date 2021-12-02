@@ -3,7 +3,7 @@
 - bigInt
 ```javascript
 1、表示的范围超过 2^53-1，可以表示任意大的整数，防止数据溢出；
-2、不会丢失精度，比Number的精度高，所以不建议bigInt和Number 相互转换，容易丢失精度；
+2、不会丢失精度，比Number的精度高，所以不建议bigInt和Number 相互转换，容易丢失精度，混合运算，会报错；
 3、不能使用JSON.stringify()进行序列化
 4、不能调用Math的函数
 ```
