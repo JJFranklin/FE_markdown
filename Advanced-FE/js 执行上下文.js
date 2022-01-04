@@ -60,3 +60,53 @@
 //   }
 // }
 // test();
+
+
+// demo01
+// function test() {
+//     // console.log(a);
+//     // console.log(foo());
+
+//     // var a = 1;
+//     // function foo() {
+//     //     return 2;
+//     // }
+//     function foo() {
+//         return 2;
+//     }
+//     var a;
+//     console.log(a);
+//     console.log(foo());
+//     a=1;
+// }
+
+// test();
+
+function test() {
+    // console.log(foo);
+    // console.log(bar);
+
+    // var foo = 'Hello';
+    // console.log(foo);
+    // var bar = function () {
+    //     return 'world';
+    // }
+
+    // function foo() {
+    //     return 'hello';
+    // }
+    function foo() {
+        return 'hello';
+    }
+    var foo;
+    console.log(foo); // foo
+    console.log(bar); // undefined
+    var bar;
+    foo = 'Hello';
+    console.log(foo); // Hello
+    bar = function () {
+        return 'world';
+    }
+}
+
+test();

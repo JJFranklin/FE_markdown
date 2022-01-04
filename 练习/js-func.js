@@ -103,15 +103,47 @@
 
 // let a = new Child();
 
-let arr = [];
-let arr1 = [1,2,3,4,55,5];
+// let arr = [];
+// let arr1 = [1,2,3,4,55,5];
 
-arr1.forEach(item=>{
-    arr.push(item);
-});
-console.log("arr",arr);
+// arr1.forEach(item=>{
+//     arr.push(item);
+// });
+// console.log("arr",arr);
 
-arr1.map(item=>{
-    arr.push(item);
-});
+// arr1.map(item=>{
+//     arr.push(item);
+// });
 
+// function test(
+//     x
+//     ,
+//     c
+// ) {
+//     // console.log(y);
+//     function x() {
+//         console.log("haha");
+//     }
+//     var x;
+//     console.log(x);
+//     console.log(x);
+//     x = 2;
+// }
+
+// test(3);
+
+function foo(x,y){
+    x = 1;
+    y = 2;
+    console.log(arguments[0]);
+    console.log(arguments[1]);
+   }
+   foo(3,4)
+   
+   function foo(x = 5,y = 6){
+    x = 1;
+    y = 2;
+    console.log(arguments[0]);
+    console.log(arguments[1]);
+   }
+   foo(3,4)
