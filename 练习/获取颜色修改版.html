@@ -1,0 +1,181 @@
+<html>
+<div class="img-container">
+    <canvas id="canvas"></canvas>
+</div>
+<div>
+    <input type="file" class="img-selector" id="imgSelector" accept="image/*" />
+    <label id="imgSelectorBtn" class="img-selector-btn" for="imgSelector" title="JPG,GIF,PNG">
+        选择图片
+    </label>
+</div>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var posColors = []; // 保存所有位置的像素信息
+    var rect = null; // canvas 元素矩阵数据
+    var t = -1; // 定时器，避免频繁触发鼠标悬浮事件
+    var imageData = null; // 图片像素点颜色数组
+    var imageWidth = -1,
+        imageHeight; // 图片宽度，高度
+    var canvasWidth = -1,
+        canvasHeight = -1; // canvas 宽度和高度
+    var currRGB = null,
+        currHTML = null;
+    var image = new Image(); // 构造图片
+
+    // 正式逻辑
+    function drawImage() {
+        if (canvasWidth != -1) {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+        }
+        // 获取图片宽高
+        image.width = 300;
+        image.heigh = 400;
+        // 获取图片宽高
+        imageWidth = image.width;
+        imageHeight = image.height;
+
+        canvasWidth = image.width;
+        canvasHeight = image.heigh;
+
+        canvas.width = image.width;
+        canvas.height = image.heigh;
+        // 获取元素数据
+        rect = canvas.getBoundingClientRect();
+        ctx.drawImage(image, 0, 0); //  绘制图片
+        // 通过 getImageData 获取图片的所有像素颜色数组(从左往右，从上往下)
+        imageData = ctx.getImageData(0, 0, image.width, image.height).data;
+    }
+
+    // 加载图像
+    function loadImage(url) {
+        image.src = url;
+        image.onload = function () {
+            drawImage(image);
+        };
+    }
+    // 上传文件
+    function uploadImage(img) {
+        // 判断是否有选中文件
+        if (!img) return;
+        // 检测是否是图片类型
+        if (img.type.indexOf("image") !== 0) {
+            alert("只能选择图片");
+            return;
+        }
+        // 定义文件读取对象，用于读取文件
+        var reader = new FileReader();
+        reader.readAsDataURL(img); // 读取图片内容为 url 格式
+        reader.onload = function () {
+            loadImage(reader.result); // 加载图片
+        };
+    }
+
+    // 定义选择图片
+    imgSelector.addEventListener("change", function (e) {
+        uploadImage(e.target.files[0]); // 选中的图片文件
+    });
+    // 将图片的 r, g, b 分别转换为 16进制的颜色
+    function colorItemHex(itemNumber) {
+        let hex = itemNumber.toString(16);
+        return (hex.length === 1 ? "0" + hex : hex).toUpperCase();
+    }
+
+    // 添加鼠标滑动事件
+    canvas.addEventListener("mousemove", function (evt) {
+        clearTimeout(t);
+        t = setTimeout(() => {
+            if (imageData != null) {
+                /*
+                    getBoundingClient()中的[left, top] 获取元素距离视图左边和上边的距离
+                    clientX 和 clientY 获取鼠标距离试图左边和上边的距离
+                  */
+                let x = evt.clientX - rect.left;
+                let y = evt.clientY - rect.top;
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+                // 重新绘制
+                ctx.drawImage(image, 0, 0);
+                // 根据坐标计算像素点位置，详情参考：desc.jpg
+                var i = ((y - 1) * imageWidth + x - 1) * 4;
+                if (x >= imageWidth || y >= imageHeight) {
+                    return;
+                }
+
+                // rgb 模式为颜色值的十进制数模式
+                let red = imageData[i];
+                let green = imageData[i + 1];
+                let blue = imageData[i + 2];
+                let alpha = imageData[i + 3];
+                let hex =
+                    "#" + colorItemHex(red) + colorItemHex(green) + colorItemHex(blue);
+                let currRGB = `(${red}, ${green}, ${blue}, ${alpha})`;
+                currHTML = hex;
+                console.log(i, 'hex:', hex, 'rgba:',currRGB, imageData);
+            }
+        }, 150);
+    });
+
+    // 添加鼠标移出事件
+    canvas.addEventListener("mouseout", function () {
+        clearTimeout(t);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+        // 重新绘制
+        ctx.drawImage(image, 0, 0);
+        currHTML = currRGB = null;
+    });
+</script>
+
+</html>
+
+<style>
+    .img-container {
+        width: 300px;
+        height: 400px;
+        border: 1px solid red;
+    }
+
+    #canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 一个用于复制内容的输入框的样式 */
+    .copy-node {
+        /* 将位置放到屏幕外 */
+        position: fixed;
+        top: -100px;
+        left: -100px;
+        /* 将背景和颜色设置为透明, 避免显现 */
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: transparent;
+    }
+
+    /* 定义文件选择按钮 */
+    .img-selector {
+        display: none;
+    }
+
+    .file {
+        position: absolute;
+        width: 100%;
+        font-size: 90px;
+    }
+
+    .img-selector-btn {
+        color: #ffffff;
+        background: #06980e;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #cccccc;
+        padding: 7px 10px;
+        display: inline-block;
+        box-sizing: border-box;
+    }
+
+    .img-selector-btn:hover {
+        background: #04bc0d;
+    }
+</style>

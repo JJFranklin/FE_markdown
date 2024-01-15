@@ -1,0 +1,220 @@
+<html>
+<canvas id="canvas"></canvas>
+<div>
+    <input type="file" class="img-selector" id="imgSelector" accept="image/*" />
+    <label id="imgSelectorBtn" class="img-selector-btn" for="imgSelector" title="JPG,GIF,PNG">
+        选择图片
+    </label>
+</div>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var posColors = []; // 保存所有位置的像素信息
+    var rect = null; // canvas 元素矩阵数据
+    var t = -1; // 定时器，避免频繁触发鼠标悬浮事件
+    var imageData = null; // 图片像素点颜色数组
+    var imageWidth = -1,
+        imageHeight; // 图片宽度，高度
+    var canvasWidth = -1,
+        canvasHeight = -1; // canvas 宽度和高度
+    var toolTipWidth = 175,
+        toolTipHeight = 90; // tooltip 提示框的宽度和高度
+    var currRGB = null,
+        currHTML = null;
+    var $copyNode = document.getElementById("copyNode"); // 用于复制操作的编辑框
+    var $imgSelectorBtn = document.getElementById("imgSelectorBtn"); // 图片选择按钮
+    var image = new Image(); // 构造图片
+
+    // 正式逻辑
+    function drawImage() {
+        if (canvasWidth != -1) {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+        }
+        // 获取图片宽高
+        imageWidth = image.width;
+        imageHeight = image.height;
+        // 计算 canvas 宽高(需要预留提示框的位置)
+        canvasWidth = imageWidth + toolTipWidth;
+        if (imageWidth > canvasWidth) {
+            canvasWidth = imageWidth;
+        }
+        canvasHeight = imageWidth + toolTipHeight;
+        if (imageHeight > canvasHeight) {
+            canvasHeight = imageHeight;
+        }
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        // 获取元素数据
+        rect = canvas.getBoundingClientRect();
+        ctx.drawImage(image, 0, 0); //  绘制图片
+        // 通过 getImageData 获取图片的所有像素颜色数组(从左往右，从上往下)
+        imageData = ctx.getImageData(0, 0, image.width, image.height).data;
+        debugger;
+        // for (let i = 0, len = imageData.length; i < len; i = i + 4) {
+        //   let item = {
+        //     x: ((i / 4) % imageWidth) + 1,
+        //     y: Math.floor(i / 4 / imageWidth) + 1,
+        //   };
+        // }
+    }
+
+    // 加载图像
+    function loadImage(url) {
+        image.src = url;
+        image.onload = function () {
+            drawImage(image);
+        };
+    }
+    // 上传文件
+    function uploadImage(img) {
+        // 判断是否有选中文件
+        if (!img) return;
+        // 检测是否是图片类型
+        if (img.type.indexOf("image") !== 0) {
+            alert("只能选择图片");
+            return;
+        }
+        // 定义文件读取对象，用于读取文件
+        var reader = new FileReader();
+        reader.readAsDataURL(img); // 读取图片内容为 url 格式
+        reader.onload = function () {
+            loadImage(reader.result); // 加载图片
+        };
+    }
+
+    // 定义选择图片
+    imgSelector.addEventListener("change", function (e) {
+        uploadImage(e.target.files[0]); // 选中的图片文件
+    });
+    // 将图片的 r, g, b 分别转换为 16进制的颜色
+    function colorItemHex(itemNumber) {
+        let hex = itemNumber.toString(16);
+        return (hex.length === 1 ? "0" + hex : hex).toUpperCase();
+    }
+
+    // 添加鼠标滑动事件
+    canvas.addEventListener("mousemove", function (evt) {
+        clearTimeout(t);
+        t = setTimeout(() => {
+            if (imageData != null) {
+                /*
+                    getBoundingClient()中的[left, top] 获取元素距离视图左边和上边的距离
+                    clientX 和 clientY 获取鼠标距离试图左边和上边的距离
+                  */
+                let x = evt.clientX - rect.left;
+                let y = evt.clientY - rect.top;
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+                // 重新绘制
+                ctx.drawImage(image, 0, 0);
+                // 根据坐标计算像素点位置，详情参考：desc.jpg
+                var i = ((y - 1) * imageWidth + x - 1) * 4;
+                if (x >= imageWidth || y >= imageHeight) {
+                    return;
+                }
+                var tsPointX = x,
+                    tsPointY = y; // 提示框的位置
+                if (x + toolTipWidth > canvasWidth) {
+                    // 右边无法绘制出提示框, 左边绘制
+                    tsPointX = x - toolTipWidth;
+                }
+                if (y + toolTipHeight > canvasHeight) {
+                    // 下边无法绘制出提示框，上边绘制
+                    tsPointY = y - toolTipHeight;
+                }
+                // 重新绘制新的提示框
+                ctx.fillStyle = "rgba(255, 255, 255, 0.8)"; // 矩形填充颜色
+                ctx.fillRect(tsPointX, tsPointY, toolTipWidth, toolTipHeight); // 绘制矩形
+                ctx.strokeStyle = "blue"; // 边框颜色
+                ctx.strokeRect(tsPointX, tsPointY, toolTipWidth, toolTipHeight); // 绘制矩形边框
+
+                // rgb 模式为颜色值的十进制数模式
+                let red = imageData[i];
+                let green = imageData[i + 1];
+                let blue = imageData[i + 2];
+                let alpha = imageData[i + 3];
+                let hex =
+                    "#" + colorItemHex(red) + colorItemHex(green) + colorItemHex(blue);
+                currHTML = hex;
+                // 设置文本样式
+                ctx.font = "16px sans-serif";
+                ctx.fillStyle = "black";
+                if (alpha === 255) {
+                    currRGB = `(${red}, ${green}, ${blue})`;
+                    // 255 为完全不透明, 0 - 完全透明
+                    ctx.fillText(
+                        `RGB: ${currRGB}`,
+                        tsPointX + 7,
+                        tsPointY + 20 // 40 = 20 + 16(字体大小) + 5
+                    );
+                } else {
+                    // 颜色值的 alpha 是 0~255，而 css rgba() 函数的 alpha 为 0~1
+                    let cssAlpha = Number((alpha / 255).toFixed(2));
+                    currRGB = `(${red}, ${green}, ${blue}, ${cssAlpha})`;
+                    ctx.fillText(
+                        `RGBA: ${currRGB}`,
+                        tsPointX + 7,
+                        tsPointY + 20 // 40 = 20 + 16 * 2(字体大小) + 5
+                    );
+                }
+                // hex 为颜色值的16进制模式
+                // 关于进制之间的手动转换可以参考：https://www.cnblogs.com/ysocean/p/7513061.html
+                ctx.fillText("HTML: " + hex, tsPointX + 7, tsPointY + 40);
+                ctx.fillText("按 C 复制 HTML 代码", tsPointX + 7, tsPointY + 60);
+                ctx.fillText("按 V 复制 RGB 代码", tsPointX + 7, tsPointY + 80);
+            }
+        }, 150);
+    });
+
+    // 添加鼠标移出事件
+    canvas.addEventListener("mouseout", function () {
+        clearTimeout(t);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除 canvas 内容
+        // 重新绘制
+        ctx.drawImage(image, 0, 0);
+        currHTML = currRGB = null;
+    });
+</script>
+
+</html>
+
+<style>
+    /* 一个用于复制内容的输入框的样式 */
+    .copy-node {
+        /* 将位置放到屏幕外 */
+        position: fixed;
+        top: -100px;
+        left: -100px;
+        /* 将背景和颜色设置为透明, 避免显现 */
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: transparent;
+    }
+
+    /* 定义文件选择按钮 */
+    .img-selector {
+        display: none;
+    }
+
+    .file {
+        position: absolute;
+        width: 100%;
+        font-size: 90px;
+    }
+
+    .img-selector-btn {
+        color: #ffffff;
+        background: #06980e;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #cccccc;
+        padding: 7px 10px;
+        display: inline-block;
+        box-sizing: border-box;
+    }
+
+    .img-selector-btn:hover {
+        background: #04bc0d;
+    }
+</style>

@@ -317,7 +317,7 @@ const say = async (num) => {
 
 // 模拟 有回调函数的遍历 map,foreach等
 function newForEach(cb){
-    ch();
+    cb();
 }
 // 所以forEach_Result 可以变成
 function forEach_Result() {
@@ -330,6 +330,10 @@ function forEach_Result() {
     // 可以看到回调函数的执行并没有被await修饰，所以不用等待上一个回调执行完毕，再执行下一个，同步执行
     // for...of 或者其他的for循环的形式，没有回调函数，await 发挥了作用，会按照上一个执行完毕在执行下一个的顺序
   }
+
+  array.forEach(element => {
+    
+  });
 
 /**
 两个遍历方法分别使用了 for of 和 forEach 循环数组，并使用 await等待异步方法的执行。

@@ -1,0 +1,475 @@
+let tree = [{
+    "id": "0000",
+    "orgUnitName": "市政府部门",
+    "orgUnitFullName": "市政府部门",
+    "parentOrgUnitId": "",
+    "displayOrder": 0,
+    "persons": [{
+        "coreId": "22-AAABejJZ2zhiErkXAAAAAg==",
+        "id": 36,
+        "name": "小分头"
+    }, {
+        "coreId": "22-AAABefBVNrxiEralAAAAAQ==",
+        "id": 35,
+        "name": "TEST"
+    }, {
+        "coreId": "22-AAABei33RMdiErhRAAAAAg==",
+        "id": 23,
+        "name": "红名单1"
+    }, {
+        "coreId": "22-AAABejJUUO1iErkWAAAAAQ==",
+        "id": 22,
+        "name": "测试1"
+    }, {
+        "coreId": "23-AAABeVsFs3HexdQOAAAAAQ==",
+        "id": 11,
+        "name": "龙"
+    }]
+}, {
+    "id": "0003",
+    "orgUnitName": "市教委",
+    "orgUnitFullName": "市教委",
+    "parentOrgUnitId": "",
+    "displayOrder": 3,
+    "persons": [{
+        "coreId": "22-AAABfGO-96ZiEsCrAAAAAg==",
+        "id": 53,
+        "name": "zhongshuai"
+    }, {
+        "coreId": "23-AAABeoVsvspiEr5rAAAAAQ==",
+        "id": 32,
+        "name": "LQTEST6"
+    }, {
+        "coreId": "23-AAABeoVl52RiEr5pAAAAAQ==",
+        "id": 30,
+        "name": "LQTEST4"
+    }, {
+        "coreId": "23-AAABeoVi9SdiEr5oAAAAAg==",
+        "id": 29,
+        "name": "LQTEST3"
+    }, {
+        "coreId": "23-AAABemZjtQ5iErqvAAAAAQ==",
+        "id": 16,
+        "name": "服保11"
+    }, {
+        "coreId": "23-AAABeV5CJzjexdQnAAAAAg==",
+        "id": 14,
+        "name": "测试"
+    }]
+}, {
+    "id": "0004",
+    "orgUnitName": "市科委",
+    "orgUnitFullName": "市科委",
+    "parentOrgUnitId": "",
+    "displayOrder": 4,
+    "persons": [{
+        "coreId": "22-AAABefAocNhiEradAAAAAg==",
+        "id": 32,
+        "name": "asdada"
+    }, {
+        "coreId": "23-AAABeonbb0NiEr50AAAAAg==",
+        "id": 37,
+        "name": "baojie4"
+    }, {
+        "coreId": "23-AAABeoVo3R1iEr5qAAAAAg==",
+        "id": 31,
+        "name": "LQTEST5"
+    }, {
+        "coreId": "23-AAABeoUnf2piEr5XAAAAAg==",
+        "id": 27,
+        "name": "LQTEST"
+    }, {
+        "coreId": "23-AAABeVsjE5bexdQXAAAAAQ==",
+        "id": 12,
+        "name": "福报1"
+    }]
+}, {
+    "id": "0005",
+    "orgUnitName": "市经济信息化局",
+    "orgUnitFullName": "市经济信息化局",
+    "parentOrgUnitId": "",
+    "displayOrder": 5,
+    "persons": [{
+        "coreId": "weed---207-_14e8e6cac62090",
+        "id": 17,
+        "name": "测试21"
+    }, {
+        "coreId": "22-AAABejJCoIliErkVAAAAAg==",
+        "id": 14,
+        "name": "ccc"
+    }, {
+        "coreId": "23-AAABeok01A9iEr5xAAAAAQ==",
+        "id": 34,
+        "name": "baojie"
+    }, {
+        "coreId": "23-AAABeoV0b91iEr5sAAAAAg==",
+        "id": 33,
+        "name": "LQTEST7"
+    }]
+}, {
+    "id": "0006",
+    "orgUnitName": "市民族宗教委",
+    "orgUnitFullName": "市民族宗教委",
+    "parentOrgUnitId": "",
+    "displayOrder": 6,
+    "persons": [{
+        "coreId": "22-AAABefAowgJiEraeAAAAAQ==",
+        "id": 33,
+        "name": "嗷嗷嗷"
+    }, {
+        "coreId": "22-AAABefAoDt5iEracAAAAAQ==",
+        "id": 24,
+        "name": "测试02"
+    }]
+}, {
+    "id": "0007",
+    "orgUnitName": "市公安局",
+    "orgUnitFullName": "市公安局",
+    "parentOrgUnitId": "",
+    "displayOrder": 7,
+    "childs": []
+}, {
+    "id": "0008",
+    "orgUnitName": "市民政局",
+    "orgUnitFullName": "市民政局",
+    "parentOrgUnitId": "",
+    "displayOrder": 8,
+    "persons": [{
+        "coreId": "23-AAABeolAQt5iEr5yAAAAAg==",
+        "id": 35,
+        "name": "baojie2"
+    }]
+}, {
+    "id": "0009",
+    "orgUnitName": "市司法局",
+    "orgUnitFullName": "市司法局",
+    "parentOrgUnitId": "",
+    "displayOrder": 9,
+    "childs": []
+}, {
+    "id": "00010",
+    "orgUnitName": "市财政局",
+    "orgUnitFullName": "市财政局",
+    "parentOrgUnitId": "",
+    "displayOrder": 10,
+    "persons": [{
+        "coreId": "23-AAABeolH96ViEr5zAAAAAQ==",
+        "id": 36,
+        "name": "baojie3"
+    }]
+}, {
+    "id": "00011",
+    "orgUnitName": "市人力社保局",
+    "orgUnitFullName": "市人力社保局",
+    "parentOrgUnitId": "",
+    "displayOrder": 11,
+    "childs": []
+}, {
+    "id": "00012",
+    "orgUnitName": "市规划和自然资源委",
+    "orgUnitFullName": "市规划和自然资源委",
+    "parentOrgUnitId": "",
+    "displayOrder": 12,
+    "childs": []
+}, {
+    "id": "00013",
+    "orgUnitName": "市生态环境局",
+    "orgUnitFullName": "市生态环境局",
+    "parentOrgUnitId": "",
+    "displayOrder": 13,
+    "childs": []
+}, {
+    "id": "00014",
+    "orgUnitName": "市住房城乡建设委",
+    "orgUnitFullName": "市住房城乡建设委",
+    "parentOrgUnitId": "",
+    "displayOrder": 14,
+    "childs": []
+}, {
+    "id": "00015",
+    "orgUnitName": "市城市管理委",
+    "orgUnitFullName": "市城市管理委",
+    "parentOrgUnitId": "",
+    "displayOrder": 15,
+    "childs": []
+}, {
+    "id": "00016",
+    "orgUnitName": "市交通委",
+    "orgUnitFullName": "市交通委",
+    "parentOrgUnitId": "",
+    "displayOrder": 16,
+    "childs": []
+}, {
+    "id": "00017",
+    "orgUnitName": "市水务局",
+    "orgUnitFullName": "市水务局",
+    "parentOrgUnitId": "",
+    "displayOrder": 17,
+    "childs": []
+}, {
+    "id": "00018",
+    "orgUnitName": "市农业农村局",
+    "orgUnitFullName": "市农业农村局",
+    "parentOrgUnitId": "",
+    "displayOrder": 18,
+    "childs": []
+}, {
+    "id": "00019",
+    "orgUnitName": "市商务局",
+    "orgUnitFullName": "市商务局",
+    "parentOrgUnitId": "",
+    "displayOrder": 19,
+    "childs": []
+}, {
+    "id": "00020",
+    "orgUnitName": "市文化和旅游局",
+    "orgUnitFullName": "市文化和旅游局",
+    "parentOrgUnitId": "",
+    "displayOrder": 20,
+    "childs": []
+}, {
+    "id": "00021",
+    "orgUnitName": "市卫生健康委",
+    "orgUnitFullName": "市卫生健康委",
+    "parentOrgUnitId": "",
+    "displayOrder": 21,
+    "childs": []
+}, {
+    "id": "00022",
+    "orgUnitName": "市退役军人事务局",
+    "orgUnitFullName": "市退役军人事务局",
+    "parentOrgUnitId": "",
+    "displayOrder": 22,
+    "childs": []
+}, {
+    "id": "00023",
+    "orgUnitName": "市市场监督管理局",
+    "orgUnitFullName": "市市场监督管理局",
+    "parentOrgUnitId": "",
+    "displayOrder": 23,
+    "childs": []
+}, {
+    "id": "00024",
+    "orgUnitName": "市审计局",
+    "orgUnitFullName": "市审计局",
+    "parentOrgUnitId": "",
+    "displayOrder": 24,
+    "childs": []
+}, {
+    "id": "00025",
+    "orgUnitName": "市政府外办",
+    "orgUnitFullName": "市政府外办",
+    "parentOrgUnitId": "",
+    "displayOrder": 25,
+    "childs": []
+}, {
+    "id": "00026",
+    "orgUnitName": "市政府直属特设机构",
+    "orgUnitFullName": "市政府直属特设机构",
+    "parentOrgUnitId": "",
+    "displayOrder": 26,
+    "childs": []
+}, {
+    "id": "00027",
+    "orgUnitName": "市国资委",
+    "orgUnitFullName": "市国资委",
+    "parentOrgUnitId": "",
+    "displayOrder": 27,
+    "childs": []
+}, {
+    "id": "00028",
+    "orgUnitName": "市政府直属机构",
+    "orgUnitFullName": "市政府直属机构",
+    "parentOrgUnitId": "",
+    "displayOrder": 28,
+    "childs": []
+}, {
+    "id": "00029",
+    "orgUnitName": "市广播电视局",
+    "orgUnitFullName": "市广播电视局",
+    "parentOrgUnitId": "",
+    "displayOrder": 29,
+    "childs": []
+}, {
+    "id": "00030",
+    "orgUnitName": "市文物局",
+    "orgUnitFullName": "市文物局",
+    "parentOrgUnitId": "",
+    "displayOrder": 30,
+    "childs": []
+}, {
+    "id": "00031",
+    "orgUnitName": "市体育局",
+    "orgUnitFullName": "市体育局",
+    "parentOrgUnitId": "",
+    "displayOrder": 31,
+    "childs": []
+}, {
+    "id": "00032",
+    "orgUnitName": "市统计局",
+    "orgUnitFullName": "市统计局",
+    "parentOrgUnitId": "",
+    "displayOrder": 32,
+    "childs": []
+}, {
+    "id": "00033",
+    "orgUnitName": "市园林绿化局",
+    "orgUnitFullName": "市园林绿化局",
+    "parentOrgUnitId": "",
+    "displayOrder": 33,
+    "childs": []
+}, {
+    "id": "00034",
+    "orgUnitName": "市地方金融监管局",
+    "orgUnitFullName": "市地方金融监管局",
+    "parentOrgUnitId": "",
+    "displayOrder": 34,
+    "childs": []
+}, {
+    "id": "00035",
+    "orgUnitName": "市人防办",
+    "orgUnitFullName": "市人防办",
+    "parentOrgUnitId": "",
+    "displayOrder": 35,
+    "childs": []
+}, {
+    "id": "00036",
+    "orgUnitName": "市信访办",
+    "orgUnitFullName": "市信访办",
+    "parentOrgUnitId": "",
+    "displayOrder": 36,
+    "childs": []
+}, {
+    "id": "00037",
+    "orgUnitName": "市扶贫支援办",
+    "orgUnitFullName": "市扶贫支援办",
+    "parentOrgUnitId": "",
+    "displayOrder": 37,
+    "childs": []
+}, {
+    "id": "00038",
+    "orgUnitName": "市知识产权局",
+    "orgUnitFullName": "市知识产权局",
+    "parentOrgUnitId": "",
+    "displayOrder": 38,
+    "childs": []
+}, {
+    "id": "00039",
+    "orgUnitName": "市医保局",
+    "orgUnitFullName": "市医保局",
+    "parentOrgUnitId": "",
+    "displayOrder": 39,
+    "childs": []
+}, {
+    "id": "00040",
+    "orgUnitName": "其他机构",
+    "orgUnitFullName": "其他机构",
+    "parentOrgUnitId": "",
+    "displayOrder": 40,
+    "childs": []
+}, {
+    "id": "00041",
+    "orgUnitName": "中关村管委会",
+    "orgUnitFullName": "中关村管委会",
+    "parentOrgUnitId": "",
+    "displayOrder": 41,
+    "childs": []
+}, {
+    "id": "00042",
+    "orgUnitName": "天安门地区管委会",
+    "orgUnitFullName": "天安门地区管委会",
+    "parentOrgUnitId": "",
+    "displayOrder": 42,
+    "childs": []
+}, {
+    "id": "00043",
+    "orgUnitName": "西站地区管委会",
+    "orgUnitFullName": "西站地区管委会",
+    "parentOrgUnitId": "",
+    "displayOrder": 43,
+    "childs": []
+}, {
+    "id": "00044",
+    "orgUnitName": "开发区管委会",
+    "orgUnitFullName": "开发区管委会",
+    "parentOrgUnitId": "",
+    "displayOrder": 44,
+    "childs": []
+}, {
+    "id": "00045",
+    "orgUnitName": "市城管执法局",
+    "orgUnitFullName": "市城管执法局",
+    "parentOrgUnitId": "",
+    "displayOrder": 45,
+    "childs": []
+}, {
+    "id": "00046",
+    "orgUnitName": "市监狱局",
+    "orgUnitFullName": "市监狱局",
+    "parentOrgUnitId": "",
+    "displayOrder": 46,
+    "childs": []
+}, {
+    "id": "00047",
+    "orgUnitName": "市粮食物资局",
+    "orgUnitFullName": "市粮食物资局",
+    "parentOrgUnitId": "",
+    "displayOrder": 47,
+    "childs": []
+}, {
+    "id": "00048",
+    "orgUnitName": "市中医局",
+    "orgUnitFullName": "市中医局",
+    "parentOrgUnitId": "",
+    "displayOrder": 48,
+    "childs": []
+}, {
+    "id": "00049",
+    "orgUnitName": "市药监局",
+    "orgUnitFullName": "市药监局",
+    "parentOrgUnitId": "",
+    "displayOrder": 49,
+    "childs": []
+}, {
+    "id": "00050",
+    "orgUnitName": "市重大项目办",
+    "orgUnitFullName": "市重大项目办",
+    "parentOrgUnitId": "",
+    "displayOrder": 50,
+    "childs": []
+}, {
+    "id": "00051",
+    "orgUnitName": "市文化执法总队",
+    "orgUnitFullName": "市文化执法总队",
+    "parentOrgUnitId": "",
+    "displayOrder": 51,
+    "childs": []
+}, {
+    "id": "00052",
+    "orgUnitName": "市投资促进服务中心",
+    "orgUnitFullName": "市投资促进服务中心",
+    "parentOrgUnitId": "",
+    "displayOrder": 52,
+    "childs": []
+}, {
+    "id": "00053",
+    "orgUnitName": "市公园管理中心",
+    "orgUnitFullName": "市公园管理中心",
+    "parentOrgUnitId": "",
+    "displayOrder": 53,
+    "childs": []
+}, {
+    "id": "00054",
+    "orgUnitName": "住房公积金管理中心",
+    "orgUnitFullName": "住房公积金管理中心",
+    "parentOrgUnitId": "",
+    "displayOrder": 54,
+    "childs": []
+}, {
+    "id": "00055",
+    "orgUnitName": "市地震局",
+    "orgUnitFullName": "市地震局",
+    "parentOrgUnitId": "",
+    "displayOrder": 55,
+    "childs": []
+}]
