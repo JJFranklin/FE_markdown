@@ -4,7 +4,7 @@
         消息推送管理
         <!-- <slot name="header"></slot> -->
     </div>
-    <div class="main-content flex-1 bg-slate-100">
+    <div class="main-content flex-1 bg-slate-100 overflow-auto p-2 box-border">
         <slot name="main-content"></slot>
     </div>
    </main>
@@ -15,5 +15,8 @@
 </script>
 
 <style lang="scss" scoped>
+.main-content{
+    height: calc(100% - 4.5rem);
+}
 
 </style>

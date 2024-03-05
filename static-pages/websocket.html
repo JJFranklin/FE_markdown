@@ -1,0 +1,108 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+var ws = new WebSocket("wss://echo.websocket.org");
+ 
+ ws.onopen = function(evt) { 
+   console.log("Connection open ..."); 
+   ws.send("Hello WebSockets!");
+ };
+  
+ ws.onmessage = function(evt) {
+   console.log( "Received Message: " + evt.data);
+   ws.close();
+ };
+  
+ ws.onclose = function(evt) {
+   console.log("Connection closed.");
+ };
+</script>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket 发送普通文本示例</title>
+    <style>
+        .block {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>WebSocket 发送普通文本示例</h3>
+    <div style="display: flex;">
+        <div class="block">
+            <p>即将发送的数据：<button id="send">发送</button></p>
+            <textarea id="sendMessage" rows="5" cols="15"></textarea>
+        </div>
+        <div class="block">
+            <p>接收的数据：</p>
+            <textarea id="receivedMessage" rows="5" cols="15"></textarea>
+        </div>
+    </div>
+    <script>
+        // const sendMsgContainer = document.querySelector("#sendMessage");
+        // const receivedMsgContainer = document.querySelector("#receivedMessage");
+        // const sendBtn = document.querySelector("#send");
+        // const socket = new WebSocket("wss://echo.websocket.org");
+
+        // // 监听连接成功事件
+        // socket.addEventListener("open", function (event) {
+        //   console.log("连接成功，可以开始通讯");
+        // });
+
+        // // 监听消息
+        // socket.addEventListener("message", function (event) {
+        //   console.log("Message from server ", event.data);
+        //   receivedMsgContainer.value = event.data;
+        // });
+
+        // sendBtn.onclick = function () {
+        //   const message = sendMsgContainer.value;
+        // //   if (socket.readyState !== WebSocket.OPEN) {
+        // //     console.log("连接未建立，还不能发送消息");
+        // //     return;
+        // //   }
+        //   if (message) socket.send(message);
+        // }
+
+
+        const socket = new WebSocket("wss://echo.websocket.org");
+        socket.onopen = function () {
+            // 发送UTF-8编码的文本信息
+            socket.send("Hello Echo Server!");
+            // 发送UTF-8编码的JSON数据
+            socket.send(JSON.stringify({
+                msg: "我是阿宝哥"
+            }));
+
+            // 发送二进制ArrayBuffer
+            const buffer = new ArrayBuffer(128);
+            socket.send(buffer);
+
+            // 发送二进制ArrayBufferView
+            const intview = new Uint32Array(buffer);
+            socket.send(intview);
+
+            // 发送二进制Blob
+            const blob = new Blob([buffer]);
+            socket.send(blob);
+        };
+    </script>
+</body>
+
+</html>

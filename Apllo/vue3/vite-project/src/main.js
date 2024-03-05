@@ -13,6 +13,8 @@ import 'element-plus/dist/index.css'
 const app = createApp(App);
 app.component("PageLayout", PageLayout);
 app.component("CommonLayout", CommonLayout);
+
+//挂载第三方的组件
 app.use(ElementPlus);
 app.mount("#app");
 
