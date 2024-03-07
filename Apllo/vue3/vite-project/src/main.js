@@ -6,6 +6,7 @@ import "tailwindcss/tailwind.css";
 import App from "./App.vue";
 import PageLayout from "./components/page-layout.vue";
 import CommonLayout from "./components/common-layout.vue";
+import Router from '@/routers/index.js';
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -16,5 +17,6 @@ app.component("CommonLayout", CommonLayout);
 
 //挂载第三方的组件
 app.use(ElementPlus);
+app.use(Router);
 app.mount("#app");
 

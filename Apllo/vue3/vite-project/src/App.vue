@@ -1,10 +1,23 @@
-<script setup>
-import MessageTable from '@/modules/message/pages/message.vue';
-</script>
-
 <template>
-  <MessageTable></MessageTable>
+  <page-layout>
+      <template v-slot:aside>
+          <MenuList></MenuList>
+      </template>
+      <template v-slot:container>
+          <CommonLayout>
+            <template v-slot:main-content>
+              <router-view></router-view>
+            </template>
+          </CommonLayout>
+      </template>
+  </page-layout>
 </template>
 
-<style scoped>
+<script setup>
+import MenuList from '@/components/menu-list.vue';
+
+</script>
+
+<style lang="scss" scoped>
+
 </style>
