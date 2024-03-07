@@ -1,6 +1,5 @@
 <template>
     <div class="base-tree">
-        我是基础树
     </div>
 </template>
 
@@ -10,4 +9,4 @@
 
 <style lang="scss" scoped>
 
-</style>\
+</style>

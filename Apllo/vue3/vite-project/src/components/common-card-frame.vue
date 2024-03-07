@@ -8,8 +8,8 @@
 
 import { ref } from 'vue';
 
-const name = ref('franklin');
-const sex = ref('male');
+const name = ref(5);
+const sex = ref(8);
 
 </script>
 
