@@ -12,12 +12,14 @@
           </CommonLayout>
       </template>
   </page-layout>
+  <commonWaterMark></commonWaterMark>
 </template>
 
 <script setup>
 import {ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import MenuList from '@/components/menu-list.vue';
+import commonWaterMark from '@/components/common-water-mark.vue';
 
 const router = useRouter();
 router.push({
