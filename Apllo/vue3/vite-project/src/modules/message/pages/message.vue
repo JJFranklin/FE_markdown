@@ -3,7 +3,9 @@
     <CommonCardFrame>
       <template v-slot:default="{ othername, sex }">
         <CommonCard
+          @showDetail="showDetail"
           v-for="i in 4"
+          :order="i"
           :cardIndex="i + othername + sex"
         ></CommonCard>
       </template>
@@ -14,6 +16,10 @@
 <script setup>
 import CommonCardFrame from "@/components/common-card-frame.vue";
 import CommonCard from "@/components/common-card.vue";
+
+function showDetail(msg){
+  console.log('msg', msg)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@ import { onMounted, ref } from "vue";
 
 const waterMarkRef = ref();
 
-function createWaterMarkDom(){
+function createWaterMarkDom() {
   const waterMarkDom = document.createElement('div');
   waterMarkDom.classList.add('water-mark');
   waterMarkDom.style.position = 'fixed';
@@ -18,7 +18,7 @@ function createWaterMarkDom(){
   waterMarkDom.style.pointerEvents = 'none';
   waterMarkDom.style.backgroundRepeat = 'repeat';
   waterMarkDom.style.zIndez = 9999;
-  
+
   document.body.appendChild(waterMarkDom);
   return waterMarkDom;
 };
@@ -27,16 +27,17 @@ function createWaterMarkDom(){
 function createWaterMark() {
   // 生成水印的时候，最好水印的容器都是由js 生成，避免人为删除元素导致元素消失，最后不能生成水印
   // const waterMarkDom = createWaterMarkDom();
- 
+
   const { innerHeight, innerWidth } = window;
   const xCount = 6,
-    yCount = 10,
+    yCount = 6,
     angle = 0,
     opacity = 0.1;
   const textArr = [
-    "臣本布衣躬耕于南阳苟全性命于乱世不求闻达于诸侯猥自枉屈",
-    "09让42碳4碳停语言5一53<・)))><<5u55456u",
-    "09",
+    "臣本布衣", "猥自枉屈",
+    "躬耕于南阳",
+    "苟全性命于乱世",
+    "不求闻达于诸侯"
   ];
   const canvas = document.createElement("canvas");
   canvas.width = innerWidth / xCount;
@@ -117,8 +118,8 @@ function observeWaterMark() {
 
 onMounted(() => {
   createWaterMark();
-  // 监控水印是否被删除
-  //  observeWaterMark();
+  // 监控水印是否被修改属性，删除等操作
+  // observeWaterMark();
 });
 </script>
 
