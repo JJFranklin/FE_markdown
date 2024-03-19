@@ -1,3 +1,7 @@
+/**
+ * 深拷贝、浅拷贝的定义
+ * https://juejin.cn/post/7072528644739956773
+*/
 
 // 浅拷贝 模仿 Object.assign()
 let obj = {
@@ -28,20 +32,28 @@ function shallowCopy(obj) {
 */
 function deepClone(obj){
     if(!isObject(obj)) return obj;
+    // 着重区分正则和日期对象
+    if(obj instanceof Date) return obj;
+    if(obj instanceof RegExp) return Obj;
     // 区分出数组和对象
     let target = Array.isArray(obj) ? [] : {};
     let keys = Object.keys(obj);
     keys.map(key => {
-        if (isObject(obj[key])) {
-            target[key] = deepClone(obj[key]);
-        } else {
-            target[key] = obj[key];
-        }
+        // 原来要区分数组和对象，实际不用区分。
+        // 数组的情况，key 就是数组的下标
+        // if (isObject(obj[key])) {
+        //     target[key] = deepClone(obj[key]);
+        // } else {
+        //     target[key] = obj[key];
+        // }
+        // 
+        target[key] = deepClone(obj[key]);
     });
     return target;
 }
 
 function isObject(obj){
+    // 区分出 null、undefined、Function
     return obj && typeof obj === "object";
 }
 
@@ -56,7 +68,6 @@ console.log(res,obj);
 
 
 // lodash 的深度克隆
-// 木易杨
 function baseClone(value, bitmask, customizer, key, object, stack) {
     let result
 

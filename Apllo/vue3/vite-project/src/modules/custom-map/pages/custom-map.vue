@@ -17,6 +17,7 @@ import { createRegularPolygon, createBox } from 'ol/interaction/Draw'
 /**
  * 地图构成要件
  * map-view(视图区)-layer(地图图源图层)-其他图层(其他图层在图源图层之上)
+ * 任务：1、模拟撒点 2、添加圆形、矩形、多边形框选 3、获取框选中的点位信息
  */
 const olMap = ref('');
 

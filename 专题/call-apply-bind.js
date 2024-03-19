@@ -8,7 +8,7 @@
  * 3、bind func.bind(obj,p1,p2,p3...); 返回一个新的函数
  * 
  * 模拟实现的思路
- * 目的，将func中this的指向，指向调用的s对象；
+ * 目的，将func中this的指向，指向调用的对象；
  * 1、将方法作为对象的一个属性，属性中的this，就是对象的this;
  * 2、执行调用方法；
  * (3)、避免给属性添加多余的属性，执行完成之后，就删除属性
@@ -40,15 +40,21 @@ Function.prototype.newApply = function(obj,args){
     delete obj.func;
 } 
 
-Function.prototype.newBind = function(){
-    let args = Array.prototype.slice.call(arguments) || [];
-    let Obj = args.shift();
+/**
+ * 1、函数调用，改变this 
+ * 2、返回一个绑定this的函数 
+ * 3、接收多个参数
+ * @params context 调用 newBind 时的对象
+*/
+
+Function.prototype.newBind = function(context){
+    let args = Array.prototype.slice.call(arguments, 1) || [];
     let that = this;
     return function(){
         // 可以第二次传值
         let moreArgs = Array.prototype.slice.call(arguments) || [];
         moreArgs = moreArgs.concat(args);
-        return that.apply(Obj,moreArgs);
+        return that.apply(context,moreArgs);
     }
 };
 

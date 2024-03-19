@@ -4,33 +4,32 @@
  * 如果没有，返回一个负数；
  * 注意数组字符串拼接的时候会有类型转换
  */
-let sourceArr = [1, 2, 3, 5, 8, 7, 6, 5, 9, 1, 1, 6, 9, 8]
+let sourceArr = [1, 2, 3, 5, 8, 7, 6, 5, 9, 1, 1, 6, 9, 8];
 let targetArr = [8, 6, 5];
 
 function findIndex(targetArr, sourceArr) {
-    let index = -1;
-    let sourcelen = sourceArr.length;
-    let targetlen = targetArr.length;
-    let targetStr = targetArr.join("");
-    if (targetlen > sourcelen) return index;
-    for (let i = 0; i < sourcelen; i++) {
-        let item = sourceArr[i];
-        if (targetArr[0] == item) {
-            if (i + targetlen - 1 > sourcelen - 1) {
-                break;
-            } else {
-                let sourceStr = item;
-                for (let j = 0; j < targetlen - 1; j++) {
-                    sourceStr = sourceStr + "" + sourceArr[i + 1 + j];
-                }
-                index = sourceStr === targetStr ? i : -1;
-                break;
-            }
+  let index = -1;
+  let sourcelen = sourceArr.length;
+  let targetlen = targetArr.length;
+  let targetStr = targetArr.join("");
+  if (targetlen > sourcelen) return index;
+  for (let i = 0; i < sourcelen; i++) {
+    let item = sourceArr[i];
+    if (targetArr[0] == item) {
+      if (i + targetlen - 1 > sourcelen - 1) {
+        break;
+      } else {
+        let sourceStr = item;
+        for (let j = 0; j < targetlen - 1; j++) {
+          sourceStr = sourceStr + "" + sourceArr[i + 1 + j];
         }
+        index = sourceStr === targetStr ? i : -1;
+        break;
+      }
     }
-    return index;
+  }
+  return index;
 }
-
 
 // 手写bind 的实现
 // 核心，返回一个新的函数
@@ -40,25 +39,26 @@ function findIndex(targetArr, sourceArr) {
 // 4、作为普通函数使用，this指向window
 
 Function.prototype.bind2 = function (context) {
-    var self = this;
-    // console.log("self",self);
-    var args = Array.prototype.slice.call(arguments, 1);
+  // 判断调用对象是否为函数
+  if (typeof this !== "function") {
+    throw new TypeError("Error");
+  }
 
-    var fbound = function () {
-        // console.log("this",this);
-        var bindArgs = Array.prototype.slice.call(arguments);
-        // 当作为构造函数时，this 指向实例，self 指向绑定函数，因为下面一句 `fbound.prototype = this.prototype;`，已经修改了 fbound.prototype 为 绑定函数的 prototype，此时结果为 true，当结果为 true 的时候，this 指向实例。
-        // 当作为普通函数时，this 指向 window，self 指向绑定函数，此时结果为 false，当结果为 false 的时候，this 指向绑定的 context。
-        self.apply(this instanceof self ? this : context, args.concat(bindArgs));
-    }
-    // 修改返回函数的 prototype 为绑定函数的 prototype，实例就可以继承函数的原型中的值
-    fbound.prototype = this.prototype;
-    console.log("fbound.prototype", fbound.prototype);
-    return fbound;
-}
+  // 获取参数
+  const args = [...arguments].slice(1),
+    fn = this;
+
+  return function Fn() {
+    // 根据调用方式，传入不同绑定值
+    return fn.apply(
+      this instanceof Fn ? new fn(...arguments) : context,
+      args.concat(...arguments)
+    );
+  };
+};
 
 /**
- * 继承：原型链继承、构造函数继承、原型链-构造函数组合继承、原型继承（Object.Create()）模式 
+ * 继承：原型链继承、构造函数继承、原型链-构造函数组合继承、原型继承（Object.Create()）模式
  */
 // 原型继承：子类的原型对象是父类的对象实例
 // 原理：obj.__proto__ = BaseClass.prototype;
@@ -70,12 +70,12 @@ Function.prototype.bind2 = function (context) {
  */
 
 function BaseClass() {
-    this.name = "franklin";
+  this.name = "franklin";
 }
 BaseClass.prototype.sex = [1, 2, 3];
 
 function Child(name) {
-    this.arr = [556666];
+  this.arr = [556666];
 }
 // 关键步骤
 // 子类原型对象是父类的实例
@@ -102,7 +102,7 @@ Child.prototype.constructor = Child;
 // }
 
 // function Child(name) {
-//     BaseClass.call(this,...arguments); 
+//     BaseClass.call(this,...arguments);
 //     // this.arr = [556666];
 // }
 
@@ -111,24 +111,23 @@ Child.prototype.constructor = Child;
 // c.arr.push(4,5,6,7);
 // console.log(c.sex,c.name,c.arr,c2.arr,c.sexArr,c2.sexArr,c.constrcutor);
 
-
 /**
  * 原型-构造组合继承：解决构造函数和原型链继承的问题
  * 属性定义在构造函数中，方法定义在原型链上
- * 
+ *
  */
 function BaseClass(name, sex) {
-    this.name = name;
-    this.sex = sex;
-    this.arr = [1, 2, 23];
+  this.name = name;
+  this.sex = sex;
+  this.arr = [1, 2, 23];
 }
 
 BaseClass.prototype.setName = function () {
-    this.name = "23542533";
-}
+  this.name = "23542533";
+};
 
 function Child() {
-    BaseClass.call(this, ...arguments);
+  BaseClass.call(this, ...arguments);
 }
 
 Child.prototype = new BaseClass();
@@ -143,37 +142,40 @@ Child.prototype.constructor = Child;
 // 优化组合继承
 // 缺点，子类生成对象实例的时候会调用了2次基类
 function BaseClass(name, sex) {
-    this.name = name;
-    this.sex = sex;
-    this.arr = [1, 2, 23];
+  this.name = name;
+  this.sex = sex;
+  this.arr = [1, 2, 23];
 }
 
 BaseClass.prototype.setName = function () {
-    this.name = "franklin";
+  this.name = "franklin";
 };
 
 function Child() {
-    BaseClass.call(this, ...arguments);
+  BaseClass.call(this, ...arguments);
 }
 
-// 通过Obiect.create(obj)创建的对象在新的对象实例的原型属性上
-// let newObj = Object.create(obj); newobj.__proto__ = obj;
+// 通过Obiect.create(obj)创建的对象，
+// let newObj = Object.create(obj);
+// newobj.__proto__ = obj;
+// 新的对象的原型指针指向newobj.__proto__ 指向 obj，此时 Obj 是newObj 的对象原型
 // newObj 继承了obj 的属性
+
 function createPrototype(obj) {
-    function Obj() {};
-    // 构造函数原型对象指向父类的原型对象，可以继承父类原型对象上的属性方法等，并返回对象实例
-    Obj.prototype = obj;
-    let newObj = new Obj();
-    return newObj;
+  function Obj() {}
+  // 构造函数原型对象指向父类的原型对象，可以继承父类原型对象上的属性方法等，并返回对象实例
+  Obj.prototype = obj;
+  let newObj = new Obj();
+  return newObj;
 }
 
 function perfectInhert(children, parent) {
-    // 返回继承父类属性之后的对象原型
-    let newPrototype = createPrototype(parent.prototype);
-    // 子类原型对象继承父类的原型对象属性
-    children.prototype = newPrototype;
-    // 还原子类构造函数为子类
-    children.prototype.constructor = children;
+  // 返回继承父类属性之后的对象原型
+  let newPrototype = createPrototype(parent.prototype);
+  // 子类原型对象继承父类的原型对象属性
+  children.prototype = newPrototype;
+  // 还原子类构造函数为子类
+  children.prototype.constructor = children;
 }
 
 perfectInhert(Child, BaseClass);
@@ -186,35 +188,33 @@ perfectInhert(Child, BaseClass);
 // promise 的实现
 // https://github.com/YvetteLau/Blog/issues/2
 function* add(a, b) {
-    yield a + b;
-    yield 1 + 2;
-    yield 3 + 4;
-    return
+  yield a + b;
+  yield 1 + 2;
+  yield 3 + 4;
+  return;
 }
-
 
 let resultAdd = add(4, 5);
 
 function gernerate(result) {
-    let res = result.next();
-    console.log("res", res);
-    if (!res.done) {
-        gernerate(result);
-    }
+  let res = result.next();
+  console.log("res", res);
+  if (!res.done) {
+    gernerate(result);
+  }
 }
 // gernerate(resultAdd);
 
 async function timeout() {
-    console.log("111");
-    let timefunc = await setTimeout(() => {
-        console.log(100);
-    }, 0);
-    console.log("33333", timefunc);
+  console.log("111");
+  let timefunc = await setTimeout(() => {
+    console.log(100);
+  }, 0);
+  console.log("33333", timefunc);
 }
 // timeout();
 
-
-// promise then是执行回调函数，在本轮所有的同步任务执行完之后，在执行
+// promise then是执行回调函数，属于微任务，在本轮所有的同步任务执行完之后，在执行
 // catch 之后还可以执行then
 // then 可以接受两个回调函数，一个接收resolve 之后的参数，另一个接收reject 之后的参数
 // then 的链式调用中，上一个必须返回promise 对象
@@ -223,28 +223,37 @@ async function timeout() {
  *promise().then() 微任务，在本轮主任务执行完之后，执行完所有微任务，
  在进入下一轮事件循环
  */
-// function getJsonData() {
-//     return new Promise((resolve, reject) => {
-//         console.log("1");
-//         resolve(333333);
-//         console.log("2");
-//     });
-// }
-// getJsonData().then((res) => {
-//     console.log("4")
-//     console.log(res);
-// })
-//  .catch((error)=>{
-//         console.log('error',error);
-// })
-// .finally((res)=>{
-//      console.log("345456");
+function getJsonData() {
+  return new Promise((resolve, reject) => {
+    console.log("1");
+    resolve(333333);
+    console.log("2");
+  });
+}
+getJsonData()
+  .then((res) => {
+    console.log("4");
+    console.log(res);
+  })
+  .catch((error) => {
+    console.log("error", error);
+  })
+  .finally((res) => {
+    console.log("345456");
+  });
 
+/**
+ * 1
+ * 2
+ * 4
+ * 33333
+ * 345456
+ */
 
-Promise.resolve() // 将普通对象转化成promise 对象
+Promise.resolve(); // 将普通对象转化成promise 对象
 // 等效为
-let p1 = new Promise(resolve => {
-    return resolve("我是p1")
+let p1 = new Promise((resolve) => {
+  return resolve("我是p1");
 });
 
 // Promise.resolve(2).finally(() => {
@@ -252,7 +261,7 @@ let p1 = new Promise(resolve => {
 // }, () => {})
 
 // generator 异步使用
-// async/await 
+// async/await
 /**
 遇到 await 会先返回promise 对象，
 然后等到异步执行完成之后，在执行后面的代码
@@ -260,25 +269,26 @@ await 返回是Promise 执行的结果,等同于，先返回Promise 对象之后
 async 返回的是Promise 对象，可以执行then 的链式回调
 async 函数的多个await 所在行的代码是同步执行的，整个async 是异步执行的
 */
-function print(){
-    console.log("1");
-    return new Promise((resolve,reject)=>{
-        return resolve(p1);
-    });
+function print() {
+  console.log("1");
+  return new Promise((resolve, reject) => {
+    return resolve(p1);
+  });
 }
 
+newPrint()
+  .then(function (res) {
+    console.log("res", res);
+  })
+  .catch((r) => {
+    console.log("r", r);
+  });
 
-newPrint().then(function (res) {
-    console.log('res',res);
-}).catch(r=>{
-    console.log("r",r)
-});
-
-async function output(){
-    console.log("3")
-    let res = await print();
-    console.log('res1',res);
-    console.log("4");
+async function output() {
+  console.log("3");
+  let res = await print();
+  console.log("res1", res);
+  console.log("4");
 }
 
 // output().then(res=>{
@@ -286,54 +296,52 @@ async function output(){
 // });
 
 const say = async (num) => {
-    console.log(num, 'begin:')
-    await new Promise(resolve => {
-      setTimeout(() => {
-        console.log(num)
-        resolve()
-      }, num * 1000)
-    })
+  console.log(num, "begin:");
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(num);
+      resolve();
+    }, num * 1000);
+  });
+};
+
+const nums = [2, 1];
+
+// 遍历 nums 打印
+async function for_Result() {
+  for (let n of nums) {
+    await say(n);
   }
-  
-  const nums = [2, 1]
-  
-  // 遍历 nums 打印
-  async function for_Result() {
-    for (let n of nums) {
-      await say(n)
-    }
-  }
-  
-  // 遍历 nums 打印
-  function forEach_Result() {
-    nums.forEach(async function(n){
-        await say(n)
-    });
-  }
-  
-  // 思考分别调用下面两个方法的结果：
+}
+
+// 遍历 nums 打印
+function forEach_Result() {
+  nums.forEach(async function (n) {
+    await say(n);
+  });
+}
+
+// 思考分别调用下面两个方法的结果：
 //   for_Result()
-  forEach_Result()
+forEach_Result();
 
 // 模拟 有回调函数的遍历 map,foreach等
-function newForEach(cb){
-    cb();
+function newForEach(cb) {
+  cb();
 }
 // 所以forEach_Result 可以变成
 function forEach_Result() {
-    let a = async function(n){
-        await say(n)
-    }
-    nums.newForEach(function(n){
-        a(n);
-    });
-    // 可以看到回调函数的执行并没有被await修饰，所以不用等待上一个回调执行完毕，再执行下一个，同步执行
-    // for...of 或者其他的for循环的形式，没有回调函数，await 发挥了作用，会按照上一个执行完毕在执行下一个的顺序
-  }
-
-  array.forEach(element => {
-    
+  let a = async function (n) {
+    await say(n);
+  };
+  nums.newForEach(function (n) {
+    a(n);
   });
+  // 可以看到回调函数的执行并没有被await修饰，所以不用等待上一个回调执行完毕，再执行下一个，同步执行
+  // for...of 或者其他的for循环的形式，没有回调函数，await 发挥了作用，会按照上一个执行完毕在执行下一个的顺序
+}
+
+array.forEach((element) => {});
 
 /**
 两个遍历方法分别使用了 for of 和 forEach 循环数组，并使用 await等待异步方法的执行。
@@ -348,4 +356,3 @@ forEach方法内部调用 回调函数 时，并没有使用await修饰，所以
 map 和 forEach 实现的效果是一样，都是并发执行，因为他的回调函数没有被await 修饰，
 不用等上一个执行完成，在执行下一个
 */
-

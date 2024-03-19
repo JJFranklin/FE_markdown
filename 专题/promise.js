@@ -9,110 +9,112 @@
 会被自己的catch捕获，返回resolved状态。
 不会被promise.all的catch 的捕获，会被promise.all回调函数的resolved接收,并返回包含错误信息的结果数组；
 如果其中一个没有异常处理，返回异常，会直接被promise.all的catch捕获，
-*/ 
+*/
 
-function setname(name){
-    return new Promise((resove,reject)=>{
-        if(name){
-            resove(name);
-        }else {
-            reject("错误的名字！");
-        }
-    });
+function setname(name) {
+  return new Promise((resove, reject) => {
+    if (name) {
+      resove(name);
+    } else {
+      reject("错误的名字！");
+    }
+  });
 }
 
 // 方式2  可
-let newName = '';
+let newName = "";
 
-function setage(d){
-    console.log(d+100);
+function setage(d) {
+  console.log(d + 100);
 }
 
-function p(){
-    setname("franklin").then(res=>{
-        setage(res);
-    }).catch(error=>{
-        console.log(error);
+function p() {
+  setname("franklin")
+    .then((res) => {
+      setage(res);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-    console.log('innner ',newName);
+  console.log("innner ", newName);
 }
-p();
+// p();
 
-console.log('outter ',newName);
+// console.log('outter ',newName);
 
-function red(){
-    console.log('red');
+// 红绿灯按照顺序亮的问题
+function red() {
+  console.log("red");
 }
-function green(){
-    console.log('green');
+function green() {
+  console.log("green");
 }
-function yellow(){
-    console.log('yellow');
+function yellow() {
+  console.log("yellow");
 }
 
-var light = function(timmer, cb){
-    return new Promise(function(resolve, reject) {
-        setTimeout(function() {
-            cb();
-            resolve();
-        }, timmer);
+var light = function (timmer, cb) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      cb();
+      resolve();
+    }, timmer);
+  });
+};
+
+var step = function () {
+  Promise.resolve()
+    .then(() => light(3000, red))
+    .then(() => light(2000, green))
+    .then(() => light(1000, yellow))
+    .then(function () {
+      // step();
     });
 };
 
-var step = function() {
-    Promise.resolve().then(function(){
-        return light(3000, red);
-    }).then(function(){
-        return light(2000, green);
-    }).then(function(){
-        return light(1000, yellow);
-    }).then(function(){
-        // step();
-    });
+step();
+
+function lightRed() {
+  return new Promise((res, rej) => {
+    console.log(1);
+    setTimeout(() => {
+      console.log("red light");
+      res();
+    }, 3000);
+  });
 }
 
-// step();
-
-
-function lightRed(){
-    return new Promise((res,rej)=>{
-        console.log(1)
-        setTimeout(()=>{
-            console.log("red light");
-            res();
-        },3000);
-    });
+function lightGreen() {
+  return new Promise((res, rej) => {
+    console.log(2);
+    setTimeout(() => {
+      console.log("green light");
+      res();
+    }, 2000);
+  });
 }
 
-function lightGreen(){
-    return new Promise((res,rej)=>{
-        console.log(2)
-        setTimeout(()=>{
-            console.log("green light");
-            res();
-        },2000);
-    });
+function lightYellow() {
+  return new Promise((res, rej) => {
+    console.log(3);
+    setTimeout(() => {
+      console.log("yellow light");
+      res();
+    }, 1000);
+  });
 }
 
-function lightYellow(){
-    return new Promise((res,rej)=>{
-        console.log(3)
-        setTimeout(()=>{
-            console.log("yellow light");
-            res();
-        },1000);
-    });
-}
-
-function light2(){
-    lightRed().then(()=>{
-        lightGreen();
-    }).then(()=>{
-        lightYellow();
-    }).then(()=>{
-        light2();
+function light2() {
+  lightRed()
+    .then(() => {
+      lightGreen();
+    })
+    .then(() => {
+      lightYellow();
+    })
+    .then(() => {
+    //   light2();
     });
 }
 
 // light2();
-
