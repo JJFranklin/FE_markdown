@@ -122,3 +122,9 @@ line-height 继承
 父级的line-height 是具体px 或者1.4、3这样的数字，那么子元素继承父元素的line-height 的值，然后和自己的font-size 的值相乘，得到本元素的line-height
 
 父元素的line-height 值是百分比，此时，子元素继承的是，父元素font-size * 父元素line-height 的值，子元素继承上面计算后的结果
+
+7、 css 优先级
+
+!important > 行内样式 > 内联 >link、自定义style> id > class > 标签 > 继承 > 默认
+ 
+自定义的style 和 link 引入的css 文件，优先级相同，谁在后面，谁优先级高，后面会覆盖前面的

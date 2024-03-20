@@ -1,4 +1,5 @@
 基本数据类型：String、Number、Null、Undefined、Boolean、Syboml
+引用类型：Object
 新加的数据类型：bigInt
 - bigInt
 ```javascript
