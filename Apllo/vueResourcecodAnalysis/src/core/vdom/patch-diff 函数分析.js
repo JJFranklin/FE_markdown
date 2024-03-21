@@ -407,6 +407,25 @@ export function createPatchFunction (backend) {
       removeNode(vnode.elm)
     }
   }
+  /**
+   *   
+   function sameVnode (a, b) {
+    return (
+      a.key === b.key && (
+        (
+          a.tag === b.tag &&
+          a.isComment === b.isComment &&
+          isDef(a.data) === isDef(b.data) &&
+          sameInputType(a, b)
+        ) || (
+          isTrue(a.isAsyncPlaceholder) &&
+          a.asyncFactory === b.asyncFactory &&
+          isUndef(b.asyncFactory.error)
+        )
+      )
+    )
+  }
+  */
 
   // 更新子节点，处于同一层级间的新旧节点进行比较
   function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
@@ -561,7 +580,7 @@ export function createPatchFunction (backend) {
     oldVnode,// 旧节点
     vnode,// 新节点
     insertedVnodeQueue,// 插入节点的集合
-    ownerArray,// 等待更新新的节点集合
+    ownerArray,// 等待更新的节点集合
     index,
     removeOnly
   ) {
@@ -607,8 +626,13 @@ export function createPatchFunction (backend) {
     const oldCh = oldVnode.children
     const ch = vnode.children
     if (isDef(data) && isPatchable(vnode)) {
-      for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)
-      if (isDef(i = data.hook) && isDef(i = i.update)) i(oldVnode, vnode)
+      // 如果组件设定了 update的 生命周期函数，则执行组件的生命周期函数
+      for (i = 0; i < cbs.update.length; ++i) {
+        cbs.update[i](oldVnode, vnode)
+      }
+      if (isDef(i = data.hook) && isDef(i = i.update)){
+        i(oldVnode, vnode)
+      } 
     }
     
     if (isUndef(vnode.text)) {
@@ -621,7 +645,10 @@ export function createPatchFunction (backend) {
         if (process.env.NODE_ENV !== 'production') {
           checkDuplicateKeys(ch)
         }
-        if (isDef(oldVnode.text)) nodeOps.setTextContent(elm, '')
+        if (isDef(oldVnode.text)){
+          // 只有旧的节点有文本内容内容，新节点没有文本内容，节点文本内容直接置为空
+          nodeOps.setTextContent(elm, '')
+        } 
         // 只有新的子节点，没有对应的旧的子节点，直接添加新的子节点
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)
 

@@ -25,9 +25,10 @@ Function.prototype.newCall = function(obj,...args){
     obj = obj||window;
     obj.func = this; // 此时的this,就是调用此方法的函数 即funcA
     // 执行调用方法
-    obj.func(...args);
+    const result = obj.func(...args);
     // 删除属性
     delete obj.func;
+    return result;
 }
 
 // funA.newACall(obj,a);
@@ -36,8 +37,9 @@ Function.prototype.newCall = function(obj,...args){
 Function.prototype.newApply = function(obj,args){
     obj = obj || window;
     obj.func = this;
-    obj.func(args);
+    const result = obj.func(args);
     delete obj.func;
+    return result;
 } 
 
 /**
