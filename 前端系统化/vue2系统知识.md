@@ -51,7 +51,7 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
 
   自定义v-model(自定义双向绑定)
 
-  $nextClick
+  $nextTick
 
   > 对data中的属性进行改变之后，不会立即更新dom元素，不能获取到最新的dom 节点；
   >
@@ -216,6 +216,8 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   >4、再次将新的节点渲染到界面上。
 
   >异步渲染
+
+
 
 -  Vue-router 的路由模式
 单页面(spa)应用：hash 模式和h5 history，都可以切换以页面，但是不刷新页面

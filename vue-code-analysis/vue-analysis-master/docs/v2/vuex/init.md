@@ -208,12 +208,14 @@ export default class ModuleCollection {
   }
 
   get (path) {
+    // 遍历path 得到子模块
     return path.reduce((module, key) => {
       return module.getChild(key)
     }, this.root)
   }
 
   getNamespace (path) {
+    // 拼接命名空间
     let module = this.root
     return path.reduce((namespace, key) => {
       module = module.getChild(key)
@@ -230,7 +232,8 @@ export default class ModuleCollection {
       assertRawModule(path, rawModule)
     }
 
-    const newModule = new Module(rawModule, runtime)
+    const newModule = new Module(rawModule, runtime);
+    // 只有根模块的情况
     if (path.length === 0) {
       this.root = newModule
     } else {
@@ -239,6 +242,7 @@ export default class ModuleCollection {
     }
 
     // register nested modules
+    // 有嵌套的模块，遍历模块，注册模块到父模块下
     if (rawModule.modules) {
       forEachValue(rawModule.modules, (rawChildModule, key) => {
         this.register(path.concat(key), rawChildModule, runtime)
@@ -399,6 +403,10 @@ function installModule (store, rootState, path, module, hot) {
 
   const local = module.context = makeLocalContext(store, namespace, path)
 
+  /**
+   * namespace + key 是拼接成的模块的完整路径 
+   * 比如 namespace 为 a，key 为 b，那么 namespace + key 就是 a.b
+   */
   module.forEachMutation((mutation, key) => {
     const namespacedType = namespace + key
     registerMutation(store, namespacedType, mutation, local)

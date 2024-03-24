@@ -22,6 +22,10 @@ var ws = new WebSocket("wss://echo.websocket.org");
    ws.close();
  };
   
+ ws.onerror = function(evt) {
+    console.log('onerror');
+ }
+
  ws.onclose = function(evt) {
    console.log("Connection closed.");
  };
