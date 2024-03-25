@@ -87,79 +87,120 @@
 /**
  * promise 宏任务和微任务的练习
  * 同一事件循环中，setImmdiate 在 setTimeout 之前执行
-*/
-console.log('golb1'); 
+ */
+console.log("golb1");
 
-setTimeout(function() {
-    console.log('timeout1');
-    process.nextTick(function() {
-        console.log('timeout1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout1_promise');
-        resolve();
-    }).then(function() {
-        console.log('timeout1_then')
-    })
-})
-
-setImmediate(function() {
-    console.log('immediate1');
-    process.nextTick(function() {
-        console.log('immediate1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate1_promise');
-        resolve();
-    }).then(function() {
-        console.log('immediate1_then')
-    })
-})
-
-process.nextTick(function() {
-    console.log('glob1_nextTick'); // 4
-})
-new Promise(function(resolve) {
-    console.log('glob1_promise'); // 2
+setTimeout(function () {
+  console.log("timeout1");
+  process.nextTick(function () {
+    console.log("timeout1_nextTick");
+  });
+  new Promise(function (resolve) {
+    console.log("timeout1_promise");
     resolve();
-}).then(function() {
-    console.log('glob1_then')
-})
+  }).then(function () {
+    console.log("timeout1_then");
+  });
+});
 
-setTimeout(function() {
-    console.log('timeout2');
-    process.nextTick(function() {
-        console.log('timeout2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout2_promise');
-        resolve();
-    }).then(function() {
-        console.log('timeout2_then')
-    })
-})
-
-process.nextTick(function() {
-    console.log('glob2_nextTick'); // 5
-})
-new Promise(function(resolve) {
-    console.log('glob2_promise');  // 3
+setImmediate(function () {
+  console.log("immediate1");
+  process.nextTick(function () {
+    console.log("immediate1_nextTick");
+  });
+  new Promise(function (resolve) {
+    console.log("immediate1_promise");
     resolve();
-}).then(function() {
-    console.log('glob2_then')
-})
+  }).then(function () {
+    console.log("immediate1_then");
+  });
+});
 
-setImmediate(function() {
-    console.log('immediate2');
-    process.nextTick(function() {
-        console.log('immediate2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate2_promise');
-        resolve();
-    }).then(function() {
-        console.log('immediate2_then')
-    })
-})
+process.nextTick(function () {
+  console.log("glob1_nextTick"); // 4
+});
+new Promise(function (resolve) {
+  console.log("glob1_promise"); // 2
+  resolve();
+}).then(function () {
+  console.log("glob1_then");
+});
 
-// 
+setTimeout(function () {
+  console.log("timeout2");
+  process.nextTick(function () {
+    console.log("timeout2_nextTick");
+  });
+  new Promise(function (resolve) {
+    console.log("timeout2_promise");
+    resolve();
+  }).then(function () {
+    console.log("timeout2_then");
+  });
+});
+
+process.nextTick(function () {
+  console.log("glob2_nextTick"); // 5
+});
+new Promise(function (resolve) {
+  console.log("glob2_promise"); // 3
+  resolve();
+}).then(function () {
+  console.log("glob2_then");
+});
+
+setImmediate(function () {
+  console.log("immediate2");
+  process.nextTick(function () {
+    console.log("immediate2_nextTick");
+  });
+  new Promise(function (resolve) {
+    console.log("immediate2_promise");
+    resolve();
+  }).then(function () {
+    console.log("immediate2_then");
+  });
+});
+
+//
+
+new Promise((resolve) => {
+  for (var i = 0; i < 10; i++) {
+    console.log(i);
+    resolve();
+  }
+});
+
+
+// 防抖
+// n秒后在执行，n 秒内重新处罚，重新计时
+function newDebunon(func,wait) {
+    let timer = null;
+    return function(){
+      let that = this;
+        if(timer){
+          clearTimeout(timer);
+        }
+        timer = setTimeout(()=>{
+          func.apply(that,arguments);
+          timer = null;
+        },wait);
+    } 
+}
+
+// 节流
+// n 秒内只执行一次
+
+function newThrottle(func,await){
+  let timer = null;
+  return function (){
+    let that = this;
+    if(!timer){
+      timer = setTimeout(()=>{
+        func.apply(that,arguments);
+        clearTimeout(timer);
+        timer = null;
+      },await);
+    }
+  }
+}

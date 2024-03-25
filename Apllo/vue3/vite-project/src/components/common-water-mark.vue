@@ -27,14 +27,14 @@ function createWaterMarkDom() {
 function createWaterMark() {
   // 生成水印的时候，最好水印的容器都是由js 生成，避免人为删除元素导致元素消失，最后不能生成水印
   // const waterMarkDom = createWaterMarkDom();
-
   const { innerHeight, innerWidth } = window;
   const xCount = 6,
     yCount = 6,
     angle = 0,
     opacity = 0.1;
   const textArr = [
-    "臣本布衣", "猥自枉屈",
+    "臣本布衣", 
+    "猥自枉屈",
     "躬耕于南阳",
     "苟全性命于乱世",
     "不求闻达于诸侯"
@@ -72,7 +72,7 @@ function createWaterMark() {
   waterMarkRef.value.style.backgroundImage = "url(" + bgUrl + ")";
 }
 
-// 根据canvas宽度自动换行
+// 根据 canvas 宽度自动换行
 function generateResultTextArr(ctx, str, rowWidth, result = []) {
   const strLen = str.length;
   let textArr = result;
