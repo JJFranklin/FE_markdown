@@ -5,8 +5,8 @@
  *基础数据结构的使用：如链表、栈、队列、哈希表、图、Trie、并查集.
 
  插冒归，他很稳
- 插冒归喜欢选冒插，查完就慌了
- 快归队，n老了
+ 插冒归喜欢选冒插，查完就慌(方)了
+ 快归堆，n老了
 
  分治，顾名思义，
  就是 分而治之 ，将一个复杂的问题，
@@ -41,7 +41,7 @@ function maopaopaixu(arr) {
   let len = arr.length;
   // 外层循环得到循环次顺，就知道已经有多少个数已经排序，控制比较的轮数
   // 从后向前取数据，后面已经有多少个还未排序
-  // 采用倒序排列，节约循环次数
+  // 采用倒序遍历，节约循环次数（假设最坏的情况，数列倒序排列的）
   for (let i = len - 1; i > 0; i--) {
     // 内层进行两两比较，从开始到已排序之前的第一个元素
     for (let j = 0; j < i; j++) {
@@ -88,7 +88,7 @@ function xuanzepaixu(a) {
 /**
  * 插入排序
  * 1、将第一个元素当做已经排序的数列
- * 2、从未排序的数列中的第一个和已经排序的数列中的数据进行对比，在已经排序的数列中找到合适的位置放下
+ * 2、从未排序的数列中选择一个和已经排序的数列中的数据进行对比，在已经排序的数列中找到合适的位置放下
  * 3、重复1,2步骤到结束
  */
 arr = [78, 3, 38, 0, 67, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
@@ -98,8 +98,9 @@ function charupaixu(a) {
     let cur = a[i];
     let preIndex = i - 1;
     // // 每一个当前的数据都和之前的数据进行对比
-    // // 当前数据小，将之前的数据像后移动, 当前数据向前移动
+    // // 当前数据小，当前数据向前移动，将之前的数据后移动,
     while (preIndex >= 0 && a[preIndex] > cur) {
+      // 比当前数据小的数向后移动
       a[preIndex + 1] = a[preIndex];
       // 下标前移，对比完所有的之前的元素
       preIndex = preIndex - 1;
@@ -119,7 +120,7 @@ let arr2 = [3, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
  * 归并排序 算法复杂度 O(nlogn)
  * 1、将数组从中间进行分割成左右2部分
  * 2、将左右两部分重复步骤1，直到左右数组都只剩下一个元素，直接返回剩余的一个元素，加入到新的数组中；
- * 3、比较左右2部分，小的插入到新的数组中，比较完毕后，剩余的部分直接插入到数组尾部
+ * 3、比较左右2部分，小的插入到新的数组中，比较完毕后，看左右数组是否还有剩余，有剩余的部分直接插入到数组尾部
  * 4、重复1,2,3 步骤直到比较完毕
  */
 
@@ -143,16 +144,20 @@ function mergeArr(left = [], right = []) {
   let newArr = [];
   while (left.length && right.length) {
     if (left[0] <= right[0]) {
+      // 取出第一个元素插入到新的数组中
+      // 此处用 shift 好处是返回了第一个元素的同时，减少了元素的长度
       newArr.push(left.shift());
     } else {
       newArr.push(right.shift());
     }
   }
-  // 先进行左边判断，在进行右边判断
+  // 先进行左边判断，再进行右边判断
+  // 左边有剩余，左边添加到新数组
   while (left.length > 0) {
     newArr.push(left.shift());
   }
 
+  // 右边有剩余，右边添加到新数组
   while (right.length > 0) {
     newArr.push(right.shift());
   }
@@ -174,7 +179,7 @@ arr2 = [3, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
  */
 
 function kuaisupaixu(arr) {
-  if(arr.length <=1 ){
+  if (arr.length <= 1) {
     return arr;
   }
   // 基准数
@@ -187,17 +192,51 @@ function kuaisupaixu(arr) {
   let right = [];
 
   // 找到大于和小于基准的数
-  for(let i = 0; i<arr.length;i++){
+  for (let i = 0; i < arr.length; i++) {
     let ele = arr[i];
-    if(ele > pivot){
+    if (ele > pivot) {
       right.push(ele);
     } else {
       left.push(ele);
     }
   }
-  left  = kuaisupaixu(left);
+  left = kuaisupaixu(left);
   right = kuaisupaixu(right);
-  return [...left,pivot,...right];
+  return [...left, pivot, ...right];
 }
 
-console.log("kuaisupaixu", kuaisupaixu(arr1));
+/**
+ * 最长递增子序列
+ * 思想：使用动态规划，找到前面有多少个比当前数据小，加上自己，就是总的最长递增子序列的长度
+ * 1、声明一个数组 array，长度和输入的数组(list)长度相同，并用1填充，用来记录每一个递增子序列的长度，
+ * 因为每一个元素都是单独的最长递增子序列，所以初始化的长度为1；
+ * 2、采用双层循环，外层控制待比较的元素list[i]，内层，控制每一个 待比较元素 之前的元素list[j]和他进行对比；
+ */
+arr = [0, 3, 4, 17, 2, 8, 6, 10];
+function maxLenIncreseSubstr(list) {
+  if (list.length === 0) return 0;
+  // 创建一个和参数相同大小的数组，并填充值为 1
+  // 用来记录小于等于当前数据的数据有多少，也就是递增子序列的长度
+  let array = new Array(list.length).fill(1);
+  // 从索引 1 开始遍历，因为数组已经所有都填充为 1 了
+  // list 中第一个数的递增子序列是长度是1，所以从第二个数开始比较
+  for (let i = 1; i < list.length; i++) {
+    // 从索引 0 遍历到 i
+    // 判断索引 i 上的值是否大于之前的值
+    for (let j = 0; j < i; j++) {
+      if (list[i] > list[j]) {
+        // 对比之前的每一个元素，如果是大于，说明又找到了一个比之前大的数据，在之前递增的子序列长度基础上 +1
+        // 每比较一轮都会在之前递增的子序列长度基础上 +1 赋值 充当当前元素的递增子序列的长度，所以，每一轮比较都会上一轮比较的结果中取最大值
+        array[i] = Math.max(array[i], 1 + array[j]);
+      }
+    }
+  }
+  // 遍历获取最长的递增子序列
+  let res = 1;
+  for (let i = 0; i < array.length; i++) {
+    res = Math.max(res, array[i]);
+  }
+  return res;
+}
+
+console.log(maxLenIncreseSubstr(arr));

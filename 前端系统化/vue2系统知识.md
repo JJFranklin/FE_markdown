@@ -270,6 +270,25 @@ window.onpopstate = (event)=>{
 
 ```
 
+#### 路由守卫
+
+全局守卫
+beforeEach: 全局前置路由守卫，每个路由在进入之前都会经过此路由，通常在此处进行权限判断，进度条等提示操作；
+beforeResolve: 全局解析路由守卫，在异步组件被解析之后被调用。
+afterEach: 全局后置路由守卫，
+
+
+路由独享守卫
+beforeEnter: 路由独享守卫，只出现在；路由配置配置中
+
+组件独享路由守卫
+beforeRouteEnter: 在组件进入之前调用
+beforeRouteUpdate: 当前路由改变，但是该组件被复用时调用
+beforeRouteLeave: 在离开当前组件路由时，被调用
+
+
+
+
 
 
 mutation 什么建议是同步
