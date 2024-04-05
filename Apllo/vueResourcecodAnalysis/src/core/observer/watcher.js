@@ -177,6 +177,7 @@ export default class Watcher {
    * Will be called by the scheduler.
    */
   run () {
+    // 新旧值更新
     if (this.active) {
       const value = this.get()
       if (

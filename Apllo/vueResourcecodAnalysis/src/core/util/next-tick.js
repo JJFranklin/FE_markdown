@@ -12,7 +12,9 @@ let pending = false
 
 function flushCallbacks () {
   pending = false
+  // 批量执行回调函数
   const copies = callbacks.slice(0)
+  // 清空，方便下一次收集tick
   callbacks.length = 0
   for (let i = 0; i < copies.length; i++) {
     copies[i]()
@@ -31,6 +33,7 @@ function flushCallbacks () {
 // sequential events (e.g. #4521, #6690, which have workarounds)
 // or even between bubbling of the same event (#6566).
 let timerFunc
+// 下面一大块都是来给timerFunc赋值，让回调在下一个tick执行
 
 // The nextTick behavior leverages the microtask queue, which can be accessed
 // via either native Promise.then or MutationObserver.
@@ -40,6 +43,7 @@ let timerFunc
 // Promise is available, we will use it:
 /* istanbul ignore next, $flow-disable-line */
 if (typeof Promise !== 'undefined' && isNative(Promise)) {
+  // 如果原生支持Promise，在微任务重执行回调
   const p = Promise.resolve()
   timerFunc = () => {
     p.then(flushCallbacks)
@@ -89,6 +93,7 @@ export function nextTick (cb?: Function, ctx?: Object) {
   callbacks.push(() => {
     if (cb) {
       try {
+        // 在回调里面可以使用this，当前实例
         cb.call(ctx)
       } catch (e) {
         handleError(e, ctx, 'nextTick')

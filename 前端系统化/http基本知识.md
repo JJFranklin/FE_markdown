@@ -86,7 +86,7 @@
 
   强缓存
 
-  > 客户端发起请求，判断Cache-control（通用首部字段） 中的max-age 或者Expires（实体首部） 字段，如果都没过期，直接命中缓存。如果没有命中，进入协商缓存。
+  > 客户端发起请求，判断Cache-control（通用首部字段） 中的max-age 或者Expires（实体首部） 字段，如果都没过期，直接命中缓存。如果过期，进入协商缓存。
 
   协商缓存
 
@@ -127,9 +127,8 @@
 jsonp 支持支get 请求
 
 cors 需要服务端支持
-Access-Control-Allow-Origin:""
-
-
+https://www.ruanyifeng.com/blog/2016/04/cors.html
+Access-Control-Allow-Origin:"*" 表示接受任一请求，或者指定任一服务器地址，在此范围内的，就可以请求，不存在跨域问题
 
 ------
 

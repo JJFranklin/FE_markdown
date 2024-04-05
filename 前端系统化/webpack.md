@@ -23,7 +23,6 @@ webpack 高级配置
 > splitChunks：根据实际的需求进行打包，分块打包，提取公共的部分，避免重复打包
 
 
-
 webpack 中loader 和plugin、chunk
 
 chunk 
@@ -41,7 +40,7 @@ loader
 > 比如，less-loader 将less 语言转化为css  
 > css-loader:将css 转化能够识别的js模块  
 > style-loader : 将转化的css模块生成style 标签插入到dom 结构中  
-> vue-loader:解析但vue文件，将vue 文件中的template、script、style 分别提取出来交给对应的loader进行处理；  
+> vue-loader:解析vue单文件，将vue 文件中的template、script、style 分别提取出来交给对应的loader进行处理；  
 > vue-template-complier-loader:将vue-loader解析出来的template 部分转化为render函数，最终输出Vnode  
 
 

@@ -18,9 +18,9 @@
 
   ```
   1、props & emit 
-  2、eventBus事件总线,触发事件$emit 接收触发事件$on 
+  2、eventBus事件总线,触发事件$emit 接收触发事件$on，相当于把数据传递给兄弟组件，兄弟组件再将数据传递给接受的组件
   3、vuex
-  4、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style ；
+  4、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style
   5、$linstener：子组件或者孙子组件可以拿到所有在父组件中定义在子组件上的监听事件。
   6、provider 和 inject
 
@@ -42,7 +42,7 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
   ```
   挂载：父组件 created -> 子组件 created -> mounted -> 父组件 mounted
   更新：父组件 beforeUpdate ->子组件 beoforeUpdate ->updated -> 父组件 updated
-  销毁：父组件 beforedestory -> 子组件 beforestory -> destory -> 父组件destory
+  销毁：父组件 beforedestory -> 子组件 beforedestory -> destory -> 父组件destory
   ```
 
 - vue 中css 和style样式处理
@@ -109,6 +109,7 @@ vue触发事件传输的event 对象是原生的event 对象
 ```javascript
 state：整个全局的数据对象，尽量不用太多嵌套，打平；
 getter：对于state中数据根据业务逻辑进一步封装，满足页面显示的内容；
+mutations: 提交事件的中介，接受事件类型
 actions：提交mutations的地方，改变状态前的一个步骤，一个actions,可以包含多个mutation，也已包含异步操作；
 modules：多个复杂的项目，可以根据业务逻辑分多个模块，每一个模块中包含完整的（state,getter,actions,mutations）使用的时候，可以通过模块路径分别引用其中的state,action
 ```
@@ -164,12 +165,72 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   }
   ```
 
+  依赖收集到更新的的细节
+
+  ```javascript
+  1、vue 在进行实例化的时候，会触发`getter`生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
+  2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
+  3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中,等待数据变更完成，一起更新；
+  4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其在添加到跟新队列中
+  5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好小于他的 watcher.id 之前，等待执行；
+  6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
+  7、数据新旧替换完成后，在遍历调用 `update`的生命周期函数，更新依赖此属性的组件实例。
+  8、`flushSchedulerQueue` 里面的操作是放在 `nextTick`中执行，就可以保证，保证所有的依赖属性变化完毕后，一次更新完队列中的watcher，得到新的 vnode，最后重新更新页面
+
+  ```
+  nextTick 原理
+
+  ```javascript
+  1、nextTick 函数主体主要是将 nextTick 的回调函数收集在一个数组中 callbacks 中；
+  2、然后再 timeFunc 函数中统一遍历执行 callbacks；
+  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，作为 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮，将宏任务或者微任务在执行栈中运行。
+  4、保证了频繁操作同一个数据，不会频繁执行数据更新，页面渲染等操作。
+  5、也可以保证在上一个 dom，更新完毕后可以在 nextTick 的回调中，拿到最新的 dom 元素 
+
+  ```
+
+  keep-alive 基本解释
+  https://juejin.cn/post/6862206197877964807
+  需要理清楚 组件缓存机制，组件初次渲染流程，组件更新流程
+
+  组件缓存机制
+  ```javascript
+  1、获取第一个组件，因为keep-alive 要求同时只有一个子元素被渲染
+  2、会根据include 和 exclude 来对 Vnode 进行过滤，得到实际需要缓存的组件；
+  3、在渲染的时候，会比较当前的子组件有没有被缓存，如果没有缓存，直接加入到缓存队列中，如果被缓存了，证明这个组件此时被使用了，就会将此组件加入到队列的队尾，表示你是最近使用的。
+  4、接着比较缓存数组的长度和最大能够缓存数组的数量，如果超过了最大缓存数量，删除掉第一个，因为第一个事使用频率最低的，保证每次都不超过最大缓存数。
+
+  ```
+
+  组件初次渲染流程
+  发生在 patch 阶段
+
+  ```javascript
+  1、keep-alive 是个虚拟组件 abstract 为 true，不会和包裹的组件建立父子关系，会将包裹keep-alive 的组件作为父组件；
+  2、初次渲染的时候，在 patch 流程中是通过`createComponent`来创建组件的。
+  3、由于包裹的组件还未挂载成功，此时的组件实例是undefined，因此进入到组件初始化阶段 `componentVNodeHooks`中的 init 函数;
+  4、在初始化组件函数中，此时还没有组件实例，进入到 `createComponentInstanceForVnode` 中，创建组件实例，并返回
+  5、重新回到 `createComponent`，此时被包裹的组件实例创建完毕，就会将创建的组件实例插入到父元素中。
+  6、同时将组件缓存起来。
+
+  ```
+  组件更新流程
+  ```javascript
+  1、切换缓存组件的过程也发生在 `patch`中，属于组件更新，会调用patcheVnode函数；
+  2、在patchVnode 中，keep-alive 是相当于包裹着一个插槽，因此会走resolveSolt 方法，解析插槽，返回执之前缓存的插槽，并强制更新渲染，需要再走一遍渲染流程，重新进入到 `createComponent` 中；
+  3、在 createComponent 中判断已经存在了 组件实例，进行 componentVNodeHooks.prepatch 操作，就不会进行 created 和mounted 的阶段，直接将新的节点插入到父组件中。
+  4、节省了资源和性能。
+  ```
+
+
+
+
    diff 基本方式
   
    v-for 循环的时候不推荐使用index 做key 
    原因：https://juejin.cn/post/6844904113587634184
    基本概括：
-   1、数组数据改变顺序的时候导致不能复用旧节点；
+   1、数组数据改变顺序的时候导致不能复用旧节点，会重新生成新的节点，进行页面渲染，导致性能损失很大，
    2、删除某一个元素的时候，使用index 做key，会导致删除错误；
    3、使用随机数做key，基本上数据不能复用，将原来的旧节点删除，然后会重新创建新的节点，性能损失很大。
 
@@ -178,7 +239,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
 
   >0、是一个树结构的数据 
   >
-  >1、只进行同一层级比较，不进行跨层级比较，降低算法复杂度；
+  >1、只进行同一层级比较，不进行跨层级比较，降低算法复杂度（时间复杂度）；
   >
   >2、同一层级，不同的节点类型不相同，不进行比较；
   >
@@ -209,7 +270,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   >
   >1、用户操作导致，data 属性变化，触发对应的setter 属性访问器，通知对应的依赖发生变化；
   >
-  >2、依赖发生变化，重新运行render 函数，重新生成新的vnode ；
+  >2、依赖发生变化，重新运行 render 函数，重新生成新的vnode ；
   >
   >3、运行patchVnode函数，新旧节点进行比较(diff 算法)，返回最新的节点;
   >
@@ -248,6 +309,7 @@ window.onhashChange = (event)=>{
 #### h5-history:需要服务端支持（访问二级页面或者刷新的时候，因为此时路由中并没没有配置对应二级页面路径）
 原理：利用html5 新增的 history.popstate 和  history.pushstate、replaceState，api加载不同的页面。
 跳转是不刷新页面
+但是导航到一个全新的 路径 时需要服务端支持
 > history.pushState();// 添加新的路由 添加历史记录，不触发跳转
 > history.popState();// 前进后退
 > replaceState // 改变当前历史的历史记录 也不触发跳转
@@ -279,7 +341,7 @@ afterEach: 全局后置路由守卫，
 
 
 路由独享守卫
-beforeEnter: 路由独享守卫，只出现在；路由配置配置中
+beforeEnter: 路由独享守卫，只出现在，路由配置配置中
 
 组件独享路由守卫
 beforeRouteEnter: 在组件进入之前调用

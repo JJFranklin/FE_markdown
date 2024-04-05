@@ -106,12 +106,14 @@ export default {
       if (cache[key]) {
         vnode.componentInstance = cache[key].componentInstance
         // make current key freshest
+        // 更具 LRU 原则将使用的最近使用的组件存入到队列尾部，不经常使用的放到队列头部
         remove(keys, key)
         keys.push(key)
       } else {
         cache[key] = vnode
         keys.push(key)
         // prune oldest entry
+        // 对 最近最少使用的组件进行处理，超出队列最长长度的，移除掉队列头部第一个元素
         if (this.max && keys.length > parseInt(this.max)) {
           pruneCacheEntry(cache, keys[0], keys, this._vnode)
         }

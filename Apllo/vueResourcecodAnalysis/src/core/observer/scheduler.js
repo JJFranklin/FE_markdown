@@ -91,7 +91,9 @@ function flushSchedulerQueue () {
       watcher.before()
     }
     id = watcher.id
+    // 重置，watcher 在此轮中已经更新，重新标记为 不在更新队列中
     has[id] = null
+    // 依次执行watcher
     watcher.run()
     // in dev build, check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
@@ -117,6 +119,7 @@ function flushSchedulerQueue () {
   resetSchedulerState()
 
   // call component updated and activated hooks
+  // 组件更新和激活hook 例如 updated, 进行组件更新
   callActivatedHooks(activatedQueue)
   callUpdatedHooks(updatedQueue)
 
@@ -163,14 +166,19 @@ function callActivatedHooks (queue) {
  */
 export function queueWatcher (watcher: Watcher) {
   const id = watcher.id
+  // queue 中是否已经有这个watch
   if (has[id] == null) {
+    // 进行赋值存在
     has[id] = true
+    // 是否已经是在更新
     if (!flushing) {
       queue.push(watcher)
     } else {
+      // 如果已经是在更新，就根据id进行插入
       // if already flushing, splice the watcher based on its id
       // if already past its id, it will be run next immediately.
       let i = queue.length - 1
+      // 从尾开始找，找到 比他 刚刚大的 插入到之前
       while (i > index && queue[i].id > watcher.id) {
         i--
       }
@@ -184,6 +192,7 @@ export function queueWatcher (watcher: Watcher) {
         flushSchedulerQueue()
         return
       }
+      // 通过nextTick 保证所有的依赖属性变化完毕后，一次更新完队列中的watcher，最后得到新的vnode,重新更新页面
       nextTick(flushSchedulerQueue)
     }
   }
