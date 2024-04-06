@@ -89,6 +89,10 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
   > 2、mixin 里面，如果使用data 属性，会覆盖掉组件的data 属性
   > 3、mixin 里面，如果使用生命周期钩子，会覆盖掉组件的钩子
   > 4、不能显示的知道属性或者方法来自于哪一个mixin
+  > 5、data 中的属性会合并
+  > 6、props、methods、inject、computed 后面的覆盖前面的
+  > 7、生命周期和 watcher 是 放在队列中顺序执行
+  > 8、申明的 component、指令和过滤器都是通过原型链层层叠加
 
   Vuex
 
@@ -113,8 +117,6 @@ mutations: 提交事件的中介，接受事件类型
 actions：提交mutations的地方，改变状态前的一个步骤，一个actions,可以包含多个mutation，也已包含异步操作；
 modules：多个复杂的项目，可以根据业务逻辑分多个模块，每一个模块中包含完整的（state,getter,actions,mutations）使用的时候，可以通过模块路径分别引用其中的state,action
 ```
-
-- vue-router
 
 - Vue 原理
   
@@ -171,9 +173,9 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   1、vue 在进行实例化的时候，会触发`getter`生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
   3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中,等待数据变更完成，一起更新；
-  4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其在添加到跟新队列中
+  4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
   5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好小于他的 watcher.id 之前，等待执行；
-  6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
+  6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行，如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
   7、数据新旧替换完成后，在遍历调用 `update`的生命周期函数，更新依赖此属性的组件实例。
   8、`flushSchedulerQueue` 里面的操作是放在 `nextTick`中执行，就可以保证，保证所有的依赖属性变化完毕后，一次更新完队列中的watcher，得到新的 vnode，最后重新更新页面
 
@@ -208,8 +210,8 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   ```javascript
   1、keep-alive 是个虚拟组件 abstract 为 true，不会和包裹的组件建立父子关系，会将包裹keep-alive 的组件作为父组件；
   2、初次渲染的时候，在 patch 流程中是通过`createComponent`来创建组件的。
-  3、由于包裹的组件还未挂载成功，此时的组件实例是undefined，因此进入到组件初始化阶段 `componentVNodeHooks`中的 init 函数;
-  4、在初始化组件函数中，此时还没有组件实例，进入到 `createComponentInstanceForVnode` 中，创建组件实例，并返回
+  3、在`createComponent`中由于包裹的组件还未挂载成功，此时的组件实例是undefined，经过判断，进入到组件初始化阶段，就是`componentVNodeHooks`中的 init 函数;
+  4、在初始化组件函数中，此时还没有组件实例，判断进入创建组件实例逻辑`createComponentInstanceForVnode` 中，并返回创建的组件；
   5、重新回到 `createComponent`，此时被包裹的组件实例创建完毕，就会将创建的组件实例插入到父元素中。
   6、同时将组件缓存起来。
 
@@ -221,9 +223,6 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   3、在 createComponent 中判断已经存在了 组件实例，进行 componentVNodeHooks.prepatch 操作，就不会进行 created 和mounted 的阶段，直接将新的节点插入到父组件中。
   4、节省了资源和性能。
   ```
-
-
-
 
    diff 基本方式
   
@@ -281,6 +280,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
 
 
 -  Vue-router 的路由模式
+  
 单页面(spa)应用：hash 模式和h5 history，都可以切换以页面，但是不刷新页面
 
 #### Hash
@@ -304,15 +304,27 @@ window.onhashChange = (event)=>{
    location.href = newHash;
 }
 
+window.addEventListener('hashchange', () => {
+   // 传入当前url的hash，并触发跳转
+   this.transitionTo(window.location.hash.slice(1))
+})
+
+let routerView = routeView
+ window.addEventListener('hashchange', ()=>{
+     let hash = location.hash;
+    //  加载路由对应的单页面
+     routerView.innerHTML = hash;
+ })
+
 ```
   
 #### h5-history:需要服务端支持（访问二级页面或者刷新的时候，因为此时路由中并没没有配置对应二级页面路径）
 原理：利用html5 新增的 history.popstate 和  history.pushstate、replaceState，api加载不同的页面。
 跳转是不刷新页面
 但是导航到一个全新的 路径 时需要服务端支持
-> history.pushState();// 添加新的路由 添加历史记录，不触发跳转
-> history.popState();// 前进后退
-> replaceState // 改变当前历史的历史记录 也不触发跳转
+> history.pushState 浏览器历史纪录添加记录
+> history.replaceState 修改浏览器历史纪录中当前纪录
+> history.popstate 当 history 发生变化时触发
 
 history 代码实现
 ```javascript
@@ -329,6 +341,11 @@ history.pushState(state,title,url);
 window.onpopstate = (event)=>{
   history.pushState(evetn.state,"",location.pathname);
 }
+
+window.addEventListener('popstate', ()=>{
+     routerView.innerHTML = location.pathname
+ })
+
 
 ```
 
