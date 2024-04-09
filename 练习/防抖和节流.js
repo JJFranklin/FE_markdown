@@ -48,3 +48,7 @@ function  debounce(cb,wait) {
         },wait);
     }
 }
+
+let a = [12,3,4]; 
+let b = [5,6,7];
+console.log([...new Set([12,3,4],[5,6,7])]);

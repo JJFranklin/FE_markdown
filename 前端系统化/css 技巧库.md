@@ -125,6 +125,6 @@ line-height 继承
 
 7、 css 优先级
 
-!important > 行内样式 > 内联 >link、自定义style> id > class > 标签 > 继承 > 默认
+!important > 行内样式 > style > link、自定义style> id > class > 标签 > 继承 > 默认
  
 自定义的style 和 link 引入的css 文件，优先级相同，谁在后面，谁优先级高，后面会覆盖前面的

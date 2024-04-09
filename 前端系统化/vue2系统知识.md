@@ -23,6 +23,7 @@
   4、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style
   5、$linstener：子组件或者孙子组件可以拿到所有在父组件中定义在子组件上的监听事件。
   6、provider 和 inject
+  7、this.$ref 的形式
 
   ```
 
@@ -124,7 +125,8 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
 
   每个组件实例都对应一个 watcher 实例，它会在组件渲染的过程中把“接触”过的数据 property 记录为依赖。
   
-  > 1、vue 实例化的时候，触发getter，会进行依赖收集，将响应式属性收集到对应的依赖中；
+  > 1、vue 实例化的时候，会对属性进行响应式处理，在响应式处理过程中，设定getter 和 setter 函数；
+  触发getter，会进行依赖收集，将响应式属性收集到对应的依赖中；
   >
   > 2、当响应式属性发生变化的时候，会触发对应的setter 属性访问器，通知对应的依赖发生变化；
   >
@@ -170,9 +172,9 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   依赖收集到更新的的细节
 
   ```javascript
-  1、vue 在进行实例化的时候，会触发`getter`生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
+  1、vue 在进行实例化的时候，会对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
-  3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中,等待数据变更完成，一起更新；
+  3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中；
   4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
   5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好小于他的 watcher.id 之前，等待执行；
   6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行，如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
@@ -181,11 +183,15 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
 
   ```
   nextTick 原理
+  vue 异步更新的基本，
+  比如问：在更新后，数据更新了，但是dom没有更新，为什么？
+  因为vue的更新是异步的，数据更新是在 dom 更新之前，所以会出现可以获取新的值，但是dom 还未更新，这时候针对数据类型，手动触发更新。
+  同时也可以在nextTick回调中对dom进行操作。 
 
   ```javascript
   1、nextTick 函数主体主要是将 nextTick 的回调函数收集在一个数组中 callbacks 中；
   2、然后再 timeFunc 函数中统一遍历执行 callbacks；
-  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，作为 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮，将宏任务或者微任务在执行栈中运行。
+  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，作为 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮的事件循环队列中执行，将宏任务或者微任务在执行栈中运行。
   4、保证了频繁操作同一个数据，不会频繁执行数据更新，页面渲染等操作。
   5、也可以保证在上一个 dom，更新完毕后可以在 nextTick 的回调中，拿到最新的 dom 元素 
 
@@ -224,7 +230,23 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   4、节省了资源和性能。
   ```
 
-   diff 基本方式
+  render 函数
+  ```javascript
+  实质是运行createElement() 函数,返回一个Vnode
+  createElement（TagName，Option，Content）接受三个参数 createElement(" 定义的元素 "，{ 元素的性质 }，" 元素的内容"/[元素的内容])
+  ```
+
+  插槽的编译渲染过程
+  默认插槽，具名插槽、作用域插槽
+  ```javascript
+  1、插槽一般时候会被父组件包裹，那么解析编译的时候，父组件就会先于插槽，而且会将插槽作为子元素处理放到存储子元素数组children中；
+  2、在解析编译的过程中，遇到 slot 开头的时候，会将 slot的元素变成对应的vnode，存储起来；
+  3、在对插槽进行解析编译的时候，会使用 resolveSlot 函数，里面接受2个参数，一个是上一步产生的子元素数组，另一个就是父元素的实例 vm;
+  4、在 resolveSlot 主要执行的是对 children 的遍历，获取里面每一个元素的 slot 名称，和2中生成的vnode，拼凑成一个以slot名称为key,vnode 的 对象 vm.$slots;
+  5、在 对插槽进行渲染的时候，会将上述步骤中生成 vm.$slots 在父组件渲染的时候，就可以对插槽进行替换。
+  ```
+
+  diff 基本方式
   
    v-for 循环的时候不推荐使用index 做key 
    原因：https://juejin.cn/post/6844904113587634184
@@ -276,7 +298,6 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   >4、再次将新的节点渲染到界面上。
 
   >异步渲染
-
 
 
 -  Vue-router 的路由模式
@@ -366,10 +387,6 @@ beforeRouteUpdate: 当前路由改变，但是该组件被复用时调用
 beforeRouteLeave: 在离开当前组件路由时，被调用
 
 
-
-
-
-
 mutation 什么建议是同步
 
 > https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/65
@@ -382,3 +399,25 @@ mutation 什么建议是同步
 
 vue 编译选择顺序
 render 函数、template、outHtml;
+
+##### vue 中是 style scoped 的作用
+唯一 id的生成规则：项目名+文件路径+文件名
+1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
+2、编译 template 标签时，使用 templater-loader 生成一个唯一 scopeId，添加到vnode上作为属性；
+3、同时 将 vnode 变成真实的 dom时，会将scopeId作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
+4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件
+
+watcher 有四种 
+1、deep: 深入监听的watcher
+会对监听的对象进行深层递归调用，响应式处理里面属性，这样，里面的深层次属性改变的时候就可以监听到
+
+2、sync: 同步的 watcher
+当响应式数据发送变化后，触发了 `watcher.update()`，只是把这个 `watcher` 推送到一个队列中，在 `nextTick` 后才会真正执行 `watcher` 的回调函数。
+而一旦我们设置了 `sync`，就可以在当前 `Tick`事件循环队列中同步执行 `watcher` 的回调函数
+
+3、user watcher
+通过 `vm.$watch` 创建的 `watcher` 是一个 `user watcher`，其实它的功能很简单，在对 `watcher` 求值以及在执行回调函数的时候，会处理一下错误。
+
+4、computed watcher 
+1、并不会立即求值
+2、只会在访问到对应的 对应的计算属性，就会发起这个计算属性所有的依赖的 getter 函数，返回最新的值；

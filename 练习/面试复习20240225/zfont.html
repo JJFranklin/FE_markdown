@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .box-wrap {
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .box {
+            width: 25%;
+            padding-top: 20%;
+            margin: 5%;
+            background: linear-gradient(red, orange);
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translate3d(-100%, 0, 0);
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .fade-in {
+            animation: fade-in 2 ease-in;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box-wrap">
+        <div class="box a fade-in"></div>
+        <div class="box b fade-in"></div>
+        <div class="box c fade-in"></div>
+    </div>
+</body>
+
+</html>

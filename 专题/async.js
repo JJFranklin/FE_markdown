@@ -141,6 +141,7 @@ async function printPromise(urls) {
 同步任务：promise、script(整体代码) ==> 可以看做一个大的宏任务
 宏任务：setTimeout()、setInterval()、ui 交互，xhr 请求回调
 微任务：promise.then ，await 
+微任务的优先级高于宏任务
 
 */
 
