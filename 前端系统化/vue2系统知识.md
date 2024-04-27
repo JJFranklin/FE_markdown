@@ -217,7 +217,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   1、keep-alive 是个虚拟组件 abstract 为 true，不会和包裹的组件建立父子关系，会将包裹keep-alive 的组件作为父组件；
   2、初次渲染的时候，在 patch 流程中是通过`createComponent`来创建组件的。
   3、在`createComponent`中由于包裹的组件还未挂载成功，此时的组件实例是undefined，经过判断，进入到组件初始化阶段，就是`componentVNodeHooks`中的 init 函数;
-  4、在初始化组件函数中，此时还没有组件实例，判断进入创建组件实例逻辑`createComponentInstanceForVnode` 中，并返回创建的组件；
+  4、在初始化组件函数中，此时还没有组件实例，判断进入创建组件实例逻辑`createComponentInstanceForVnode` 中，并返回创建的组件的实例；
   5、重新回到 `createComponent`，此时被包裹的组件实例创建完毕，就会将创建的组件实例插入到父元素中。
   6、同时将组件缓存起来。
 
@@ -402,7 +402,7 @@ render 函数、template、outHtml;
 
 ##### vue 中是 style scoped 的作用
 唯一 id的生成规则：项目名+文件路径+文件名
-1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
+每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
 2、编译 template 标签时，使用 templater-loader 生成一个唯一 scopeId，添加到vnode上作为属性；
 3、同时 将 vnode 变成真实的 dom时，会将scopeId作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
 4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件

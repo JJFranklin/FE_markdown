@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import EventBus from './eventBus/eventbus';
 export default {
     props: {
 
@@ -32,7 +33,12 @@ export default {
 
     },
     mounted() {
-
+      EventBus.$on('click1',()=>{
+        console.log('我是测试1');
+      });
+      EventBus.$on('click1',()=>{
+        console.log('我是测试2');
+      });
     },
 };
 </script>

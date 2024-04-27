@@ -4,7 +4,7 @@
       <template v-slot:default="{ othername, sex }">
         <CommonCard
           @showDetail="showDetail"
-          v-for="i in 4"
+          v-for="i in 40"
           :order="i"
           :cardIndex="i + othername + sex"
         ></CommonCard>

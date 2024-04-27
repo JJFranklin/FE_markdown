@@ -51,6 +51,23 @@ export function updateComponentListeners (
 
 export function eventsMixin (Vue: Class<Component>) {
   const hookRE = /^hook:/
+  /**
+   *  监听事件 用于兄弟组件传值
+   *  @event 事件名或者由事件名组成的数组，
+   *  @fn 回调函数
+   *  实际使用中 
+   *  this.$on('event1',()=>{ });或者
+   *  this.$on(['event1','event2'],()=>{ });
+   *  在事件触发处，this.$emit('event1'); 或者 this.$emit('event2'); 都可以触发同一个回调。
+   *  另一种情况
+   *  this.$on('event1',()=>{ 回调1 });
+   *  this.$on('event1',()=>{ 回调2 });
+   *  同一个事件，可以监听多次，在触发的时候，可以一次触发回调
+   *  this.$emit('event1') 依次执行 回调1 回调2
+   *  所以 on 会遍历事件数组，绑定回调，
+   *  同一个事件也可以绑定一个 事件回调的数组，回调时依次执行
+   */
+  
   Vue.prototype.$on = function (event: string | Array<string>, fn: Function): Component {
     const vm: Component = this
     if (Array.isArray(event)) {

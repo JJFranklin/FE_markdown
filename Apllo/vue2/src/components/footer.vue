@@ -1,10 +1,11 @@
 <template>
-    <div class=''>
+    <div class='' @click="testClick">
         企业详细信息
     </div>
 </template>
 
 <script>
+import EventBus from './eventBus/eventbus';
 export default {
     props: {
 
@@ -15,7 +16,9 @@ export default {
         };
     },
     methods: {
-
+        testClick(){
+            EventBus.$emit('click1');
+        }
     },
     computed: {
 

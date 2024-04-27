@@ -3800,6 +3800,7 @@
     target = undefined;
   }
 
+  // 事件系统 eventBus 用于兄弟组件之间传值
   function eventsMixin (Vue) {
     var hookRE = /^hook:/;
     Vue.prototype.$on = function (event, fn) {
