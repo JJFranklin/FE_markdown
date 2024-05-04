@@ -18,6 +18,9 @@ export default {
 
     },
     computed: {
+        test(){
+            return true;
+        }
 
     },
     watch: {
