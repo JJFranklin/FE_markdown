@@ -171,40 +171,58 @@ new Promise((resolve) => {
   }
 });
 
-
 // 防抖
 // n秒后在执行，n 秒内重新处罚，重新计时
-function newDebunon(func,wait) {
-    let timer = null;
-    return function(){
-      let that = this;
-        if(timer){
-          clearTimeout(timer);
-        }
-        timer = setTimeout(()=>{
-          func.apply(that,arguments);
-          timer = null;
-        },wait);
-    } 
+function newDebunon(func, wait) {
+  let timer = null;
+  return function () {
+    let that = this;
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      func.apply(that, arguments);
+      timer = null;
+    }, wait);
+  };
 }
 
 // 节流
 // n 秒内只执行一次
 
-function newThrottle(func,await){
+function newThrottle(func, await) {
   let timer = null;
-  return function (){
+  return function () {
     let that = this;
-    if(!timer){
-      timer = setTimeout(()=>{
-        func.apply(that,arguments);
+    if (!timer) {
+      timer = setTimeout(() => {
+        func.apply(that, arguments);
         clearTimeout(timer);
         timer = null;
-      },await);
+      }, await);
     }
-  }
+  };
 }
 
+// const a = [1,2,3,45,56,6,7,5,4,3,2,1];
+// console.log(new Set(a));
 
-const a = [1,2,3,45,56,6,7,5,4,3,2,1];
-console.log(new Set(a));
+const newArr = [0, 1, [2, [3, [4, 5,[6,[7,[8]]]]]],9];
+
+Array.prototype.fakeFlat = function(num = 1) {
+  if (!Number(num) || Number(num) < 0) {
+    return this;
+  }
+  let arr = [];
+  this.forEach(item => {
+    if (Array.isArray(item)) {
+      num = num - 1;
+      arr = arr.concat(item.fakeFlat(num));
+    } else {
+      arr.push(item);
+    }
+  });
+  return arr;
+};
+
+console.log(newArr.fakeFlat(4));

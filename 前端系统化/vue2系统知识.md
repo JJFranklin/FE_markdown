@@ -34,6 +34,8 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
 ```
 - Vue 指令 v-if、v-show、v-for等
 
+v-for优先级是比v-if高
+
 - 计算属性
 
 - Watch
@@ -102,7 +104,7 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
 
 vue 深度监听，拿不到oldVal值
 
-v-for 和 v-if 不能一起使用：v-for比v-if 的优先级高   
+v-for 和 v-if 不能一起使用：v-for 比 v-if 的优先级高   
 
 vue的事件是挂在的触发事件的元素上
 
@@ -176,7 +178,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
   3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中；
   4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
-  5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好小于他的 watcher.id 之前，等待执行；
+  5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好大于于他的 watcher.id 之后，等待执行，还不影响执行顺序；
   6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行，如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
   7、数据新旧替换完成后，在遍历调用 `update`的生命周期函数，更新依赖此属性的组件实例。
   8、`flushSchedulerQueue` 里面的操作是放在 `nextTick`中执行，就可以保证，保证所有的依赖属性变化完毕后，一次更新完队列中的watcher，得到新的 vnode，最后重新更新页面
@@ -244,6 +246,14 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   3、在对插槽进行解析编译的时候，会使用 resolveSlot 函数，里面接受2个参数，一个是上一步产生的子元素数组，另一个就是父元素的实例 vm;
   4、在 resolveSlot 主要执行的是对 children 的遍历，获取里面每一个元素的 slot 名称，和2中生成的vnode，拼凑成一个以slot名称为key,vnode 的 对象 vm.$slots;
   5、在 对插槽进行渲染的时候，会将上述步骤中生成 vm.$slots 在父组件渲染的时候，就可以对插槽进行替换。
+
+  新版本解释
+
+  1、在解析和编译阶段，插槽输出入为一个 由 renderSolt 包裹的函数，函数接受几个参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
+  creatElement('div',[renderSlot('default',[renderText('默认内容')],2)]);
+  2、在 renderSolt 中主要的作用是 根据传入的 name ,找到对应的插槽渲染函数
+  3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽节点；
+  4、最终 将插槽节点渲染到界面上
   ```
 
   diff 基本方式
@@ -407,17 +417,12 @@ render 函数、template、outHtml;
 3、同时 将 vnode 变成真实的 dom时，会将scopeId作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
 4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件
 
-watcher 有四种 
-1、deep: 深入监听的watcher
-会对监听的对象进行深层递归调用，响应式处理里面属性，这样，里面的深层次属性改变的时候就可以监听到
+Vue可以说存在三种watcher
 
-2、sync: 同步的 watcher
-当响应式数据发送变化后，触发了 `watcher.update()`，只是把这个 `watcher` 推送到一个队列中，在 `nextTick` 后才会真正执行 `watcher` 的回调函数。
-而一旦我们设置了 `sync`，就可以在当前 `Tick`事件循环队列中同步执行 `watcher` 的回调函数
+第一种是在定义data函数时定义数据的 render watcher；
+第二种是 computed watcher，是 computed 函数在自身内部维护的一个watcher，配合其内部的属性dirty开关来决定computed的值是需要重新计算还是直接复用之前的值；
+第三种就是whtcher api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
 
-3、user watcher
-通过 `vm.$watch` 创建的 `watcher` 是一个 `user watcher`，其实它的功能很简单，在对 `watcher` 求值以及在执行回调函数的时候，会处理一下错误。
 
-4、computed watcher 
-1、并不会立即求值
-2、只会在访问到对应的 对应的计算属性，就会发起这个计算属性所有的依赖的 getter 函数，返回最新的值；
+
+

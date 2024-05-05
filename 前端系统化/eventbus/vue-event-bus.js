@@ -7,30 +7,31 @@ class EventBus {
   constructor() {
     this.eventobj = {};
   }
-  on(eventName, cb) {
+  on(events, cb) {
     const vm = this;
-    if (!eventName || !cb) return vm;
-    // 先判断有没有一样的事件，没有的话，重新开一个数组存储
-    // 有的话直接加入到数组中
+    if (!events || !cb) return vm;
 
     // 事件是可以接受单个事件，也可以接受事件数组，将多个事件绑定同一个回调
-    if (Array.isArray(eventName)) {
-      for (let i = 0, len = eventName.length; i < len; i++) {
-        vm.on(eventName[i], cb);
+    if (Array.isArray(events)) {
+      for (let i = 0, len = events.length; i < len; i++) {
+        vm.on(events[i], cb);
       }
     } else {
-      if (!this.eventobj[eventName]) {
-        this.eventobj[eventName] = [];
+      // 先判断有没有一样的事件，没有的话，重新开一个数组存储
+      // 有的话直接加入到数组中
+
+      if (!this.eventobj[events]) {
+        this.eventobj[events] = [];
       }
-      this.eventobj[eventName].push(cb);
+      this.eventobj[events].push(cb);
     }
     return vm;
   }
-  emit(eventName, args) {
+  emit(events, args) {
     const vm = this;
-    // 找到对应的事件队列，遍历执行里面的回到
-    if (this.eventobj[eventName]) {
-      const cbs = this.eventobj[eventName];
+    // 找到对应的事件队列，遍历执行里面的回调
+    if (this.eventobj[events]) {
+      const cbs = this.eventobj[events];
       for (let index = 0; index < cbs.length; index++) {
         const cb = cbs[index];
         cb.apply(vm, [...args]);
@@ -39,44 +40,44 @@ class EventBus {
     return vm;
   }
   /**
-     *  移除自定义事件回调。
+     *  移除自定义事件回调
         如果没有提供参数，则移除所有的事件回调；
         如果只提供了事件，则移除该事件所有的回调；
-        如果同时提供了事件与回调，则只移除这个回调的回调。
+        如果同时提供了事件与回调，则只移除这个事件的回调。
     */
-  off(eventName, cb) {
+  off(events, cb) {
     const vm = this;
     // 如果没有提供参数(事件参数)，则移除所有的事件回调；
-    if (!eventName) {
+    if (!events) {
       this.eventobj = {};
     } else {
       // 判断事件是不是数组
-      if (Array.isArray(eventName)) {
+      if (Array.isArray(events)) {
         if (cb) {
-          for (let i = 0, l = eventName.length; i < l; i++) {
-            vm.off(eventName[i], cb);
+          for (let i = 0, l = events.length; i < l; i++) {
+            vm.off(events[i], cb);
           }
         }
       } else {
         if (cb) {
           // 如果同时提供了事件与回调，则只移除这个事件的回调。
-          const cbs = this.eventobj[eventName] || [];
+          const cbs = this.eventobj[events] || [];
           if (cbs.length > 0) {
             const curIndex = cbs.findIndex((item) => item === cb);
             cbs.splice(curIndex, 1);
           }
           if (cbs.length === 0) {
-            delete this.eventobj[eventName];
+            delete this.eventobj[events];
           }
         } else {
           // 如果只提供了事件，则移除该事件所有的回调；
-          delete this.eventobj[eventName];
+          delete this.eventobj[events];
         }
       }
     }
     return vm;
   }
-  once(eventName, cb) {
+  once(events, cb) {
     const vm = this;
     // 只执行一次
     // 先要注册，注册完，等待调用的时候，在 off 掉
@@ -85,10 +86,10 @@ class EventBus {
       //触发
       cb.apply(vm, args);
       //取消
-      vm.off(eventName, cb);
+      vm.off(events, cb);
     };
     //监听
-    this.on(eventName, fn);
+    this.on(events, fn);
     return vm;
   }
 }

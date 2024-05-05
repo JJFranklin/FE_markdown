@@ -74,13 +74,13 @@ resolveLoader:{
 optimization:{
     minimize:true, // 开启优化
     minimizer:[
-        new terserPlugin()
+        new terserWebpackPlugin()
     ]
 }
 module:{
     // 使用正则匹配，匹配上了，配置哪些模块文件不需要进行解析，不需要解析依赖的第三方大型库，提高整体加载速度
     // lodash jquery 等独立模块，不需要依赖第三方
-    // 模块中的文件不能使用 export,require 等语法
+    // 模块中的文件不能使用 export,require、import等语法
     noParse:/test/,
 
     rules:[
@@ -203,6 +203,8 @@ webpack 构建优化分为四个方面
 1.4、cache-loader 写在 loader 的前面，将 loader 处理过的文件缓存起来，下次构建直接使用，提高处理速度
 1.5、开启 babel-loader 中 options 中的 cacheDirectory 选项，缓存 babel-loader 对js处理后的文件
 cache-loader 相对于 babel-loader 构建时间会短一些，因为，cache-loader 缓存的信息会跟多，而且缓存内容是以 buffer 二进制的形式存储，效率更高
+1.6、使用 webpack DllPlugin 和 DllReferencePlugin 提前打包缓存一些不怎么改变的文件，配置在 `webpack.dll.js` 中
+
 
 2、减少处理文件或者缩小范围
 
@@ -226,7 +228,7 @@ cache-loader 相对于 babel-loader 构建时间会短一些，因为，cache-lo
 
 4.1、使用 webpack-bundle-analyzer 插件分析包的情况，并是使用 splitChunk 来根据实际需求，拆包的大小，引用次数等配置，拆分引用的包，避免重复引用
 4.2、其他 没办法拆分或者实际很大的库，或者图片，使用cdn进行引用，避免打包进文件，增加包的大小；
-4.3、通过 cdn 的方式引入了第三方库之后，在external 进行配置之后，可以通过 import 的方式使用，还不用打包进js中
+4.3、通过 cdn 的方式引入了第三方库之后，在 externals 进行配置之后，可以通过 import 的方式使用，还不用打包进js中
 4.4、webpack 中的作用域提升 scoped hosting 
 4.4.1、在开发环境的时候，每一个模块或者函数被 webpack 放置在单独的 作用域中进行处理，避免模块作用域互相干扰，但是会导致重复代码的产生和运行效率的下降，应为要执行很多重复的代码；
 4.4.2、scoped hosting 是 webpack 内置的优化，在生产环境开发会自动开启，提高代码运行效率，降低代码体积；
@@ -240,6 +242,7 @@ webpack slitchunk 默认的分包策略
 - 当加载初始化页面时，并发请求的最大数量小于或等于 30
 
 ```javascript
+// SplitChunks插件是什么呢，简单的来说就是Webpack中一个提取或分离代码的插件，主要作用是提取公共代码，防止代码被重复打包，拆分过大的js文件，合并零散的js文件。
 optimization: {
     splitChunks: {
       chunks: 'async', // all 不管同步异步全部进行分包处理，async 异步 inital 同步
@@ -297,7 +300,7 @@ webpack 模块解析流程
 HMR 的原理
 
 要点
-1、在webpack-dev-serve 和浏览器之间简历一个websocket连接，方便双方进行消息通信
+1、在webpack-dev-serve 和浏览器之间建立一个websocket连接，方便双方进行消息通信
 2、记录更新内容和更新文件的 manifest.json 文件
 
 具体原理步骤
@@ -308,6 +311,52 @@ HMR 的原理
 5、浏览器会去请求服务端新生成的 manifest.json 文件和新生成的chunk文件，根据 manifest.json 内容来进行局部更新；
 
 项目中的实战优化策略
+
+1、采用 noparse 对 `vue|vue-router|vuex|vuex-router-sync` 进行处理
+`vue|vue-router|vuex|vuex-router-sync` 在使用 `import vue from 'vue'` 的时候，会解析 vue 会不会依赖其他，没有的话，就可以使用 `noparse` 对这类库进行处理，不进行解析，节省处理文件数量，节省构建时间。
+
+2、使用 splitChunks 中cacheGroups  配置对包进行进一步的拆分,比如 对 node_modules 完成的包中的文件进行进一步的拆分，减少包的体积；
+对于项目中不经常改变的包独立打包和缓存，比如项目中经常使用的 megvii-ui、megvii-gis 或者 视频播放组件 megvii-player 
+
+```javascript
+webpackChain.optimization
+    .splitChunks({
+      cacheGroups: {
+        ui: {
+          name: 'common-ui', // 单独 chunk 名称
+          test: /[\\/]megvii-ui[\\/]/,
+          priority: -1,
+          chunks: 'all'
+        },
+        gis: {
+          name: 'common-gis',
+          test: /[\\/]@megvii-gis|^ol|^ol-ext|@turf[\\/]/,
+          priority: -2,
+          chunks: 'all'
+        },
+        media: {
+          name: 'common-media',
+          test: /[\\/]@megvii-video-player[\\/]/,
+          priority: -3,
+          chunks: 'all'
+        },
+        vendors: {
+          name: 'chunk-vendors', // 对于 node_module 中的文件匹配，单独打包
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          chunks: 'all'
+        },
+        // 公共  chunk 提取
+        common: {
+          name: 'chunk-common',
+          minChunks: 2,
+          priority: -20,
+          chunks: 'all'
+        }
+      }
+    });
+```
+
 
 
 
