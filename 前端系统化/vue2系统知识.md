@@ -20,10 +20,10 @@
   1、props & emit 
   2、eventBus事件总线,触发事件$emit 接收触发事件$on，相当于把数据传递给兄弟组件，兄弟组件再将数据传递给接受的组件
   3、vuex
-  4、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style
-  5、$linstener：子组件或者孙子组件可以拿到所有在父组件中定义在子组件上的监听事件。
-  6、provider 和 inject
-  7、this.$ref 的形式
+  4.1、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style
+  4.2、$linstener：子组件或者孙子组件可以拿到所有在父组件中定义在子组件上的监听事件。
+  5、provider 和 inject
+  6、this.$ref 的形式
 
   ```
 
@@ -43,7 +43,7 @@ v-for优先级是比v-if高
 - 生命周期
 
   ```
-  挂载：父组件 created -> 子组件 created -> mounted -> 父组件 mounted
+  挂载：父组件 created -> 子组件 created -> 子组件 mounted -> 父组件 mounted
   更新：父组件 beforeUpdate ->子组件 beoforeUpdate ->updated -> 父组件 updated
   销毁：父组件 beforedestory -> 子组件 beforedestory -> destory -> 父组件destory
   ```
@@ -174,13 +174,12 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   依赖收集到更新的的细节
 
   ```javascript
-  1、vue 在进行实例化的时候，会对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
+  1、vue 在 observe中，进行数据劫持，会对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
   3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中；
   4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
   5、接着判断，更新队列是否正在更新中，如果是在更新中，用此时的 watcher.id 做对比，如果比他大的还没执行，就直接插入到刚好大于于他的 watcher.id 之后，等待执行，还不影响执行顺序；
-  6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行，如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中，在函数中遍历执行 watcher.run()，对对应的数据进行新旧替换；
-  7、数据新旧替换完成后，在遍历调用 `update`的生命周期函数，更新依赖此属性的组件实例。
+  6、第一次执行的时候，队列的初始等待状态`waiting`为false，就直接执行，如果是true，说明已经有队列正在执行，等待上一个执行完毕。执行放在在 `flushSchedulerQueue` 函数中；
   8、`flushSchedulerQueue` 里面的操作是放在 `nextTick`中执行，就可以保证，保证所有的依赖属性变化完毕后，一次更新完队列中的watcher，得到新的 vnode，最后重新更新页面
 
   ```
@@ -247,12 +246,12 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   4、在 resolveSlot 主要执行的是对 children 的遍历，获取里面每一个元素的 slot 名称，和2中生成的vnode，拼凑成一个以slot名称为key,vnode 的 对象 vm.$slots;
   5、在 对插槽进行渲染的时候，会将上述步骤中生成 vm.$slots 在父组件渲染的时候，就可以对插槽进行替换。
 
-  新版本解释
+  新版本简单解释
 
-  1、在解析和编译阶段，插槽输出入为一个 由 renderSolt 包裹的函数，函数接受几个参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
+  1、在解析和编译阶段，插槽最终会输出入为一个 被 renderSolt 包裹的函数，函数接受参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
   creatElement('div',[renderSlot('default',[renderText('默认内容')],2)]);
   2、在 renderSolt 中主要的作用是 根据传入的 name ,找到对应的插槽渲染函数
-  3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽节点；
+  3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽的节点；
   4、最终 将插槽节点渲染到界面上
   ```
 
@@ -403,25 +402,21 @@ mutation 什么建议是同步
 >
 > https://www.zhihu.com/question/48759748/answer/112823337
 
-#### Vue 源码解析
-依赖收集的是什么东西？
-> 依赖收集工作，收集的依赖是组件在模板里或者render里使用到的响应式属性。
-
 vue 编译选择顺序
 render 函数、template、outHtml;
 
 ##### vue 中是 style scoped 的作用
 唯一 id的生成规则：项目名+文件路径+文件名
-每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
+1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
 2、编译 template 标签时，使用 templater-loader 生成一个唯一 scopeId，添加到vnode上作为属性；
-3、同时 将 vnode 变成真实的 dom时，会将scopeId作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
+3、同时 将 vnode 变成真实的 dom时，会将 scopeId 作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
 4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件
 
 Vue可以说存在三种watcher
 
 第一种是在定义data函数时定义数据的 render watcher；
 第二种是 computed watcher，是 computed 函数在自身内部维护的一个watcher，配合其内部的属性dirty开关来决定computed的值是需要重新计算还是直接复用之前的值；
-第三种就是whtcher api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
+第三种就是 whtcher api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
 
 
 

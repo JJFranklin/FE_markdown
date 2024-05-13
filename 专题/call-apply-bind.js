@@ -10,7 +10,7 @@
  * 目的，将func中this的指向，指向调用的对象；
  * 1、将方法作为对象的一个属性，属性中的this，就是对象的this;
  * 2、执行调用方法；
- * (3)、避免给属性添加多余的属性，执行完成之后，就删除属性
+ * 3、避免给属性添加多余的属性，执行完成之后，就删除属性
  */
 
 const obj = {
@@ -22,7 +22,7 @@ Function.prototype.newCall = function (obj, ...args) {
   // 将方法作为对象的一个属性，属性中的this，就是对象的this;
   // obj为null的时候this 指向window
   obj = obj || window;
-  obj.func = this; // 此时的this,就是调用此方法的函数 即funcA.call(obj,...params) 中的 funcA
+  obj.func = this; // 此时的this,就是调用此方法的函数 即funcA.call(obj,...params) 中的 funcA，将 funcA 作为 obj 的一个属性；
   // 执行调用方法
   const result = obj.func(...args);
   // 删除属性
@@ -81,3 +81,14 @@ function printArr(arr) {
 
 let newPrint = print.newBind(person, 21);
 newPrint(56);
+
+
+function funcBind(context) {
+  const args = Array.prototype.slice.call(arguments,1)||[];
+  let that = this;
+  return function(){
+    let moreArgs = Array.prototype.slice.call(arguments) || [];
+    moreArgs = moreArgs.concat(args);
+    return that.apply(context,moreArgs);
+  }
+}

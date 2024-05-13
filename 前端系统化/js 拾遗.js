@@ -6,46 +6,49 @@
  * 4、使用函数式编程，不使用命令式编程，面向过程编程
  * 5、使用链式调用，像jQuery一样，返回生成的对象，即this
  * 6、单一职责原则、开闭原则、里氏替换原则、接口分离原理
- * 
-*/
+ *
+ */
 
 // 1
-function getUserSex(sex = 'male'){
+function getUserSex(sex = "male") {
   return sex;
 }
 const sex = getUserSex(undefined);
-console.log('sex',sex);
+console.log("sex", sex);
 
-function getUserName(name){
-  return name || 'franklin';
+function getUserName(name) {
+  return name || "franklin";
 }
 
-const userName = getUserName('');
-console.log('userName',userName);
+const userName = getUserName("");
+console.log("userName", userName);
 
 // 2
-let userInfo = Object.assign({
-  name:'baike' // 默认值
-},{
-  name:'franklin',
-  age:12,
-  sex:'male'
-});
+let userInfo = Object.assign(
+  {
+    name: "baike", // 默认值
+  },
+  {
+    name: "franklin",
+    age: 12,
+    sex: "male",
+  }
+);
 // 不这样使用默认值
 userInfo = {
-  name:'franklin' || 'baike',
-  age:12,
-  sex:'male'
-}
+  name: "franklin" || "baike",
+  age: 12,
+  sex: "male",
+};
 
 // 5
-class Animal{
-  constructor(){}
-  eat(){
+class Animal {
+  constructor() {}
+  eat() {
     console.log("吃烧烤!");
     return this;
   }
-  speak(){
+  speak() {
     console.log("说中文!");
     return this;
   }

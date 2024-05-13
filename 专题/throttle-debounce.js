@@ -11,6 +11,51 @@
 */
 
 
+function jieliu(func, wait) {
+  const args = arguments;
+  const preTime = 0;
+  return function () {
+    let that = this;
+    const now = (new Date()).getTime();
+    if (now - preTime > wait) {
+      func.apply(that, args);
+      preTime = now;
+    }
+  }
+}
+
+function jieliu2(func, wait) {
+  const args = arguments;
+  let timer = null;
+  return function () {
+    let that = this;
+    if (!timer) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(that, args);
+        timer = null;
+      }, wait);
+    }
+  }
+}
+
+
+function fangdou(func,wait){
+  const timer = null;
+  const args = arguments;
+  return function(){
+    const that = this;
+    if(timer){
+      clearTimeout(timer);
+    }
+    timer = setTimeout(()=>{
+      func.apply(that, args);
+      timer = null;
+    },wait);
+  }
+}
+
+
 /**
  * 节流1
  * 1、返回一个函数，
@@ -19,17 +64,17 @@
  */
 
 function throttle1(func, wait) {
-    let args = arguments;
-    let preTime = 0;
-    return function () {
-        let that = this;
-        // 当前时间，要保存在闭包中，保证运行时能够每次得到当前时间
-        let now = (new Date()).getTime();
-        if (now - preTime > wait) {
-            func.apply(that,args);
-            preTime = now;
-        }
+  let args = arguments;
+  let preTime = 0;
+  return function () {
+    let that = this;
+    // 当前时间，要保存在闭包中，保证运行时能够每次得到当前时间
+    let now = (new Date()).getTime();
+    if (now - preTime > wait) {
+      func.apply(that, args);
+      preTime = now;
     }
+  }
 }
 
 /*
@@ -38,19 +83,19 @@ function throttle1(func, wait) {
 1、setTimtout执行之后再次执行
 2、在每次运行闭包之前清除掉定时器
 */
-function throttle2(func,wait){
-    let timer = null;
-    let args = arguments;
-    return function(){
-        let that = this;
-        if(!timer){
-            clearTimeout(timer);
-            timer = setTimeout(function(){
-                func.apply(that,args);
-                timer = null;
-            },wait);
-        }
+function throttle2(func, wait) {
+  let timer = null;
+  let args = arguments;
+  return function () {
+    let that = this;
+    if (!timer) {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        func.apply(that, args);
+        timer = null;
+      }, wait);
     }
+  }
 }
 
 /**
@@ -58,29 +103,29 @@ function throttle2(func,wait){
  * 1、在等待的时间内接收到新的请求时重新计时，
  * 2、直到新的等待时间内，没有新的请求，就执行最近的回调请求
  * 相当于每次触发的时候重新生成一个新的定时器，重新计时
- * */ 
+ * */
 
-function debounce(func,wait){
-    let timer = null;
-    let args = arguments;
-    return function(){
-        let that = this;
-        // 清除上一个定时器，重新生产新的定时器
-        if(timer){
-            clearTimeout(timer);
-        }
-        timer = setTimeout(function(){
-            func.apply(that,args);
-            timer = null;  // 每次运行完，重置定时器变量
-        },wait)
+function debounce(func, wait) {
+  let timer = null;
+  let args = arguments;
+  return function () {
+    let that = this;
+    // 清除上一个定时器，重新生产新的定时器
+    if (timer) {
+      clearTimeout(timer);
     }
+    timer = setTimeout(function () {
+      func.apply(that, args);
+      timer = null; // 每次运行完，重置定时器变量
+    }, wait)
+  }
 }
 
 let count = 0;
 
 function setHtml() {
-    $(this).html(count++);
+  $(this).html(count++);
 }
 
-let newSetHtml = debounce(setHtml, 500,a=1);
+let newSetHtml = debounce(setHtml, 500, a = 1);
 $(".content").on("mousemove", newSetHtml);
