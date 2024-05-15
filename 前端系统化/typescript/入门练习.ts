@@ -1,8 +1,7 @@
 /**
- * 小插曲 keyof 和 typeof
+ * keyof 和 typeof
  * keyof 获取对象的 键
  * typeof 接收的变量是对象，则 typeo 返回的类型不是 object，而是同样结构的类型字面量
- *
  * */
 
 // keyOf 作用示例 1
@@ -16,15 +15,14 @@ console.log(getProp([1, 2, 3], "length"));
 
 // keyOf 作用示例 2
 const Colors = {
-  Red: '#FF0000',
-  White: '#FFFFFF'
-} as const
+  Red: "#FF0000",
+  White: "#FFFFFF",
+} as const;
 
 function getColor(key: keyof typeof Colors) {
-  return Colors[key]
+  return Colors[key];
 }
-
-console.log(getColor('Red'))
+console.log(getColor("Red"));
 
 // typeOf 作用示例 处理对象
 const person3 = {
@@ -51,8 +49,10 @@ type propertyType = keyof typeof person3;
 // typeof 处理数组、对象数组
 // 本质是将 数据每一个对象作为一个新定义的类型，组合成联合类型
 
-const numArr = [1,4,3] as const;
-type typeNumArr =  typeof numArr[number];  // type typeNumArr = 1 | 4 | 3;
+const numArr = [1, 4, 3] as const;
+console.log('numArr', numArr);
+
+type typeNumArr = (typeof numArr)[number]; // type typeNumArr = 1 | 4 | 3;
 
 const data = ["hello", "world"] as const;
 type Greeting = (typeof data)[number]; //   type Greeting = 'hello' | 'world';
@@ -80,11 +80,10 @@ type Locale1 = (typeof locales)[number];
   language: 'English'
 }
  * */
-type Locale2 = (typeof locales)[number]['locale'];
+type Locale2 = (typeof locales)[number]["locale"];
 
 // type Locale2 = 'se'| 'en';
 // 相当于从从联合类型中取出 locale 的属性，作为新定义的联合类型
-
 
 // as 的作用
 type Method = "GET" | "POST";
@@ -140,7 +139,8 @@ type newArrNumber = [string, ...number[]];
 
 let newArrNumberInstance: newArrNumber = ["5", 1, 2, 3];
 
-// 数组转化为只读
+// 数组转化成元组
+// 类型回推断为 readonly [1,2]
 const point = [4, 5] as const;
 
 // 函数 常用形式
@@ -426,13 +426,14 @@ const d1 = new D();
 d1.x = 30;
 d1.y = 50;
 
+// 采用非空断言，就可以不用赋初始值
 class Point {
-  x: number;
-  y: number;
+  x!: number;
+  y!: number;
 
   constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    // this.x = x;
+    // this.y = y;
   }
 }
 
@@ -574,4 +575,170 @@ function newArr<T extends { name: string }>(obj: T): T {
 
 // newArr([1,2,3]);// 约束条件必须满足 有 name 属性 否则会报错
 newArr({ name: "13" });
+
+/**
+ * 13 枚举
+ * 枚举在 ts 中是一种类型，也是一个值
+ * 1、是一个值，指的是在编译成 js 后，其他类型的数据，会取掉类型，枚举 会变成一个 {key:value} 的对象 保留下来
+ * 2、代码中不允许存在和枚举结构名相同的变量
+ * 3、Enum 成员默认不必赋值，系统会从零开始逐一递增，按照顺序为每个成员赋值，默认值为0、1、2…… 等数值，也可以显式赋值，
+ * 但是不能是 bigInt 类型，显示赋值的时候，成员值可甚至以相同，如果只赋值了一个值，后面的值默认递增
+ * 4、成员都是只读的 不能重新赋值
+ * 5、成员只允许为 string 和 number
+ * 6、数值类型的成员可以 反向映射，通过值 找到对应的键，字符串类型的成员不行
+ * */
+// const Red = 1;
+// const Green = 2;
+const enum Color {
+  Red,
+  Green = "10", // 显示赋值为字符串之后，后面的值必须赋初值
+  Yellolw = 12,
+}
+
+function func3(color: Color) {
+  switch (color) {
+    case Color.Red:
+      console.log("red");
+      break;
+    case Color.Green:
+      console.log("green");
+      break;
+    default:
+      break;
+  }
+}
+
+func3(Color.Red);
+
+/**
+ * 14 类型断言
+ * 1、类型断言的使用前提是，值的实际类型与断言的类型必须满足一个条件
+ * 2、类型断言要求实际的类型与断言的类型兼容
+ * expr as T
+ * expr是实际的值，T是类型断言，它们必须满足下面的条件：expr是T的子类型，或者T是expr的子类型
+ */
+
+type T = "a" | "b" | "c";
+let foo = "a";
+// 将 foo 指定为 T 的类型
+let bar: T = foo as T; // 正确
+
+/**
+ * as const 断言
+ * 作用
+ * 1、将数据变成不可变类型，也就是只读类型，不能重新进行赋值
+ *
+ * let 命令声明的变量，会被类型推断为 TypeScript 内置的基本类型之一；
+ * const 命令声明的变量，则被推断为值类型常量。
+ * 1、as const也不能用于表达式。
+ * 2、as const 断言只能作用于枚举成员、字符串、数字、布尔值、数组或对象字面量
+ * 3、as const 会将字面量的类型断言为不可变类型，缩小成 TypeScript 允许的最小类型。
+ * */
+
+// 类型推断为基本类型 string
+let s2 = "JavaScript";
+
+// 类型推断为字符串 “JavaScript” 是值类型常量
+const s3 = "JavaScript";
+
+const a111 = {
+  a: 1 as const, // 将 属性 a 变成 只读类型
+  b: 1,
+};
+
+const a112 = {
+  a: 1,
+  b: 2,
+} as const; // 将整个对象变成只类型
+
+/**
+ * 非空断言
+ * 保证变量不为空
+ */
+
+function fkfunc1(a: number, b?: number): string {
+  return a.toString() + b!.toLocaleString();
+}
+
+/**
+ * 15 模块
+ * commonJS 标准下
+ *
+ * 导出模块
+ * let obj = { foo: 123 };
+ * export = obj;
+ *
+ * 引入模块
+ * import fs = require('fs');
+ */
+
+/**
+ * 17 装饰器
+ * 基本特征
+ *（1）第一个字符（或者说前缀）是@，后面是一个表达式。
+ *（2）@后面的表达式，必须是一个函数（或者执行后可以得到一个函数）。
+ *（3）这个函数接受所修饰对象的一些相关值作为参数。
+ *（4）这个函数要么不返回值，要么返回一个新对象取代所修饰的目标对象。
+ * 1、装饰器一般只用来为类添加某种特定行为
+ * 
+ * （1）kind：字符串，表示所装饰对象的类型，可能取以下的值。
+    'class' // 类装饰器
+    'method' // 方法装饰器
+    'getter'
+    'setter'
+    'field' // 属性装饰器
+    'accessor'
+*/
+
+function deco1(value: any, context: any) {
+  console.log("新的装饰器");
+}
+
+@deco1
+class DecoA {}
+
+/**
+ * 19 declare 关键字
+ * declare 关键字用来告诉编译器，某个类型是存在的，可以在当前文件中使用。
+ * 它的主要作用，就是让当前文件可以使用其他文件声明的类型
+ * 1、关键字只用来给出类型描述，是纯的类型代码，不允许设置变量的初始值，即不能涉及值。
+ * declare let x:number = 1;  // 报错
+ *
+ * // 正常使用 只声明某个类型存在
+ * declare let x:number;
+ * x = 1;
+ */
+
+/**
+ * 方括号
+ * 方括号运算符（[]）用于取出对象的键值类型，比如T[K]会返回对象T的属性K的类型。
+*/
+
+type Person123 = {
+  age: number;
+  name: string;
+  alive: boolean;
+};
+
+// Age 的类型是 number
+type Age = Person123['age'];
+
+/**
+ * in 运算符
+ * TypeScript 语言的类型运算中，in运算符有不同的用法，
+ * 1、用来取出（遍历）联合类型的每一个成员类型。
+ * 2、[Prop in keyof Obj]表示取出对象Obj的每一个键名。
+ * */
+
+type U = 'a'|'b'|'c';
+
+type Foo1= {
+  [Prop in U]: number;
+};
+// 等同于
+// type Foo1 = {
+//   a: number,
+//   b: number,
+//   c: number
+// };
 

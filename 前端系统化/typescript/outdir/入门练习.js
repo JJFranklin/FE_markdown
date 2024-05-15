@@ -1,10 +1,47 @@
 "use strict";
 /**
- * 小插曲 keyof 和 typeof
+ * keyof 和 typeof
  * keyof 获取对象的 键
  * typeof 接收的变量是对象，则 typeo 返回的类型不是 object，而是同样结构的类型字面量
- *
  * */
+var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for (var i = decorators.length - 1; i >= 0; i--) {
+        var context = {};
+        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        }
+        else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+};
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+};
+var __setFunctionName = (this && this.__setFunctionName) || function (f, name, prefix) {
+    if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+    return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.locales = void 0;
 // keyOf 作用示例 1
@@ -16,13 +53,13 @@ function getProp(obj, key) {
 console.log(getProp([1, 2, 3], "length"));
 // keyOf 作用示例 2
 const Colors = {
-    Red: '#FF0000',
-    White: '#FFFFFF'
+    Red: "#FF0000",
+    White: "#FFFFFF",
 };
 function getColor(key) {
     return Colors[key];
 }
-console.log(getColor('Red'));
+console.log(getColor("Red"));
 // typeOf 作用示例 处理对象
 const person3 = {
     name: "Rock",
@@ -36,6 +73,7 @@ typeof person3; // 想当于根据 person3 的各键值和各键值的类型重�
 // typeof 处理数组、对象数组
 // 本质是将 数据每一个对象作为一个新定义的类型，组合成联合类型
 const numArr = [1, 4, 3];
+console.log('numArr', numArr);
 const data = ["hello", "world"];
 exports.locales = [
     {
@@ -80,7 +118,8 @@ let arr3 = [3, 4, 5];
 // 元组
 let t1 = [1, "3"];
 let newArrNumberInstance = ["5", 1, 2, 3];
-// 数组转化为只读
+// 数组转化成元组
+// 类型回推断为 readonly [1,2]
 const point = [4, 5];
 // 函数 常用形式
 // function test(a:string, b:string):number{
@@ -228,10 +267,11 @@ class D {
 const d1 = new D();
 d1.x = 30;
 d1.y = 50;
+// 采用非空断言，就可以不用赋初始值
 class Point {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        // this.x = x;
+        // this.y = y;
     }
 }
 class ABC extends Point {
@@ -346,3 +386,103 @@ function newArr(obj) {
 }
 // newArr([1,2,3]);// 约束条件必须满足 有 name 属性 否则会报错
 newArr({ name: "13" });
+function func3(color) {
+    switch (color) {
+        case 0 /* Color.Red */:
+            console.log("red");
+            break;
+        case "10" /* Color.Green */:
+            console.log("green");
+            break;
+        default:
+            break;
+    }
+}
+func3(0 /* Color.Red */);
+let foo = "a";
+// 将 foo 指定为 T 的类型
+let bar = foo; // 正确
+/**
+ * as const 断言
+ * 作用
+ * 1、将数据变成不可变类型，也就是只读类型，不能重新进行赋值
+ *
+ * let 命令声明的变量，会被类型推断为 TypeScript 内置的基本类型之一；
+ * const 命令声明的变量，则被推断为值类型常量。
+ * 1、as const也不能用于表达式。
+ * 2、as const 断言只能作用于枚举成员、字符串、数字、布尔值、数组或对象字面量
+ * 3、as const 会将字面量的类型断言为不可变类型，缩小成 TypeScript 允许的最小类型。
+ * */
+// 类型推断为基本类型 string
+let s2 = "JavaScript";
+// 类型推断为字符串 “JavaScript” 是值类型常量
+const s3 = "JavaScript";
+const a111 = {
+    a: 1, // 将 属性 a 变成 只读类型
+    b: 1,
+};
+const a112 = {
+    a: 1,
+    b: 2,
+}; // 将整个对象变成只类型
+/**
+ * 非空断言
+ * 保证变量不为空
+ */
+function fkfunc1(a, b) {
+    return a.toString() + b.toLocaleString();
+}
+/**
+ * 15 模块
+ * commonJS 标准下
+ *
+ * 导出模块
+ * let obj = { foo: 123 };
+ * export = obj;
+ *
+ * 引入模块
+ * import fs = require('fs');
+ */
+/**
+ * 17 装饰器
+ * 基本特征
+ *（1）第一个字符（或者说前缀）是@，后面是一个表达式。
+ *（2）@后面的表达式，必须是一个函数（或者执行后可以得到一个函数）。
+ *（3）这个函数接受所修饰对象的一些相关值作为参数。
+ *（4）这个函数要么不返回值，要么返回一个新对象取代所修饰的目标对象。
+ * 1、装饰器一般只用来为类添加某种特定行为
+ *
+ * （1）kind：字符串，表示所装饰对象的类型，可能取以下的值。
+    'class' // 类装饰器
+    'method' // 方法装饰器
+    'getter'
+    'setter'
+    'field' // 属性装饰器
+    'accessor'
+*/
+function deco1(value, context) {
+    console.log("新的装饰器");
+}
+let DecoA = (() => {
+    let _classDecorators = [deco1];
+    let _classDescriptor;
+    let _classExtraInitializers = [];
+    let _classThis;
+    var DecoA = _classThis = class {
+    };
+    __setFunctionName(_classThis, "DecoA");
+    (() => {
+        const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
+        __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
+        DecoA = _classThis = _classDescriptor.value;
+        if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+        __runInitializers(_classThis, _classExtraInitializers);
+    })();
+    return DecoA = _classThis;
+})();
+// 等同于
+// type Foo1 = {
+//   a: number,
+//   b: number,
+//   c: number
+// };
