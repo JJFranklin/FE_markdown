@@ -1,6 +1,6 @@
 /**
  * keyof 和 typeof
- * keyof 获取对象的 键
+ * keyof 获取对象的 键 或者属性
  * typeof 接收的变量是对象，则 typeo 返回的类型不是 object，而是同样结构的类型字面量
  * */
 
@@ -132,7 +132,7 @@ console.log("name: ", d);
 let arr3: readonly number[] = [3, 4, 5];
 
 // 元组
-let t1: [number, string] = [1, "3"];
+let t1: [number, string];
 
 // 新定义
 type newArrNumber = [string, ...number[]];
@@ -143,7 +143,7 @@ let newArrNumberInstance: newArrNumber = ["5", 1, 2, 3];
 // 类型回推断为 readonly [1,2]
 const point = [4, 5] as const;
 
-// 函数 常用形式
+// 8 函数 常用形式
 // function test(a:string, b:string):number{
 //     return Number(a) + Number(b);
 // }
@@ -162,8 +162,13 @@ console.log(test("10"));
 // 返回值会自动推断为 number 形式
 const hello = (a: number): number => a;
 
-// 新定义函数基本类型
+// 定义函数基本类型
 type customFunc = (a: string, b: string) => number;
+// 定义函数 后面会实现
+let funcType1:(a:string,b:number)=>string;
+funcType1 = (a,b)=>{
+  return '123';
+}
 
 const testFunc: customFunc = (a: string, b: string) => Number(a) + Number(b);
 
