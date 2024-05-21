@@ -68,9 +68,12 @@ function initVirtualComponent (options: Object = {}) {
   registerComponentHook(componentId, 'lifecycle', 'attach', () => {
     callHook(vm, 'beforeMount')
 
+    // 更新组件
     const updateComponent = () => {
       vm._update(vm._vnode, false)
     }
+    // 将更新组件的流程放在调用序列里面执行
+    // 将更新过程中，用到的响应式数据进行依赖收集
     new Watcher(vm, updateComponent, noop, null, true)
 
     vm._isMounted = true

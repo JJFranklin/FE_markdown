@@ -1,13 +1,13 @@
-interface Admin {
-    adminname:string;
-    adminage:number;
-    adminaddress:string
+class Admin {
+    adminname!:string;
+    adminage!:number;
+    adminaddress!:string
 }
 
-interface User {
-    username:string;
-    userage:number;
-    useraddress:string
+class User {
+    username!:string;
+    userage!:number;
+    useraddress!:string
 }
 
 type Person = Admin | User;

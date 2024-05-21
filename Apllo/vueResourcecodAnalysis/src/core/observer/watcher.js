@@ -56,6 +56,7 @@ export default class Watcher {
     vm._watchers.push(this)
     // options
     if (options) {
+      // 在computed 初始化的时候， lazy 为true
       this.deep = !!options.deep
       this.user = !!options.user
       this.lazy = !!options.lazy
@@ -67,7 +68,7 @@ export default class Watcher {
     this.cb = cb
     this.id = ++uid // uid for batching
     this.active = true
-    this.dirty = this.lazy // for lazy watchers
+    this.dirty = this.lazy // for lazy watchers 
     this.deps = []
     this.newDeps = []
     this.depIds = new Set()
@@ -103,6 +104,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
+      // 回调函数，在  computed 中是每一个属性的回调函数
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {
