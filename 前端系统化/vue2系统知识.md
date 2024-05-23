@@ -405,7 +405,7 @@ mutation 什么建议是同步
 vue 编译选择顺序
 render 函数、template、outHtml;
 
-##### vue 中是 style scoped 的作用
+##### vue 中是 style scoped 的作用 | 样式隔离
 唯一 id的生成规则：项目名+文件路径+文件名
 1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
 2、编译 template 标签时，使用 templater-loader 生成一个唯一 scopeId，添加到vnode上作为属性；
