@@ -176,6 +176,13 @@ es6 module
 2、Es Module混合导出，单个导出，默认导出，完全互不影响
 3、Es Module导出是引用值之前都存在映射关系，并且值都是可读的，不能修改
 
+Webpack中常用的代码分离有三种：
+入口起点：使用entry配置手动分离代码；
+防止重复：使用Entry Dependencies或者SplitChunksPlugin去重和分离代码；
+动态导入：通过模块的内联函数调用来分离代码；
+
+1、动态导入通常是一定会打包成独立的文件的，所以并不会再cacheGroups中进行配置；
+
 
 
 
