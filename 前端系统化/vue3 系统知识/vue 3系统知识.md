@@ -170,6 +170,44 @@ vue 3 对比 vue 2
 5、静态标记，将静态节点进行标记，在 patch 阶段不参与，提高效率；
 
 
+### 问题
+####  vue3 的插槽实现个和工作原理
+####  setup 函数在选项式api 中和 composition Api 中的区别
+setup 只在组件被挂载的时候执行一次
+```js
+// 一个组件里面必须有一个 render 函数
+// 选项式api
+// setup 函数接受2个参数
+
+setup(props, context){
+    // props 是组件接受外部传来的 props 属性
+    // context 是当前组件的上下文，主要是 slots、emit、attrs等组件接口的重要数据
+}
+// 情况1：返回一个函数，会被用作 render 函数来使用，返回一个 vnode
+setup(){
+  return ()=>{
+    return {type:'div', children:'我是setup'}
+  }  
+}
+// 情况2：返回一个对象，返回的对象，将会给 模板使用
+setup(){
+const name = ref('franklin');
+  return {
+    name
+  };
+  render(){
+    return {
+        type:'div', children:'我是setup'
+    }
+  }
+}
+```
+
+
+
+
+
+
 
 
 
