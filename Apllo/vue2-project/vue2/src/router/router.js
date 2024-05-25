@@ -52,27 +52,27 @@ const routes = [
         // component:()=>import("../components/Chart")
         component:(resolve) => require.ensure([], () => resolve(require('../components/Chart'))),
     },
-    {
-        path:"/basecomponents",
-        name:"basecomponents",
-        children:[
-            {
-                path:"infinityscroll1",
-                name:"infinityscroll1",
-                // component:()=>import("../components/basecomponts/infinityscroll1")  
-                component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll1'))),
+    // {
+    //     path:"/basecomponents",
+    //     name:"basecomponents",
+    //     children:[
+    //         {
+    //             path:"infinityscroll1",
+    //             name:"infinityscroll1",
+    //             // component:()=>import("../components/basecomponts/infinityscroll1")  
+    //             component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll1'))),
   
-            },
-            {
-                path:"infinityscroll2",
-                name:"infinityscroll2",
-                // component:()=>import("../components/basecomponts/infinityscroll2") 
-                component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll2'))),
-            },
-        ],
-        // component:()=>import("../components/basecomponts/index")
-        component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/index'))),
-    }
+    //         },
+    //         {
+    //             path:"infinityscroll2",
+    //             name:"infinityscroll2",
+    //             // component:()=>import("../components/basecomponts/infinityscroll2") 
+    //             component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/infinityscroll2'))),
+    //         },
+    //     ],
+    //     // component:()=>import("../components/basecomponts/index")
+    //     component:(resolve) => require.ensure([], () => resolve(require('../components/basecomponts/index'))),
+    // }
 ];
 
 

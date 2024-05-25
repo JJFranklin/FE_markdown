@@ -1,8 +1,8 @@
 
 .DS_Store
-Apllo/vue2/node_modules/
-Apllo/vue2/dist
-Apllo/vue2/yarn-error.log
-Apllo/nodejs/node_modules
-Apllo/vue2/.yarnrc.yml
-Apllo/vue2/.yarn/
+node_modules/
+dist/
+yarn-error.log
+.yarnrc.yml
+.yarn/
+settings.json

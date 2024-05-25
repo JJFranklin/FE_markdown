@@ -102,12 +102,12 @@ vue2 生命周期在组件销毁、创建，更新过程中，是一个由外（
 
 #### computed 
 
-1、对 computed 的处理在 beforeCreated 生命周期后；
+1、对 computed 的处理是在 beforeCreated 生命周期后；
 基本原理
 它会遍历computed配置中的所有属性，为每一个属性创建一个Watcher对象，并传入一个函数，该函数的本质其实就是computed配置中的getter 属性访问器，这样一来，getter运行过程中就会收集依赖
-但是和渲染函数不同，为计算属性创建的Watcher不会立即执行，因为要考虑到该计算属性是否会被渲染函数使用，如果没有使用，就不会得到执行。因此，在创建Watcher的时候，它使用了lazy配置，lazy配置可以让Watcher不会立即执行。
+但是和渲染函数不同，为计算属性创建的Watcher不会立即执行，因为要考虑到该计算属性是否会被渲染函数使用，如果没有使用，就不会得到执行。因此，在创建Watcher的时候，它使用了lazy配置，lazy 的默认值是true，lazy配置可以让Watcher不会立即执行。
 受到 1azy 的影响，Watcher内部会保存两个关键属性来实现缓存，一个是value，一个是 dirty，value属性用于保存Watcher运行的结果，受lazy的影响，该值在最开始是 undefined
-dirty属性用于指示当前的value是否已经过时了，即是否为脏值，受1azy的影响，该值在最开始是 true，Watcher创建好后，vue会使用代理模式，将计算属性挂载到组件实例中
+dirty属性用于指示当前的value是否已经过时了，即是否为脏值（是否需要重新计算），受1azy的影响，该值在最开始是 true，Watcher创建好后，vue会使用代理模式，将计算属性挂载到组件实例中
 当读取计算属性时，vue检查其对应的Watcher是否是脏值，如果是，则运行函数，计算依赖，并得到对应的值，保存在Watcher的value中，然后设置dirty为false，然后返回。I
 巧妙的是，在依赖收集时，被依赖的数据不仅会收集到计算属性的Watcher，还会收集到组件的Watcher
 当计算属性的依赖变化时，会先触发计算属性的Watcher执行，此时，它只需设置dirty为true即可，不做任何处理。

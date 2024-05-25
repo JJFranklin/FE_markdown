@@ -53,21 +53,21 @@ export default {
           path: "/chart",
           icon: "el-icon-s-data",
         },
-        {
-            name:"基础组件",
-            icon:"el-icon-s-platform",
-            path:"/basecomponents",
-            children:[
-                {
-                    name:"无限滚动 1",
-                    path:"infinityscroll1",
-                },
-                {
-                    name:"无限滚动 2",
-                    path:"infinityscroll2"
-                }
-            ]
-        },
+        // {
+        //     name:"基础组件",
+        //     icon:"el-icon-s-platform",
+        //     path:"/basecomponents",
+        //     children:[
+        //         {
+        //             name:"无限滚动 1",
+        //             path:"infinityscroll1",
+        //         },
+        //         {
+        //             name:"无限滚动 2",
+        //             path:"infinityscroll2"
+        //         }
+        //     ]
+        // },
         {
           name: "关于我们",
           path: "/about",

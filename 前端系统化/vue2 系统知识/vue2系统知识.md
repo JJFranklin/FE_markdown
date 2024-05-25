@@ -416,7 +416,29 @@ Vue可以说存在三种watcher
 
 第一种是在定义data函数时定义数据的 render watcher；
 第二种是 computed watcher，是 computed 函数在自身内部维护的一个watcher，配合其内部的属性dirty开关来决定computed的值是需要重新计算还是直接复用之前的值；
-第三种就是 whtcher api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
+第三种就是 watch api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
+watch watcher 的执行步骤
+
+watch api
+
+在 watch 中 expOrFn 是 string类型 也就是自定义 watcher 时的 key
+
+1、initWatcher，在 initWatcher 调用 createWatcher；
+  1.1、initWatcher 中，遍历 用户自定义的 watcher 选项；
+  1.2、遍历过程中，根据监控的 key, 获取对应的处理函数，处理函数 handle 有可能是一个对象，有可能是是个数组，
+  数组的情况遍历 handle, 调用 createWatcher ，对象的情况 直接调用 createWatcher 进行处理；
+
+2、createWatcher 中，调用 vm.$watch api 实例化 watcher
+   2.1、createWatcher 会对不同的 handle 进行处理，如果是普通对象，会将 handle 赋值给 options，用作配置，
+   此配置中，可能有 immediate 选项；
+   然后将取出 真正的 handle 函数 赋值给处理函数；如果不是对象，会从实例中取出对应的处理函数；
+   2.2、最后 调用 vm.$watch 进行实例化处理
+
+3、在 $watch 中使用 new Watcher() 构造 watcher 实例  
+   3.1、在 $watch 中主要的作用是 调用 new Watcher() 构造 watcher 的实例，由于 自定义的 watcher lazy 默认值是false,
+   所以在初始化的时候，执行 this.get() 和 对应的值建立依赖关系；
+   3.2、在 this.get() 在家里依赖关系中，看配置项中是否有 deep 选项（用户自定义 watcher 独有），有的话，就调用 traverse 函数递归处理，对深层次的元素，建立依赖关系，那么在对元素进行访问的时候，就会触发对应的更新。
+   3.3、如果选项中有 immediate 为true, 就会立即执行回调函数，拿到新的值。
 
 
 

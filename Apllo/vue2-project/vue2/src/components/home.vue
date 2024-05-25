@@ -2,7 +2,7 @@
     <div class=''>
         首页
         <el-button type="" @click="test">测试</el-button>
-
+        {{ msg }}
     </div>
 </template>
 
@@ -13,12 +13,15 @@ export default {
     },
     data() {
         return {
+            msg:'woshi'
 
         };
     },
     methods: {
         test(){
+            this.msg = 'shijie';
             this.$bus.$emit("changetheme");
+
         }
 
     },
@@ -26,7 +29,12 @@ export default {
 
     },
     watch: {
-
+        msg:{
+            handler(newVal,oldVal){
+                console.log('newVal-oldVal',newVal, oldVal);
+            },
+            // immediate:true
+        }
     },
     mounted() {
     },
