@@ -126,6 +126,26 @@ watchEffect(()=>{
 });
 ```
 
+
+watch 中的 flush 参数 有 post、pre、sync, 是回调的刷新时机
+
+当你更改了响应式状态，它可能会同时触发 Vue 组件更新和侦听器回调。
+默认情况下，用户创建的侦听器回调，都会在 Vue 组件更新之前被调用。
+这意味着你在侦听器回调中访问的 DOM 将是被 Vue 更新之前的状态。
+
+sync 同步触发的侦听器，能够同步监听 vue 组件的任何更新，不建议使用，性能损耗大 ？？？
+pre 回调函数能访问 vue 组件更新之前的 dom，是默认值
+post 表示将 watch 的回调函数放到微任务队列中，等到 vue 组件更新之后执行, 
+能访问到 vue 组件更新之后的 dom，和 nextTick 的作用基本一致
+
+https://segmentfault.com/q/1010000042325613
+
+
+1、当 flush 为 sync 的时，表示它是一个同步 watcher，即当数据变化时同步执行回调函数
+2、当 flush 为 pre 的时，回调函数通过 queueJob 的方式在组件更新之前执行，
+    如果组件还没挂载，则同步执行确保回调函数在组件挂载之前执行
+3、如果设置 flush，默认为 post，回调函数通过 queuePostRenderEffect 的方式在组件更新之后执行
+
 vue 3优势
 ```javascript
 Tree shaking 是基于ES6模板语法（import 与 exports），主要是借助ES6模块的静态编译思想，在编译时就能确定模块的依赖关系，以及输入和输出的变量。

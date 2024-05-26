@@ -274,7 +274,7 @@ export default {
     this.nodesMap = {}; // 为了减少 vue 的监听，将不需要双向绑定的数据提出来
     // 所有的节点
     this.rederNodes = []; // 为了减少 vue 的监听，将不需要双向绑定的数据提出来
-    // 通过 filter 方法塞选之后的节点
+    // 通过 filter 方法筛选之后的节点
     this.filterNodes = []; // 为了减少 vue 的监听，将不需要双向绑定的数据提出来
 
     // 可用于显示的节点数据（去除了 filter 和 show:false 之后的数据）

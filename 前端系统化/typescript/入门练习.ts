@@ -133,6 +133,7 @@ let arr3: readonly number[] = [3, 4, 5];
 
 // 元组
 let t1: [number, string];
+const tuple1:[number,string,Object] = [1,'3',{}]
 
 // 新定义
 type newArrNumber = [string, ...number[]];
@@ -142,6 +143,8 @@ let newArrNumberInstance: newArrNumber = ["5", 1, 2, 3];
 // 数组转化成元组
 // 类型回推断为 readonly [1,2]
 const point = [4, 5] as const;
+// 实际相当于
+// const point:[4,5] = [4,5];  // 此时，4,5 被认为是 两种 类型，不能更改和赋值，和元组类似
 
 // 8 函数 常用形式
 // function test(a:string, b:string):number{
