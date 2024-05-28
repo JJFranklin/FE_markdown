@@ -1,7 +1,7 @@
 /**
  * keyof 和 typeof
- * keyof 获取对象的 键 或者属性
- * typeof 接收的变量是对象，则 typeo 返回的类型不是 object，而是同样结构的类型字面量
+ * keyof 获取对象的 键
+ * typeof 接收的变量是对象，则 typeof 返回的类型不是 object，而是同样结构的类型字面量
  * */
 
 // keyOf 作用示例 1
@@ -397,11 +397,12 @@ const user1: UserInfo = {
   func: () => 1,
 };
 
-// 对象
-const obj9: {
+type Bb  =  {
   a: number;
   b: string;
-} = {
+};
+// 对象
+const obj9: Bb= {
   a: 1,
   b: "9",
 };
@@ -531,7 +532,7 @@ class Person1<K> {
   }
 }
 
-// 第一中写法
+// 第一种写法
 const person1: Person1<string> = {
   name: "franklin",
 };

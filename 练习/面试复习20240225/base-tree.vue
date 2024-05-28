@@ -1,72 +1,41 @@
 <template>
-  <div
-    class="meg-base-tree"
-    :class="{'meg-base-tree--highlight-current':highlightCurrent}"
-    :style="{'height': renderAll?showNodesLength*itemHeight+'px':forceHeight?forceHeight+'px':staticHeight?staticHeight+'px':'100%'}"
-    ref="tree"
-    @scroll="setShowStartAndEnd">
+  <div class="meg-base-tree" :class="{ 'meg-base-tree--highlight-current': highlightCurrent }"
+    :style="{ 'height': renderAll ? showNodesLength * itemHeight + 'px' : forceHeight ? forceHeight + 'px' : staticHeight ? staticHeight + 'px' : '100%' }"
+    ref="tree" @scroll="setShowStartAndEnd">
     <!-- 用于显示虚拟高度 -->
-    <div
-      class="meg-base-tree__phantom"
-      :style="{'height': showNodesLength*itemHeight+'px'}">
+    <div class="meg-base-tree__phantom" :style="{ 'height': showNodesLength * itemHeight + 'px' }">
     </div>
 
     <!-- 真正显示的树 -->
-    <div
-      class="meg-base-tree__content"
-      :style="{'padding-top': showStart*itemHeight+'px'}"
-      :class="{'drag-will-drop-before':dropType==='before', 'drag-will-drop-after':dropType==='after'}">
+    <div class="meg-base-tree__content" :style="{ 'padding-top': showStart * itemHeight + 'px' }"
+      :class="{ 'drag-will-drop-before': dropType === 'before', 'drag-will-drop-after': dropType === 'after' }">
       <!-- 空列表 暂无数据提示 -->
-      <div
-        v-show="trueShowNodes.length===0"
-        class="meg-base-tree__nodata">
-        <slot
-          name="empty">
+      <div v-show="trueShowNodes.length === 0" class="meg-base-tree__nodata">
+        <slot name="empty">
           {{ emptyText || t('meg.tree.emptyText') }}
         </slot>
       </div>
       <!-- 每个树节点 -->
-      <div
-        class="meg-base-tree__node"
-        :draggable="draggable || (canDragFn && canDragFn(item))"
-        v-for="(item, index) in trueShowNodes"
-        :key="item.nodeId"
-        :style="{'padding-left': searchLeafModelOn?0:item.z*20 + 'px', 'min-height': itemHeight+'px'}"
-        :class="[{ 'is-disabled': ifDisabled(item), 'is-current': currentNode && currentNode.nodeId === item.nodeId, 'is-drag-will-drop': willDropId===item.nodeId},itemClassFn && itemClassFn(item)]"
-        @dragstart.stop="handleDragStart($event, item)"
-        @dragover.stop="handleDragOver($event, item, index)"
-        @dragend.stop="handleDragEnd($event, item)"
-        @drop.stop="handleDrop($event, item)"
+      <div class="meg-base-tree__node" :draggable="draggable || (canDragFn && canDragFn(item))"
+        v-for="(item, index) in trueShowNodes" :key="item.nodeId"
+        :style="{ 'padding-left': searchLeafModelOn ? 0 : item.z * 20 + 'px', 'min-height': itemHeight + 'px' }"
+        :class="[{ 'is-disabled': ifDisabled(item), 'is-current': currentNode && currentNode.nodeId === item.nodeId, 'is-drag-will-drop': willDropId === item.nodeId }, itemClassFn && itemClassFn(item)]"
+        @dragstart.stop="handleDragStart($event, item)" @dragover.stop="handleDragOver($event, item, index)"
+        @dragend.stop="handleDragEnd($event, item)" @drop.stop="handleDrop($event, item)"
         @click="clickItem(item, index)">
         <!-- 展开箭头 -->
-        <meg-icon
-          name="meg-icon-caret_right"
-          class="meg-base-tree__expand-icon meg-icon-caret-right"
-          v-if="!item.isLeaf"
-          :class="{'is-collapse':item.collapse}"
+        <meg-icon name="meg-icon-caret_right" class="meg-base-tree__expand-icon meg-icon-caret-right"
+          v-if="!item.isLeaf" :class="{ 'is-collapse': item.collapse }"
           @click.stop="goCollapse(item, index)"></meg-icon>
-        <span
-          v-else
-          v-show="!searchLeafModelOn"
-          class="meg-base-tree__expand-placeholder"></span>
+        <span v-else v-show="!searchLeafModelOn" class="meg-base-tree__expand-placeholder"></span>
         <!-- 复选框 -->
-        <meg-checkbox
-          class="meg-tree-checkbox"
-          v-if="showCheckbox"
-          v-model="item.checked"
-          :disabled="ifDisabled(item)"
-          :indeterminate="item.indeterminate"
-          @click.native.stop
+        <meg-checkbox class="meg-tree-checkbox" v-if="showCheckbox" v-model="item.checked" :disabled="ifDisabled(item)"
+          :indeterminate="item.indeterminate" @click.native.stop
           @change="!ifDisabled(item) && checkoutChange(item, item.checked)"></meg-checkbox>
         <!-- 节点文字部分 -->
-        <node-content
-          :node="item"></node-content>
-        <div
-          v-if="item.loading"
-          class="meg-base-tree__loading">
-          <meg-icon
-            spin
-            name="circle_spin"></meg-icon>
+        <node-content :node="item"></node-content>
+        <div v-if="item.loading" class="meg-base-tree__loading">
+          <meg-icon spin name="circle_spin"></meg-icon>
         </div>
       </div>
     </div>
@@ -100,14 +69,32 @@ export default {
         return (
           parent.$scopedSlots.default
             ? parent.$scopedSlots.default({ node, data })
-            : <span class="meg-base-tree-node__label">{ node.label }</span>
+            : <span class="meg-base-tree-node__label">{node.label}</span>
         );
       }
     }
   },
   mixins: [Locale],
   props: {
-    // 树数据
+    /**
+     * 树数据
+      [{
+          id: 1,
+          label: '一级 1',
+          children: [
+            {
+              id: 11,
+              label: '二级 1-1',
+              children: [
+                {
+                  id: 111,
+                  label: '二级 1-1-1'
+                }
+              ]
+            }
+          ]
+        }]
+     * */
     data: {
       type: Array,
       default: () => []
@@ -281,13 +268,13 @@ export default {
     this.showNodes = []; // 为了减少 vue 的监听，将不需要双向绑定的数据提出来
   },
   mounted() {
+    // 数据改变就会执行
     this.dataChange();
   },
   beforeDestroy() {
     this.clearData();
   },
   methods: {
-
     /**
      * 清理基础数据，避免如果因为外部原因造成组件无法销毁成功时造成内存泄露过多
      *
@@ -298,46 +285,9 @@ export default {
       this.filterNodes = [];
       this.showNodes = [];
     },
-
     /**
-     * 遍历获取实际显示的 dom
-     *
-     */
-    getTrueShowNodes() {
-      this.trueShowNodes = this.showNodes.slice(this.showStart, this.showEnd);
-    },
-
-    /**
-     * 标准数树数据初始化处理 扁平化处理
-     * @param {Array} data children 数据
-     * @param {number} z 父节点的层级
-     * @param {number|string} [parentId=null] 父级id
-     */
-    standardDataChange(data, z, parentId = null) {
-      if (data.constructor === Array) {
-        data.forEach((item) => {
-          // let newNode = item;  这里 如果外部 处理数据不当，会有后续报错风险，
-          // 但是，即使通过 assign 处理返回值，由于传入的是引用，还是会有修改问题，还不如直接处理性能优
-          if (this.pretreatmentNodeDataFn) this.pretreatmentNodeDataFn(item);
-          const node = {
-            ...item,
-            z,
-            parentId
-          };
-
-          delete node[this.defaultProps.children];
-          this.standardData.push(node);
-          const children = item[this.defaultProps.children];
-          if (children && children.length > 0) { // 如果有子节点
-            this.standardDataChange(children, z + 1, item[this.nodeKey]);
-          }
-        });
-      }
-    },
-
-    /**
+     * 第一步
      * 扁平数据初始化处理
-     *
      */
     dataChange(data) {
       this.searchLeafModelOn = false;
@@ -408,7 +358,10 @@ export default {
           newNode.checked = true;
         }
         nodes.push(newNode);
-        if (nodesMap[newNode.nodeId]) console.warn(`[Megvii tree] Duplicate node-key detected: '${newNode.nodeId}'. This may cause tree error`);
+        // 由 nodeId 和 node 节点组成的map 对象缓存数据，并且检查是否有重复的节点，用 id 做唯一 key 的情况下
+        if (nodesMap[newNode.nodeId]) {
+          console.warn(`[Megvii tree] Duplicate node-key detected: '${newNode.nodeId}'. This may cause tree error`);
+        }
         nodesMap[newNode.nodeId] = newNode;
       });
 
@@ -431,6 +384,104 @@ export default {
       this.$nextTick(() => {
         this.$emit('tree-update-ready', this.rederNodes);
       });
+    },
+
+    /**
+     * 第二步
+     * 标准数树数据初始化处理 扁平化处理
+     * @param {Array} data children 数据
+     * 树结构数据
+     [{
+          id: 1,
+          label: '一级 1',
+          children: [
+            {
+              id: 11,
+              label: '二级 1-1',
+              children: [
+                {
+                  id: 111,
+                  label: '二级 1-1-1'
+                }
+              ]
+            }
+          ]
+        }]
+     *
+     * @param {number} z 父节点的层级
+     * @param {number|string} [parentId=null] 父级id
+     * 
+     */
+    standardDataChange(data, z, parentId = null) {
+      // 根据构造函数判断是不是数组
+      if (data.constructor === Array) {
+        data.forEach((item) => {
+          // let newNode = item;  这里 如果外部 处理数据不当，会有后续报错风险，
+          // 但是，即使通过 assign 处理返回值，由于传入的是引用，还是会有修改问题，还不如直接处理性能优
+          if (this.pretreatmentNodeDataFn) this.pretreatmentNodeDataFn(item);
+          const node = {
+            ...item,
+            z,
+            parentId
+          };
+
+          delete node[this.defaultProps.children];
+          this.standardData.push(node);
+          const children = item[this.defaultProps.children];
+          if (children && children.length > 0) { // 如果有子节点
+            this.standardDataChange(children, z + 1, item[this.nodeKey]/*子节点id 作为下一个父节点*/);
+          }
+        });
+      }
+    },
+    /**
+     * 第三步 筛选 标记展示的数据
+     * 筛选出可以用于显示的数据 去除 show 为 false 的数据
+     */
+    getShowNodes() {
+      // console.time();
+      const nodes = this.filterNodes.filter(item => item.show);
+      this.showNodes = nodes;
+      this.showNodesLength = nodes.length;
+      this.setShowStartAndEnd();
+      // console.timeEnd();
+    },
+    /**
+     * 第四步
+     * 计算显示的起始位置
+     * 根据起始位置获取，在视口内获取展示的数据
+     */
+    setShowStartAndEnd() {
+      if (!this.$refs.tree) return;
+      const scrollTop = this.$refs.tree.scrollTop || 0;
+      // 树容器的高度
+      let { clientHeight } = this.$refs.tree;
+      // 包裹树的容器没有高度，则设置包裹树的容器高度初始值
+      if (clientHeight === 0 || (this.contentHeight && this.contentHeightUseful)) { // 父级没设置高度 或有contentHeight且有效 的情况
+        clientHeight = this.contentHeight > 0 ? this.contentHeight : 300;
+        this.staticHeight = clientHeight;
+      }
+
+      if (this.renderAll) { // 如果设置了全量渲染，就直接渲染全部
+        this.showStart = 0;
+        this.showEnd = this.showNodesLength;
+      } else {
+        // 可视区域的长度是固定的
+        const visibleCount = Math.ceil(clientHeight / this.itemHeight);
+        this.showStart = Math.floor(scrollTop / this.itemHeight);
+        // 所以可视区域展示树节点数量就是开始的位置索引 + 可视区域可以展示节点数量
+        this.showEnd = this.showStart + visibleCount;
+      }
+      this.getTrueShowNodes();
+    },
+    /**
+    * 第五步
+    * 根据起始位置获取需要展示的真正节点
+    * 遍历获取实际显示的 dom
+    *
+    */
+    getTrueShowNodes() {
+      this.trueShowNodes = this.showNodes.slice(this.showStart, this.showEnd);
     },
 
     /**
@@ -543,47 +594,6 @@ export default {
     },
 
     /**
-     * 计算显示的起始位置
-     *
-     */
-    setShowStartAndEnd() {
-      if (!this.$refs.tree) return;
-      const scrollTop = this.$refs.tree.scrollTop || 0;
-      // 树容器的高度
-      let { clientHeight } = this.$refs.tree;
-      // 包裹树的容器没有高度，则设置包裹树的容器高度初始值
-      if (clientHeight === 0 || (this.contentHeight && this.contentHeightUseful)) { // 父级没设置高度 或有contentHeight且有效 的情况
-        clientHeight = this.contentHeight > 0 ? this.contentHeight : 300;
-        this.staticHeight = clientHeight;
-      }
-
-      if (this.renderAll) { // 如果设置了全量渲染，就直接渲染全部
-        this.showStart = 0;
-        this.showEnd = this.showNodesLength;
-      } else {
-        // 可视区域的长度是固定的
-        const visibleCount = Math.ceil(clientHeight / this.itemHeight);
-        this.showStart = Math.floor(scrollTop / this.itemHeight);
-        // 所以可视区域展示树节点数量就是开始的位置索引 + 可视区域可以展示节点数量
-        this.showEnd = this.showStart + visibleCount;
-      }
-      this.getTrueShowNodes();
-    },
-
-    /**
-     * 筛选出可以用于显示的数据 去除 show 为 false 的数据
-     *
-     */
-    getShowNodes() {
-      // console.time();
-      const nodes = this.filterNodes.filter(item => item.show);
-      this.showNodes = nodes;
-      this.showNodesLength = nodes.length;
-      this.setShowStartAndEnd();
-      // console.timeEnd();
-    },
-
-    /**
      * 选择发生改变
      * @param {Object} item 节点
      * @param {boolean} checked 是否选中
@@ -619,18 +629,23 @@ export default {
         if (!childrenAllChecked && childSomeChecked) { // 如果是半选，上级也一定是半选，就不用再遍历了
           //
         } else {
+        // 遍历父级节点之后的节点
           for (let j = (parentNode.index + 1); j < this.rederNodes.length; j += 1) {
             const ele = this.rederNodes[j];
+            // 找到节点的父节点id和比较的父节点id 相同的节点，而且层级比当前父节点深的节点，一定是当前父节点的子节点
             if (ele.z > parentNode.z && ele.parentId === parentNode.nodeId) {
               // 直接子集
-              if (!ele.checked)childrenAllChecked = false;
-              if (ele.checked || ele.indeterminate)childSomeChecked = true; // 子集有选中的
+              // 判断子节点有没有勾选，没有勾选，全选就是false
+              if (!ele.checked) childrenAllChecked = false;
+              // 有勾选 是部分勾选 也就是半选状态
+              if (ele.checked || ele.indeterminate) childSomeChecked = true; // 子集有选中的
             }
             if (ele.z <= parentNode.z) {
               break;
             }
           }
         }
+        // 都不成立就是全选，父节点状态是勾选状态
         parentNode.checked = childrenAllChecked;
 
         if (!childrenAllChecked && childSomeChecked) {
@@ -662,7 +677,8 @@ export default {
     },
 
     /**
-     * 异步增加数据
+     * 异步增加数
+     点击加载数据
      * @param { Node } parentNode 父节点
      * @param { Array } data 子节点数据
      * @returns
@@ -681,8 +697,6 @@ export default {
           // 标记父级已经有子节点了
           parentNode.noChildNodes = false;
 
-          // 找到 z 值小于等于 父节点 z 值的节点，作为最后一个子集，
-          // 此处为什么不直接将 lastChild = parentNode; 作为最后一个子集，还要循环，不理解
           let lastChild = parentNode;
           for (let i = parentNode.index + 1; i < this.rederNodes.length; i += 1) {
             const ele = this.rederNodes[i];
@@ -751,6 +765,7 @@ export default {
 
     /**
      * 折叠
+     * 子节点的点击事件
      * @param {Object} item 节点
      * @param {Boolean} emit 是否 emit 展开收起事件
      */
@@ -1078,7 +1093,7 @@ export default {
         if (node && node.idPath) {
           let push = true;
           node.idPath.forEach((parentId) => { // 如果父级已经存在于需要选中的当中，自己就不用再去设置选中了
-            if (nodesMap[parentId])push = false;
+            if (nodesMap[parentId]) push = false;
           });
           if (push) {
             newNodes.push(node);

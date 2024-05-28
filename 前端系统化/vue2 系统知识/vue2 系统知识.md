@@ -34,7 +34,7 @@ dep中可以有多个watcher ，因为一个watcher可能被多个属性所依�
 ```
 - Vue 指令 v-if、v-show、v-for等
 
-v-for优先级是比v-if高
+v-for 优先级是比 v-if 高
 
 - 计算属性
 
@@ -89,13 +89,12 @@ v-for优先级是比v-if高
   > 问题
   >
   > 1、使用用多个mixin时，多个mixin里面，会出现命名相同的情况
-  > 2、mixin 里面，如果使用data 属性，会覆盖掉组件的data 属性
-  > 3、mixin 里面，如果使用生命周期钩子，会覆盖掉组件的钩子
-  > 4、不能显示的知道属性或者方法来自于哪一个mixin
-  > 5、data 中的属性会合并
-  > 6、props、methods、inject、computed 后面的覆盖前面的
-  > 7、生命周期和 watcher 是 放在队列中顺序执行
-  > 8、申明的 component、指令和过滤器都是通过原型链层层叠加
+  > 2、mixin 里面，如果使用生命周期钩子，会覆盖掉组件的钩子
+  > 3、不能显示的知道属性或者方法来自于哪一个mixin
+  > 4、data 中的属性会合并
+  > 5、props、methods、inject、computed 后面的覆盖前面的
+  > 6、生命周期和 watcher 是 放在队列中顺序执行
+  > 7、申明的 component、指令和过滤器都是通过原型链层层叠加
 
   Vuex
 
@@ -141,7 +140,6 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   Object.defineProperty 缺点
 
   > 1、循环遍历嵌套对象，不能用到时进行再进行遍历
-  >
   > 2、对数组进行监听时，需要特殊处理：使用数组原型对象，Objecr.create生成一个新对象，基于数组对象原型上的方法重写方法，不影响数组对象上的方法。
   > 3、vue 不能监听数组对元素下标的修改和数组长度改变，因为数组元素的length 是不可枚举和不可配置的
 
@@ -190,9 +188,9 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   同时也可以在nextTick回调中对dom进行操作。 
 
   ```javascript
-  1、nextTick 函数主体主要是将 nextTick 的回调函数收集在一个数组中 callbacks 中；
-  2、然后再 timeFunc 函数中统一遍历执行 callbacks；
-  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，作为 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮的事件循环队列中执行，将宏任务或者微任务在执行栈中运行。
+  1、nextTick 函数主体主要是将 nextTick 的回调函数收集在一个数组 callbacks 中；
+  2、然后在 timeFunc 函数中统一遍历执行 callbacks；
+  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，放在 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮的事件循环队列中执行，将宏任务或者微任务在执行栈中运行。
   4、保证了频繁操作同一个数据，不会频繁执行数据更新，页面渲染等操作。
   5、也可以保证在上一个 dom，更新完毕后可以在 nextTick 的回调中，拿到最新的 dom 元素 
 
@@ -208,27 +206,8 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   2、会根据include 和 exclude 来对 Vnode 进行过滤，得到实际需要缓存的组件；
   3、在渲染的时候，会比较当前的子组件有没有被缓存，如果没有缓存，直接加入到缓存队列中，如果被缓存了，证明这个组件此时被使用了，就会将此组件加入到队列的队尾，表示你是最近使用的。
   4、接着比较缓存数组的长度和最大能够缓存数组的数量，如果超过了最大缓存数量，删除掉第一个，因为第一个事使用频率最低的，保证每次都不超过最大缓存数。
+  5、返回获取的组件实例，进行“特殊的挂载”
 
-  ```
-
-  组件初次渲染流程
-  发生在 patch 阶段
-
-  ```javascript
-  1、keep-alive 是个虚拟组件 abstract 为 true，不会和包裹的组件建立父子关系，会将包裹keep-alive 的组件作为父组件；
-  2、初次渲染的时候，在 patch 流程中是通过`createComponent`来创建组件的。
-  3、在`createComponent`中由于包裹的组件还未挂载成功，此时的组件实例是undefined，经过判断，进入到组件初始化阶段，就是`componentVNodeHooks`中的 init 函数;
-  4、在初始化组件函数中，此时还没有组件实例，判断进入创建组件实例逻辑`createComponentInstanceForVnode` 中，并返回创建的组件的实例；
-  5、重新回到 `createComponent`，此时被包裹的组件实例创建完毕，就会将创建的组件实例插入到父元素中。
-  6、同时将组件缓存起来。
-
-  ```
-  组件更新流程
-  ```javascript
-  1、切换缓存组件的过程也发生在 `patch`中，属于组件更新，会调用patcheVnode函数；
-  2、在patchVnode 中，keep-alive 是相当于包裹着一个插槽，因此会走resolveSolt 方法，解析插槽，返回执之前缓存的插槽，并强制更新渲染，需要再走一遍渲染流程，重新进入到 `createComponent` 中；
-  3、在 createComponent 中判断已经存在了 组件实例，进行 componentVNodeHooks.prepatch 操作，就不会进行 created 和mounted 的阶段，直接将新的节点插入到父组件中。
-  4、节省了资源和性能。
   ```
 
   render 函数
@@ -239,12 +218,6 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
 
   插槽的编译渲染过程
   默认插槽，具名插槽、作用域插槽
-  ```javascript
-  1、插槽一般时候会被父组件包裹，那么解析编译的时候，父组件就会先于插槽，而且会将插槽作为子元素处理放到存储子元素数组children中；
-  2、在解析编译的过程中，遇到 slot 开头的时候，会将 slot的元素变成对应的vnode，存储起来；
-  3、在对插槽进行解析编译的时候，会使用 resolveSlot 函数，里面接受2个参数，一个是上一步产生的子元素数组，另一个就是父元素的实例 vm;
-  4、在 resolveSlot 主要执行的是对 children 的遍历，获取里面每一个元素的 slot 名称，和2中生成的vnode，拼凑成一个以slot名称为key,vnode 的 对象 vm.$slots;
-  5、在 对插槽进行渲染的时候，会将上述步骤中生成 vm.$slots 在父组件渲染的时候，就可以对插槽进行替换。
 
   新版本简单解释
 
@@ -327,8 +300,8 @@ hash 原理代码实现
 ```javascript
 window.onhashChange = (event)=>{
    // 获取url 的值
-   let newURL = evetn.newURL;// 新的地址
-   let oldURL = evetn.oldURL;// 旧的地址
+   let newURL = event.newURL;// 新的地址
+   let oldURL = event.oldURL;// 旧的地址
    let newHash = location.hash;
    // 根据路由变化，加载不同的hash 值也就是不同的单页面
    location.href = newHash;
@@ -369,7 +342,7 @@ history.pushState(state,title,url);
 
 // 第二部分：监听前进和后退
 window.onpopstate = (event)=>{
-  history.pushState(evetn.state,"",location.pathname);
+  history.pushState(event.state,"",location.pathname);
 }
 
 window.addEventListener('popstate', ()=>{

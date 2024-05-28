@@ -32,7 +32,8 @@ Dom 渲染
 
 1、打包工具的压缩，减少首屏资源体积，异步加载（不需要马上用到并且体积很大的库），去除大的base64体积;
 2、tree-shaking
- Tree Shaking 正常工作的前提是交给 Webpack 的 JavaScript 代码必须是采用 ES6 模块化语法的， 因为 ES6 模块化语法是静态的（导入导出语句中的路径必须是静态的字符串，而且不能放入其它代码块中），这让 Webpack 可以简单的分析出哪些 export 的被 import 过了, 在使用tree-shaking, 才能确认剔除哪些不需要的模块和代码，只使用需要的模块和代码
+ Tree Shaking 正常工作的前提是交给 Webpack 的 JavaScript 代码必须是采用 ES6 模块化语法的， 因为 ES6 模块化语法是静态的（导入导出语句中的路径必须是静态的字符串，而且不能放入其它代码块中），
+ 这让 Webpack 可以简单的分析出哪些 export 的被 import 过了, 在使用tree-shaking, 才能确认剔除哪些不需要的模块和代码，只使用需要的模块和代码
 
 3、页面实在是优化手段做完了，可以使用分批随滚动渲染，原理类似于虚拟长列表
 
@@ -43,7 +44,7 @@ Dom 渲染
 
 
 vue 优化
-vue 3 本身通过静态标记和重新写的 diff 算法，优化已经很好，有几个优化的小点
+vue 3 本身通过静态提升，动态节点收集，和重新写的 diff 算法，优化已经很好，有几个优化的小点
 1、keep-alive 缓存
 2、不用大量重复操作dom
 3、区分场景使用v-if 和v-show;
@@ -202,7 +203,7 @@ webpack 构建优化分为四个方面
 
 1.4、cache-loader 写在 loader 的前面，将 loader 处理过的文件缓存起来，下次构建直接使用，提高处理速度
 1.5、开启 babel-loader 中 options 中的 cacheDirectory 选项，缓存 babel-loader 对js处理后的文件
-cache-loader 相对于 babel-loader 构建时间会短一些，因为，cache-loader 缓存的信息会跟多，而且缓存内容是以 buffer 二进制的形式存储，效率更高
+  cache-loader 相对于 babel-loader 第二次的构建时间会短一些，因为，cache-loader 缓存的信息会更多，而且缓存内容是以 buffer 二进制的形式存储，效率更高
 1.6、使用 webpack DllPlugin 和 DllReferencePlugin 提前打包缓存一些不怎么改变的文件，配置在 `webpack.dll.js` 中
 
 
@@ -249,7 +250,7 @@ optimization: {
       minSize: 20000, // 超过 20kb 进行分包
       minRemainingSize: 0,
       minChunks: 1,// 被引用次数大于1次进行分包
-      maxAsyncRequests: 30, // 并行请求的最大数量小于或等于 30
+      maxAsyncRequests: 30, // 异步请求的最大数量小于或等于 30
       maxInitialRequests: 30, // 并发请求的最大数量小于或等于 30
       enforceSizeThreshold: 50000,
       cacheGroups: {

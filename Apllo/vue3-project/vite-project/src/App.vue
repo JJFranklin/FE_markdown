@@ -23,7 +23,7 @@ import commonWaterMark from '@/components/common-water-mark.vue';
 
 const router = useRouter();
 router.push({
-  path:"/map"
+  path:"/"
 });
 
 let curModuleName = ref("");

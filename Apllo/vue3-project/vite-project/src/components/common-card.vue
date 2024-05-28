@@ -9,8 +9,6 @@ import {useAttrs} from "vue";
 
 const $attrs = useAttrs();
 
-console.log('$attrs', $attrs.order);
-
 // defineEmits 数组可以接受多个自定义事件 defineEmits(['showDetail', 'a', 'b', ]);
 const $emit = defineEmits(['showDetail']);
 

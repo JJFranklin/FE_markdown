@@ -144,7 +144,7 @@ https://segmentfault.com/q/1010000042325613
 1、当 flush 为 sync 的时，表示它是一个同步 watcher，即当数据变化时同步执行回调函数
 2、当 flush 为 pre 的时，回调函数通过 queueJob 的方式在组件更新之前执行，
     如果组件还没挂载，则同步执行确保回调函数在组件挂载之前执行
-3、如果设置 flush，默认为 post，回调函数通过 queuePostRenderEffect 的方式在组件更新之后执行
+3、如果设置 flush，回调函数通过 queuePostRenderEffect 的方式在组件更新之后执行
 
 vue 3优势
 ```javascript

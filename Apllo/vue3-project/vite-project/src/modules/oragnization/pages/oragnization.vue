@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed,readonly, shallowReadonly, shallowReactive } from 'vue';
 
 const initVal = 5;
 
@@ -61,6 +61,14 @@ function add() {
 const c1 = computed(() => {
     return { name: '' };
 });
+
+const name = ref('franklin');
+console.log('refName',name);
+const person = shallowReactive({
+    name:'franklin',
+    age:19
+},true,true);
+console.log('reactive-person',person);
 </script>
 
 <style lang="scss" scoped></style>
