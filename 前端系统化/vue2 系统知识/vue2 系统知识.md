@@ -216,15 +216,15 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   createElement（TagName，Option，Content）接受三个参数 createElement(" 定义的元素 "，{ 元素的性质 }，" 元素的内容"/[元素的内容])
   ```
 
-  插槽的编译渲染过程
+  #### slot插槽的编译渲染过程
   默认插槽，具名插槽、作用域插槽
 
   新版本简单解释
 
-  1、在解析和编译阶段，插槽最终会输出入为一个 被 renderSolt 包裹的函数，函数接受参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
+  1、在模板解析编译之后，插槽最终会输出入为一个 被 renderSolt 包裹的函数，函数接受参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
   creatElement('div',[renderSlot('default',[renderText('默认内容')],2)]);
-  2、在 renderSolt 中主要的作用是 根据传入的 name ,找到对应的插槽渲染函数
-  3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽的节点；
+  2、在 renderSolt 中主要的作用是 根据传入的 name, 找到对应的插槽渲染函数
+  3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽的虚拟节点；
   4、最终 将插槽节点渲染到界面上
   ```
 
@@ -381,16 +381,18 @@ render 函数、template、outHtml;
 ##### vue 中是 style scoped 的作用 | 样式隔离
 唯一 id的生成规则：项目名+文件路径+文件名
 1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
-2、编译 template 标签时，使用 templater-loader 生成一个唯一 scopeId，添加到vnode上作为属性；
-3、同时 将 vnode 变成真实的 dom时，会将 scopeId 作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
+2、编译 template 模板时，使用 templater-loader 根据生成文件id 的规则生成一个唯一 scopeId，添加到vnode上作为属性；
+3、同时 将 vnode 变成真实的 dom 时，会将 scopeId 作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
 4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件
 
-Vue可以说存在三种watcher
+#### Vue可以说存在三种watcher
+https://cloud.tencent.com/developer/article/1834520
+https://juejin.cn/post/7106926821781798926
 
-第一种是在定义data函数时定义数据的 render watcher；
-第二种是 computed watcher，是 computed 函数在自身内部维护的一个watcher，配合其内部的属性dirty开关来决定computed的值是需要重新计算还是直接复用之前的值；
-第三种就是 watch api了，就是用户自定义的export导出对象的watch属性，当然实际上他们都是通过class Watcher类来实现的。
-watch watcher 的执行步骤
+1、渲染 watcher 是负责更新视图的 watcher，也就是 render watcher，每个组件实例都有一个对应的渲染 watcher。当组件实例创建时，会创建一个渲染 watcher，并执行组件的 render 函数，同时收集该组件依赖的响应式数据。当这些数据变化时，渲染 watcher 会触发组件重新渲染。
+2、计算属性 watcher 是负责执行计算属性的 watcher，每个计算属性都有一个对应的计算属性 watcher。配合其内部的属性 dirty 开关来决定 computed 的值是需要重新计算还是直接复用之前的值；
+当计算属性被访问时，会创建一个计算属性 watcher，并执行计算属性的 getter 函数，同时收集该计算属性依赖的响应式数据。当这些数据变化时，计算属性 watcher 会触发计算属性的重新求值，并通知其依赖的 watcher 更新。
+3、用户 watcher 是用户通过 watch API 自定义的 watcher，可以用来监听一个或多个响应式数据，并在数据变化时执行自定义的回调函数。用户可以通过一些选项来配置用户 watcher 的行为，例如 immediate、deep、sync 等。
 
 watch api
 
@@ -398,20 +400,151 @@ watch api
 
 1、initWatcher，在 initWatcher 调用 createWatcher；
   1.1、initWatcher 中，遍历 用户自定义的 watcher 选项；
-  1.2、遍历过程中，根据监控的 key, 获取对应的处理函数，处理函数 handle 有可能是一个对象，有可能是是个数组，
+  1.2、遍历过程中，根据监控的 key, 获取对应的处理函数，处理函数 handle 有可能是一个对象，有可能是数组，
   数组的情况遍历 handle, 调用 createWatcher ，对象的情况 直接调用 createWatcher 进行处理；
 
 2、createWatcher 中，调用 vm.$watch api 实例化 watcher
    2.1、createWatcher 会对不同的 handle 进行处理，如果是普通对象，会将 handle 赋值给 options，用作配置，
    此配置中，可能有 immediate 选项；
-   然后将取出 真正的 handle 函数 赋值给处理函数；如果不是对象，会从实例中取出对应的处理函数；
+   然后将取出 真正的 handle 函数 赋值给处理函数；
+   如果不是对象，会从实例中取出对应的处理函数；
    2.2、最后 调用 vm.$watch 进行实例化处理
 
 3、在 $watch 中使用 new Watcher() 构造 watcher 实例  
    3.1、在 $watch 中主要的作用是 调用 new Watcher() 构造 watcher 的实例，由于 自定义的 watcher lazy 默认值是false,
    所以在初始化的时候，执行 this.get() 和 对应的值建立依赖关系；
-   3.2、在 this.get() 在家里依赖关系中，看配置项中是否有 deep 选项（用户自定义 watcher 独有），有的话，就调用 traverse 函数递归处理，对深层次的元素，建立依赖关系，那么在对元素进行访问的时候，就会触发对应的更新。
+   3.2、在 this.get() 中建立依赖关系，看配置项中是否有 deep 选项（用户自定义 watcher 独有），有的话，就调用 traverse 函数递归处理，对深层次的元素，建立依赖关系，那么在对元素进行访问的时候，就会触发对应的更新。
    3.3、如果选项中有 immediate 为true, 就会立即执行回调函数，拿到新的值。
+
+
+疑问
+1、render 是怎么运行的，是怎么产生 vnode 的?
+2、 watcher 里面传出一个render函数是怎么样的一个过程？
+模板和虚拟 dom 的关系
+
+1、在编译过程中，将模板转换成 AST（抽象语法树）；
+2、再将抽象语法树，转换为 render 函数；
+
+provide / indeject
+响应式传值的方式
+在 父组件 中，provide属性值是一个函数 返回一个对象过去，并且对象中的属性是响应式的，通过函数进行返回
+```javascript
+// 父组件 传递响应式方式1
+// name 响应式属性
+provide:function(){
+    return {
+        name:()=>this.name
+    }
+}
+// 父组件 传递响应式方式2
+provide:function(){
+    return {
+        //  obj 是响应式的对象
+        obj:this.obj
+    }
+}
+
+// 子组件接收
+indject:['name'],
+// 或者 通过 computed 的方式返回一个新的属性
+computed:{
+    newName(){
+        return this.name;
+    }
+}
+```
+
+#### v-model 指令
+
+v-model 既可以作用于表单元素，又可以作用于自定义元素
+
+作用于表单元素的时候，作用于 input 文本框，默认是生成一个 value 和 input 事件，作用于单选多选框是，生成一个 checked 属性和一个 changed 事件，作用于下拉框，生成一个 select 属性和一个 change 事件
+
+作用于自定义组件时，默认是 value 属性和 input 事件；
+也可以自己定义
+```javascript
+<Comp v-model="data">
+
+// comp 组件
+默认的情况下
+props:['value']
+methods:{
+    click(){
+        this.$emit('input', this.value);
+    }
+}
+
+// 自定义的情况下 多了一个 model 属性
+model:{
+    prop:'customVal', // 自定义的属性 customVal
+    event: 'change',// 自定义的事件 为change
+}
+props:['customVal']
+methods:{
+    click(){
+        this.$emit('change', this.customVal);
+    }
+}
+```
+
+#### 生命周期
+vue2 生命周期在组件销毁、创建，更新过程中，是一个由外（父组件）到内（子组件），由内（子组件）到外（父组件）逐层递归执行生命周期的过程
+组件A -> 子组件B -> 子组件C
+
+创建过程：
+
+组件A: beforeCreated -> created -> beforeMount
+组件B: beforeCreated -> created -> beforeMount
+组件C: beforeCreated -> created -> beforeMount
+
+组件C: mounted
+组件B: mounted
+组件A: mounted
+
+更新过程
+
+组件A: beforeUpdated 
+组件B: beforeUpdated 
+组件C: beforeUpdated 
+
+组件C: updated
+组件B: updated
+组件A: updated
+
+销毁过程
+
+组件A: beforeDestoryed 
+组件B: beforeDestoryed 
+组件C: beforeDestoryed 
+
+组件C: destory
+组件B: destory
+组件A: destory
+
+#### computed 
+
+1、对 computed 的处理是在 beforeCreated 生命周期后；
+
+基本原理
+它会遍历computed配置中的所有属性，为每一个属性创建一个Watcher对象，并传入一个函数，该函数的本质其实就是computed配置中的getter 属性访问器，这样一来，getter运行过程中就会收集依赖
+但是和渲染函数不同，为计算属性创建的Watcher不会立即执行，因为要考虑到该计算属性是否会被渲染函数使用，如果没有使用，就不会得到执行。因为，在创建Watcher的时候，它使用了lazy配置，此时 lazy 的默认值是true，lazy配置可以让Watcher不会立即执行。
+受到 1azy 的影响，Watcher内部会保存两个关键属性来实现缓存，一个是value，一个是 dirty，value属性用于保存Watcher运行的结果，受lazy的影响，该值在最开始是 undefined
+dirty属性用于指示当前的value是否已经过时了，即是否为脏值（是否需要重新计算），受1azy的影响，该值在最开始是 true，Watcher创建好后，vue会使用代理模式，将计算属性挂载到组件实例中
+当读取计算属性时，vue检查其对应的Watcher是否是脏值，如果是，则运行函数，计算依赖，并得到对应的值，保存在Watcher的value中，然后设置dirty为false，然后返回。I
+
+巧妙的是，在依赖收集时，被依赖的数据不仅会收集到计算属性的Watcher，还会收集到组件的Watcher（因为组件模板中会使用计算属性的值）
+当计算属性的依赖变化时，会先触发计算属性的Watcher执行，此时，它只需设置dirty为true即可，不做任何处理。
+由于依赖同时会收集到组件的Watcher，因此组件会重新渲染，而重新渲染时又读取到了计算属性，由于计算属性目前已为dirty赋值为true，因此会重新运行getter进行运算
+而对于计算属性的setter，则极其简单，当设置计算属性时，直接运行setter即可
+
+#### 插槽的原理
+？？？需要重新梳理
+
+#### keep-alive 
+
+1、避免组件频繁切换，频繁创建，销毁组件，减少创建组件带来的开销；
+2、同时可以保留组件的状态
+
 
 
 

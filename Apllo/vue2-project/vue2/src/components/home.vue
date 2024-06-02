@@ -13,26 +13,25 @@ export default {
     },
     data() {
         return {
-            msg:'woshi'
-
+            msg: 'woshi'
         };
     },
     methods: {
-        test(){
+        test() {
             this.msg = 'shijie';
             this.$bus.$emit("changetheme");
-
+        },
+        // 测试自定义的 watch 用字符串的形式调用 自定义方法的情况
+        testWatch(){
+            console.log('ceshi testWatch');
         }
-
     },
     computed: {
 
     },
     watch: {
-        msg:{
-            handler(newVal,oldVal){
-                console.log('newVal-oldVal',newVal, oldVal);
-            },
+        msg: {
+            handler:'testWatch',
             // immediate:true
         }
     },
@@ -41,6 +40,4 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
-
-</style>
+<style scoped lang='scss'></style>

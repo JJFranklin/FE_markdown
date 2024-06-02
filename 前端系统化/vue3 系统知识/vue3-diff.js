@@ -41,6 +41,7 @@ while(oldVnode.key === newVnode.key) {
   newVnode = newChildren[newEnd]
 }
 // 预处理完毕后，如果满足如下条件，则说明从 j --> newEnd 之间的节点应该作为新节点插入
+// 旧节点处理完毕，新节点有剩余，直接挂载新节点
 if (j > oldEnd && j <= newEnd) {
   // 锚点的索引，用于挂载时确定挂载的位置,即插入该锚点节点的前面
   const anchorIndex = newEnd + 1;
@@ -51,6 +52,7 @@ if (j > oldEnd && j <= newEnd) {
     patch(null, newChildren[j++], container, anchor)
   }
 } else if (j > newEnd && j <= oldEnd) {
+  // 新节点处理完毕，旧节点有剩余，卸载旧节点
   // 如果满足如下条件以上条件，那么j --> oldEnd 之间的节点应该被卸载
   while (j <= oldEnd) {
       // 循环卸载多余节点

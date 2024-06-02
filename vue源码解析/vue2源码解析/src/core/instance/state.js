@@ -287,6 +287,46 @@ function initMethods (vm: Component, methods: Object) {
   }
 }
 
+/**
+ * 自定义 watcher 示例
+ *  watch: {
+            a: function(n, o){ // 普通watcher
+                console.log("a", o, "->", n);
+            },
+            b: { // 可以指定immediate属性
+                handler: function(n, o){
+                    console.log("b", o, "->", n);
+                },
+                immediate: true
+            },
+            c: [ // 逐单元执行
+                function handler(n, o){
+                    console.log("c1", o, "->", n);
+                },{
+                    handler: function(n, o){
+                        console.log("c2", o, "->", n);
+                    },
+                    immediate: true
+                }
+            ],
+            d: {
+                handler: function(n, o){ // 因为是内部属性值 更改不会执行
+                    console.log("d.e1", o, "->", n);
+                },
+            },
+            "d.e": { // 可以指定内部属性的值
+                handler: function(n, o){
+                    console.log("d.e2", o, "->", n);
+                }
+            },
+            f: { // 深度绑定内部属性
+                handler: function(n){
+                    console.log("f.g", n.g);
+                },
+                deep: true
+            }
+        },
+*/
 function initWatch (vm: Component, watch: Object) {
   for (const key in watch) {
     const handler = watch[key]
@@ -310,6 +350,7 @@ function createWatcher (
     options = handler
     handler = handler.handler
   }
+  //  handet 直接绑定的是 method 里面的方法
   if (typeof handler === 'string') {
     handler = vm[handler]
   }
