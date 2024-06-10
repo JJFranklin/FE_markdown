@@ -172,7 +172,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   依赖收集到更新的的细节
 
   ```javascript
-  1、vue 在 observe中，进行数据劫持，会对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
+  1、vue 在 observe中，进行数据劫持，会使用 object.defineProperty 对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
   3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中；
   4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
@@ -216,12 +216,12 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   createElement（TagName，Option，Content）接受三个参数 createElement(" 定义的元素 "，{ 元素的性质 }，" 元素的内容"/[元素的内容])
   ```
 
-  #### slot插槽的编译渲染过程
+  #### slot 插槽的编译渲染过程
   默认插槽，具名插槽、作用域插槽
 
   新版本简单解释
 
-  1、在模板解析编译之后，插槽最终会输出入为一个 被 renderSolt 包裹的函数，函数接受参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
+  1、在模板解析编译之后，插槽最终会输出入为一个 被 renderSlot 包裹的函数，函数接受参数 name 插槽名称，默认为default、props 具体插槽绑定的属性、fallBack 默认节点；
   creatElement('div',[renderSlot('default',[renderText('默认内容')],2)]);
   2、在 renderSolt 中主要的作用是 根据传入的 name, 找到对应的插槽渲染函数
   3、找到渲染函数之后，将属性值传入到渲染函数中，输出 插槽的虚拟节点；
@@ -379,9 +379,9 @@ vue 编译选择顺序
 render 函数、template、outHtml;
 
 ##### vue 中是 style scoped 的作用 | 样式隔离
-唯一 id的生成规则：项目名+文件路径+文件名
+唯一 scopedId 的生成规则：项目名+文件路径+文件名
 1、每个 Vue 文件都将对应一个唯一的 id，该 id 根据文件路径名和内容 hash 生成，通过组合形成scopeId；
-2、编译 template 模板时，使用 templater-loader 根据生成文件id 的规则生成一个唯一 scopeId，添加到vnode上作为属性；
+2、编译 template 模板时，使用 templater-loader 根据生成规则生成一个唯一 scopeId，添加到vnode上作为属性；
 3、同时 将 vnode 变成真实的 dom 时，会将 scopeId 作为配置属性传递到 createElement 函数中，渲染到真实的 dom 上；
 4、编译 style 标签时，会给样式添加一个`data-v-scopeId`的属性，这样单文件内的样式就不会污染其他单文件组件
 
@@ -545,6 +545,8 @@ dirty属性用于指示当前的value是否已经过时了，即是否为脏值�
 1、避免组件频繁切换，频繁创建，销毁组件，减少创建组件带来的开销；
 2、同时可以保留组件的状态
 
+
+#### v-on、v-bind、v-model的编译解析
 
 
 

@@ -211,7 +211,7 @@ setup(){
 }
 // 情况2：返回一个对象，返回的对象，将会给 模板使用
 setup(){
-const name = ref('franklin');
+  const name = ref('franklin');
   return {
     name
   };

@@ -59,14 +59,14 @@ webpack 5
 1、减少处理文件
 ```javascript
 resolve:{
-    // 特定指定文件后缀，顺序按照从多到少的出现评率寻找
+    // 特定指定文件后缀，顺序按照从多到少的出现频率设置，减少查找次数提高效率
     extensions:['.js','.jsx'],
-    // 配置别名可以提高webpack 中模块查找的速度
+    // 配置别名可以提高 webpack 中模块查找的速度
     alias:{
         'bootstrap': bootstrapCsspath, // 使用到 bootstrapcss 的时候，直接从bootstrapCsspath 路径中寻找，不用加载不必要的文件，比如会加载到 bootstrap.js 文件
     },
     modules:[],// 指定查找目录
-    mainFields:[] // 指定 从package.json 文件中查找入口文件
+    mainFields:[] // 指定 从 package.json 文件中查找入口文件
 },
 // 
 resolveLoader:{
@@ -81,7 +81,7 @@ optimization:{
 module:{
     // 使用正则匹配，匹配上了，配置哪些模块文件不需要进行解析，不需要解析依赖的第三方大型库，提高整体加载速度
     // lodash jquery 等独立模块，不需要依赖第三方
-    // 模块中的文件不能使用 export,require、import等语法
+    // 模块中的文件不能使用 export,require、import等语法，因为这些语法都表示依赖了第三方的库
     noParse:/test/,
 
     rules:[
@@ -90,7 +90,7 @@ module:{
             oneOf:[
                 {
                     use:[
-                        // style-loader，css-loader 等其他消耗资源大的转化loader,可以使用cache-loader 缓存资源，默认存储路径
+                        // style-loader，css-loader 等其他消耗资源大的转化loader,可以使用 cache-loader 缓存资源，默认存储路径
                         // node_modules/.cache/cache-loader
                         {
                             // 单独提取css
@@ -148,7 +148,7 @@ plugin:[
     // 压缩 html 代码
     new HtmlWebpackPlugin(
         template: '•/src/index.html',
-        minify:{//压缩HTML
+        minify:{ //压缩HTML
             collapseWhitespace: true, 
             removeComments: true
         }),
@@ -178,7 +178,7 @@ externals:{}
 • optimize-css-assets-webpack-plugin 是一个优化和压缩CSS资源的插件
 • terser-webpack-plugin 是一个优化和压缩JS资源的插件
 • image-webpack-loader 可以帮助我们对图片进行压缩和优化
-• html-webpack-plugin: 压缩html 代码
+• html-webpack-plugin: 压缩 html 代码
 
 清除无用的 css 
 1、purgecss-webpack-plugin 
@@ -193,14 +193,14 @@ webpack 构建优化分为四个方面
 
 1、提高构建速度
 
-1.1、使用 happypack 插件，多个子进程并发处理任务，处理完成后，处理完成后将结果返回给主进程，提高处理速度；
-1.2、使用 hard-source-webpack-plugin 插件，为模块提供中间缓存，将第一次构建的数据缓存到硬盘 node_modules/.cache/hard-source 目录下，再次构建的时候，直接从缓存获取文件，提高速度
-1.3、thread-loader 写在 loader 处理的最前面，后面的 loader 会在一个单独的worker池中运行，开启多个核心处理文件；
+1.1、使用 happypack 插件，多个子进程并发处理任务，处理完成后将结果返回给主进程，提高处理速度；
+1.2、thread-loader 写在 loader 处理的最前面，后面的 loader 会在一个单独的worker池中运行，开启多个核心处理文件；
 后续 loader 的限制，因为放到线程池中很多东西都失效了
-- 使用webpack api 生成的文件
+- 使用 webpack api 生成的文件
 - 无法使用自定义的 插件 api
 - 无法访问 webpack 的options 选项
 
+1.3、使用 hard-source-webpack-plugin 插件，为模块提供中间缓存，将第一次构建的数据缓存到硬盘 node_modules/.cache/hard-source 目录下，再次构建的时候，直接从缓存获取文件，提高速度
 1.4、cache-loader 写在 loader 的前面，将 loader 处理过的文件缓存起来，下次构建直接使用，提高处理速度
 1.5、开启 babel-loader 中 options 中的 cacheDirectory 选项，缓存 babel-loader 对js处理后的文件
   cache-loader 相对于 babel-loader 第二次的构建时间会短一些，因为，cache-loader 缓存的信息会更多，而且缓存内容是以 buffer 二进制的形式存储，效率更高
@@ -227,7 +227,7 @@ webpack 构建优化分为四个方面
 
 4、其他
 
-4.1、使用 webpack-bundle-analyzer 插件分析包的情况，并是使用 splitChunk 来根据实际需求，拆包的大小，引用次数等配置，拆分引用的包，避免重复引用
+4.1、使用 webpack-bundle-analyzer 插件分析包的情况，并使用 splitChunk 来根据实际需求，拆包的大小，引用次数等配置，拆分引用的包，避免重复引用
 4.2、其他 没办法拆分或者实际很大的库，或者图片，使用cdn进行引用，避免打包进文件，增加包的大小；
 4.3、通过 cdn 的方式引入了第三方库之后，在 externals 进行配置之后，可以通过 import 的方式使用，还不用打包进js中
 4.4、webpack 中的作用域提升 scoped hosting 
@@ -314,9 +314,9 @@ HMR 的原理
 项目中的实战优化策略
 
 1、采用 noparse 对 `vue|vue-router|vuex|vuex-router-sync` 进行处理
-`vue|vue-router|vuex|vuex-router-sync` 在使用 `import vue from 'vue'` 的时候，会解析 vue 会不会依赖其他，没有的话，就可以使用 `noparse` 对这类库进行处理，不进行解析，节省处理文件数量，节省构建时间。
+`vue|vue-router|vuex|vuex-router-sync` 在使用 `import vue from 'vue'` 的时候，会解析 vue 会不会依赖其他，没有的话，就可以使用 `noparse` 对这类库进行处理，不进行解析，直接使用 loader 处理之后的文件，不用经过模块分析阶段，节省处理文件数量，节省构建时间。
 
-2、使用 splitChunks 中cacheGroups  配置对包进行进一步的拆分,比如 对 node_modules 完成的包中的文件进行进一步的拆分，减少包的体积；
+2、使用 splitChunks 中 cacheGroups  配置对包进行进一步的拆分,比如 对 node_modules 完成的包中的文件进行进一步的拆分，减少包的体积；
 对于项目中不经常改变的包独立打包和缓存，比如项目中经常使用的 megvii-ui、megvii-gis 或者 视频播放组件 megvii-player 
 
 ```javascript
