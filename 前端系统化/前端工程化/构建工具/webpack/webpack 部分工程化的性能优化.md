@@ -358,6 +358,42 @@ webpackChain.optimization
     });
 ```
 
+####  vite 对比 webpack的区别
+vite
+1、按需编译：更加快速、因为vite 利用 ES module imports 的特性，采取的是按需编译，同时使用了更好的tree-shaking 和代码压缩
+2、打包方式不同：vite 热更新是一个增量的更新，只更新需要修改的文件，而在webpack 中是全量更新，只更改了小部分文件，也会编译整个项目，所以会显得很慢；
+3、vite 使用了浏览器原生的ES模块加载器，当开发者修改代码后，Vite会即时在浏览器中编译和打包代码，然后将更改的部分直接传递给浏览器，并重新加载这部分代码
+4、Vite还支持预渲染技术（使用插件 vite-plugin-prerender），能够在构建时生成静态HTML文件，加速页面的首次加载。
+
+
+#### webpack 4 对比webpack 5
+
+webpack 5 对比webpack 4 内置了很多插件，移除了很多插件比如 uglifyJsWebpackPlugin 等
+
+1、webpack 4 中需要下载 对应的压缩插件才能处理压缩文件，比如 terse-webpack-plugin 处理压缩 js 文件；
+在webpack 5 中，内置了压缩插件，不需要配置压缩，在生产环境，开启 mode='production' 自动开启压缩；
+
+2、webpack 5 内置了cache 缓存机制，默认开启 cache-loader 的打包缓存，不需要像webpack 4 一样配置 cache-loader 等插件
+
+```js
+// webpack.config.js
+module.exports= {
+  // 使用持久化缓存
+  cache: {
+    type: 'filesystem'， // type 的可选值为： memory 使用内容缓存，filesystem 使用文件缓存
+    // 当 type=filesystem的时候设置cacheDirectory才生效。用于设置你需要的东西缓存放在哪里
+    cacheDirectory: path.join(__dirname, 'node_modules/.cac/webpack')
+  }
+}
+```
+
+3、webpack 4 需要使用不同的loader 对不同的资源进行处理，在 webpack 5 中 使用 资源模块类型替换掉各种 loader
+```js
+asset/resource 替换 file-loader(发送单独文件)
+asset/inline 替换 url-loader （导出 url）
+asset/source 替换 raw-loader（导出源代码）
+```
+
 
 
 

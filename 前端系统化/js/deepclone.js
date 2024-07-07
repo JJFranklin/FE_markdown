@@ -166,3 +166,9 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     // 返回结果
     return result
 }
+
+
+function dugui(num, deep){
+    const number = dugui(num,deep);
+    return dugui(number,deep + 1);
+}

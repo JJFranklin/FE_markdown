@@ -118,7 +118,9 @@
 ```
 200 请求成功
 301 永久重定向
+资源已经永久的变动到另一个 url 下面，每次访问，都是访问新的资源的地址
 302 临时重定向
+资源暂时变更到另一个 url 下面，新旧 url 地址都有效，都可以访问到对应的资源
 304状态码: 客户端有缓存情况下服务端的一种响应
 ```
 
@@ -228,7 +230,7 @@ cros : 应对简单请求和非简单请求不同
 
 简单请求
 
-- 请求方式：get、post、put、head
+- 请求方式：get、post、head
 - 请求头首部字段：content-language、content-type(application/x-www-form-urlencoded`、`multipart/form-data`、`text/plain)、accept、accept-language
 - 只会请求一次
 

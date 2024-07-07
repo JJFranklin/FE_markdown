@@ -11,7 +11,7 @@ class EventBus {
     const vm = this;
     if (!events || !cb) return vm;
 
-    // 事件是可以接受单个事件，也可以接受事件数组，将多个事件绑定同一个回调
+    // 事件是可以接受单个事件，也可以接受事件数组，将多个事件绑定同一个回调函数
     if (Array.isArray(events)) {
       for (let i = 0, len = events.length; i < len; i++) {
         vm.on(events[i], cb);
