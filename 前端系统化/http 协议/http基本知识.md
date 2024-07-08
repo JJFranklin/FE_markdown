@@ -90,9 +90,9 @@
 
   协商缓存
 
-  >判断字段：last-modify(服务端)/last-modify-since(客户端)，if-match(客户端)/etag(服务端) 或者 if-non-match(客户端)/etag(服务端)
+  >判断字段：last-modify-since(客户端)/last-modify(服务端) ，if-match(客户端)/etag(服务端) 或者 if-non-match(客户端)/etag(服务端)
   >
-  >1、客户端第一次向服务器发起请求，服务端会在响应部分带上last-modify 或者etag 字段的值；
+  >1、客户端第一次向服务器发起请求，服务端会在响应部分带上last-modify 或者 etag 字段的值；
   >
   >2、客户端再次发送请求时，会将last-modify或者etag 的值写入到请求首部字段对应last-modify-since和if-match字段中；
   >

@@ -224,6 +224,17 @@ setup(){
 ```
 
 
+##### 生命周期
+
+https://blog.csdn.net/qq_42445025/article/details/121978510
+
+![vue3生命周期](../md-images/vue%203%20生命周期.png)
+
+
+
+
+
+
 
 
 

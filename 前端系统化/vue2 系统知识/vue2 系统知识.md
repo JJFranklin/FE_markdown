@@ -18,7 +18,7 @@
 
   ```
   1、props & emit 
-  2、eventBus事件总线,触发事件$emit 接收触发事件$on，相当于把数据传递给兄弟组件，兄弟组件再将数据传递给接受的组件
+  2、eventBus 事件总线,触发事件$emit 接收触发事件$on，相当于把数据传递给兄弟组件，兄弟组件再将数据传递给接受的组件
   3、vuex
   4.1、$attr：后代组件（包括子组件、孙子组件）接收除了在props 中已经定义了的所有父组件中子组件定义的属性，不包括class 和style
   4.2、$linstener：子组件或者孙子组件可以拿到所有在父组件中定义在子组件上的监听事件。
@@ -96,18 +96,6 @@ v-for 优先级是比 v-if 高
   > 6、生命周期和 watcher 是 放在队列中顺序执行
   > 7、申明的 component、指令和过滤器都是通过原型链层层叠加
 
-  Vuex
-
-- vue 响应式原理
-
-
-vue 深度监听，拿不到oldVal值
-
-v-for 和 v-if 不能一起使用：v-for 比 v-if 的优先级高   
-
-vue的事件是挂在的触发事件的元素上
-
-vue触发事件传输的event 对象是原生的event 对象
 
 - vuex
 
@@ -119,6 +107,14 @@ mutations: 提交事件的中介，接受事件类型
 actions：提交mutations的地方，改变状态前的一个步骤，一个actions,可以包含多个mutation，也已包含异步操作；
 modules：多个复杂的项目，可以根据业务逻辑分多个模块，每一个模块中包含完整的（state,getter,actions,mutations）使用的时候，可以通过模块路径分别引用其中的state,action
 ```
+
+v-for 和 v-if 不能一起使用：v-for 比 v-if 的优先级高   
+
+vue的事件是挂在的触发事件的元素上
+
+vue触发事件传输的event 对象是原生的event 对象
+
+
 
 - Vue 原理
   
@@ -136,6 +132,8 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   > 4、运行patchVnode函数，新旧节点进行比较(diff 算法)，返回最新的节点；
   >   
   > 5、再次将新的节点渲染到界面上。 
+  
+  后面又更加详细的解释
 
   Object.defineProperty 缺点
 
@@ -172,7 +170,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   依赖收集到更新的的细节
 
   ```javascript
-  1、vue 在 observe中，进行数据劫持，会使用 object.defineProperty 对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，同时生成一个 `dep` 实例，进行依赖收集，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
+  1、vue 在 observe中，进行数据劫持，会使用 object.defineProperty 对属性进行响应式处理，并且在响应式处理过程中，会触发`getter`访问器，进行依赖收集，同时生成一个 `dep` 实例，将和当前属性有关的依赖(watcher)全部收集到dep 中，如果有嵌套的情况进行递归依赖收集；
   2、在数据变化之后，会触发 `setter` 访问器，通知 对应的`dep`,触发 `notify` 方法，实质是遍历的 dep 中收集的 `watcher`，执行watcher 的`update` 方法；
   3、在 update 方法中，会将watcher放到一个数组 queueWatcher 中；
   4、在 queueWatcher 中，先判断此时的 watcher 是不是已经在更新队列中，如果不是，标记为ture,代表其添加到更新队列中
@@ -190,7 +188,7 @@ modules：多个复杂的项目，可以根据业务逻辑分多个模块，每�
   ```javascript
   1、nextTick 函数主体主要是将 nextTick 的回调函数收集在一个数组 callbacks 中；
   2、然后在 timeFunc 函数中统一遍历执行 callbacks；
-  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，放在 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中，确保，回调能够在下一轮的事件循环队列中执行，将宏任务或者微任务在执行栈中运行。
+  3、timeFunc 函数执行策略，是将 `统一遍历执行 callbacks` 这个操作根据不同的情况，放在 setTimeout、setImmdiate 等宏任的回调中，或者放在 mutationObserver、以及promise.then 中 等微任务中，确保，回调能够在下一轮的事件循环队列中执行，将宏任务或者微任务在执行栈中运行。
   4、保证了频繁操作同一个数据，不会频繁执行数据更新，页面渲染等操作。
   5、也可以保证在上一个 dom，更新完毕后可以在 nextTick 的回调中，拿到最新的 dom 元素 
 
@@ -361,7 +359,7 @@ afterEach: 全局后置路由守卫，
 
 
 路由独享守卫
-beforeEnter: 路由独享守卫，只出现在，路由配置配置中
+beforeEnter: 路由独享守卫，只出现在，路由配置中
 
 组件独享路由守卫
 beforeRouteEnter: 在组件进入之前调用
@@ -419,7 +417,7 @@ watch api
 
 疑问
 1、render 是怎么运行的，是怎么产生 vnode 的?
-2、 watcher 里面传出一个render函数是怎么样的一个过程？
+2、watcher 里面传出一个render函数是怎么样的一个过程？
 模板和虚拟 dom 的关系
 
 1、在编译过程中，将模板转换成 AST（抽象语法树）；
@@ -458,7 +456,7 @@ computed:{
 
 v-model 既可以作用于表单元素，又可以作用于自定义元素
 
-作用于表单元素的时候，作用于 input 文本框，默认是生成一个 value 和 input 事件，作用于单选多选框是，生成一个 checked 属性和一个 changed 事件，作用于下拉框，生成一个 select 属性和一个 change 事件
+作用于表单元素的时候，作用于 input 文本框，默认是生成一个 value 和 input 事件，作用于单选多选框是，生成一个 checked 属性和一个 change 事件，作用于下拉框，生成一个 select 属性和一个 change 事件
 
 作用于自定义组件时，默认是 value 属性和 input 事件；
 也可以自己定义

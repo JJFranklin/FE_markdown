@@ -242,6 +242,7 @@ function createComputedGetter (key) {
   return function computedGetter () {
     const watcher = this._computedWatchers && this._computedWatchers[key]
     if (watcher) {
+      // 初始化的时候，dirty 是 true 
       if (watcher.dirty) {
         watcher.evaluate()
       }
@@ -328,14 +329,15 @@ function initMethods (vm: Component, methods: Object) {
         },
 */
 function initWatch (vm: Component, watch: Object) {
+  // 原来这里用的是handel 不好理解，换成 val
   for (const key in watch) {
-    const handler = watch[key]
-    if (Array.isArray(handler)) {
-      for (let i = 0; i < handler.length; i++) {
-        createWatcher(vm, key, handler[i])
+    const val = watch[key]
+    if (Array.isArray(val)) {
+      for (let i = 0; i < val.length; i++) {
+        createWatcher(vm, key, val[i])
       }
     } else {
-      createWatcher(vm, key, handler)
+      createWatcher(vm, key, val)
     }
   }
 }
@@ -343,16 +345,16 @@ function initWatch (vm: Component, watch: Object) {
 function createWatcher (
   vm: Component,
   expOrFn: string | Function,
-  handler: any,
+  val: any,
   options?: Object
 ) {
-  if (isPlainObject(handler)) {
-    options = handler
-    handler = handler.handler
+  if (isPlainObject(val)) {
+    options = val
+    handler = val.handler
   }
   //  handet 直接绑定的是 method 里面的方法
-  if (typeof handler === 'string') {
-    handler = vm[handler]
+  if (typeof val === 'string') {
+    handler = vm[val]
   }
   return vm.$watch(expOrFn, handler, options)
 }
@@ -383,6 +385,7 @@ export function stateMixin (Vue: Class<Component>) {
   Vue.prototype.$set = set
   Vue.prototype.$delete = del
 
+  // this.$watch
   Vue.prototype.$watch = function (
     expOrFn: string | Function,
     cb: any,
