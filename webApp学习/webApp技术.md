@@ -39,7 +39,7 @@ width、min-width、max-width、orientation、device-pixel-ratio
 touchstart -> touchmove -> touched -> click
 
 事件穿透原因
-这是因为在移动端测览器，事件执行的顺序是 touchstart → touchmove → touched → click。而 cick 事件有 300ms 的延迟，当touchstart 事件把上层元素隐藏之后，隔了300ms，浏览器触发了 click 事件，但是此时上愿元素不见了，所以该事件被派发到了下层元素身上
+这是因为在移动端测览器，事件执行的顺序是 touchstart → touchmove → touched → click。而 cick 事件有 300ms 的延迟，当touchstart 事件把上层元素隐藏之后，隔了300ms，浏览器触发了 click 事件，但是此时上面的元素不见了，所以该事件被派发到了下层元素身上
 
 解决方式
 1、取消事件默认的行为 

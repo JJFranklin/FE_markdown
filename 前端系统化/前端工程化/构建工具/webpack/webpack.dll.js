@@ -32,7 +32,7 @@ module.exports = {
       manifest: require("./vendor-manifest.json"),
     }),
     //这个主要是将生成的 vendor.dll.js文件加上hash值插入到页面中。
-    //5、还有一步骤实在 html 的主页面，引入 打包好的 dll 文件
+    //5、还有一步骤在 html 的主页面，引入 打包好的 dll 文件
     new AddAssetHtmlPlugin([
       {
         filepath: path.resolve(__dirname, "../dist/static/js/vendor.dll.js"),
