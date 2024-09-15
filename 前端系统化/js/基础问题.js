@@ -9,3 +9,17 @@
  * new 操作符的运行过程，回去看 红宝书的介绍
  *  */ 
 
+console.log(1);
+
+setTimeout(function(){
+    console.log(2)
+},0);
+
+new Promise((resolve,reject)=>{
+    console.log(3);
+    resolve();
+    console.log(4)
+}).then(()=>{
+    console.log(5)
+});
+console.log(6);
