@@ -2,20 +2,22 @@
     <div class="base-tree">
         <el-button type="primary" @click="add">+1</el-button>
         reactive:
-        {{ obj.arr }}
+        <!-- {{ obj.arr }} -->
         {{ obj.num }}
         {{ obj.test.a.b.c.d }}
         ref:
-        {{ numObj.count }}
-        {{ numObj.arr }}
+        <!-- {{ numObj.count }}
+        {{ numObj.arr }} -->
 
         {{ initVal }}
+
+        {{ customNum }}
 
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed,readonly, shallowReadonly, shallowReactive } from 'vue';
+import { ref, reactive, computed,readonly, shallowReadonly, shallowReactive, watch } from 'vue';
 
 const initVal = 5;
 
@@ -45,7 +47,13 @@ const obj = reactive({
     }
 });
 
+let customNum = ref(10);
+watch(obj,(newVal)=>{
+    console.log('newVal', newVal.num);
+});
+
 function add() {
+    customNum.value ++;
     obj.num++;
     obj.arr.push(Math.random());
     obj.test.a.b.c.d++;

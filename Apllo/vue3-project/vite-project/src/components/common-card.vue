@@ -20,7 +20,7 @@ const props = defineProps({
 });
 
 function showDetail(){
-  $emit('showDetail','woshi detail');
+  $emit('showDetail',`${props.cardIndex}: woshi detail`);
 }
 
 
