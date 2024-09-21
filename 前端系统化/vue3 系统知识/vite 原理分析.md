@@ -77,7 +77,7 @@ rollUp、
 
 
 
-##### RollUp
+##### RollUp 流程分析
 
 [javascript - JS打包工具rollup——完全入门指南 - KainStar的专栏 - SegmentFault 思否](https://segmentfault.com/a/1190000010628352#item-10)
 
@@ -87,13 +87,13 @@ rollUp、
 
 3、可以使用 rollup-plugin-node-resolve 和 rollup-plugin-commonjs 插件，将第三方 npm 模块和 commonJs 标准的代码转化为 es6 模块标准的代码
 
-4、也可以使用压缩插件，压缩需要的代码，减少打包体积
+4、也可以使用压缩插件，压缩需要的   代码，减少打包体积
 
 
 
 ##### 问题
 
-1、vite 为什么在开发环境使用 Esbuild，在生产环境使用 RollUp
+1、vite  为什么在开发环境使用 Esbuild，在生产环境使用 RollUp
 
 ```latex
 1、Esbuild 不提供操作打包产物的接口，像 Rollup 中灵活处理打包产物的能力(如renderChunk钩子)在 Esbuild 当中完全没有。
