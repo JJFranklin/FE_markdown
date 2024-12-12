@@ -2,11 +2,17 @@
 
 1、基于 ESM 模块化的标准得到大部分浏览器支持
 
-2、底层打包使用了 edbuild 的转化和打包工具，效率大大提升
+2、底层打包使用了 esbuild 的转化和打包工具，效率大大提升
 
-3、由于浏览器支持了 esm 模块化标准，浏览器加载到对应模块，才向vite 启动的服务发送指令，让 vite 使用esbuild 转化加载对应的模块代码分解整理 成 esm 模块发送给浏览器。做到真正的按需加载，不会因为项目模块增多而成倍增加打包运行时间，对比 webpack。
+3、由于浏览器支持了 esm 模块化标准，浏览器加载到对应模块，才向 vite 启动的服务发送指令，让 vite 使用esbuild 转化加载对应的模块，代码分解整理 成 esm 模块发送给浏览器。做到真正的按需加载，不会因为项目模块增多而成倍增加打包运行时间，对比 webpack。
 
+##### esbuild 快的原因
 
+1、js 是单线程串行，esbuild 是单独开一个进程，并且多线程并行，提高操作效率和多核优势。
+
+2、go 编译时，将编程语言解析成机器语言
+
+3、在编译阶段，共用类似的 ast 结构，减少 string 到 ast 的转换，提高效率
 
 vite[开发环境](https://zhida.zhihu.com/search?q=开发环境&zhida_source=entity&is_preview=1)依赖esbuild进行预构建，生产环境则依赖rollup进行打包，并且充分利用了[现代浏览器](https://zhida.zhihu.com/search?q=现代浏览器&zhida_source=entity&is_preview=1)的特性，比如http2、ES module，vite是站在众多[巨人肩膀](https://zhida.zhihu.com/search?q=巨人肩膀&zhida_source=entity&is_preview=1)上的一个产物， 类似webpack + webpack-dev-server的结合体，是一个非常棒的前端项目的构建工具。
 
@@ -18,7 +24,7 @@ esbuild、
 
 http2
 
-```la
+```javascript
 在http1中，对同一个域名请求有限制，在发送请求时，会限制请求的数量，
 在http2中，打破了这个限制，可以并发发送很多请求，因此可以，将模块切分成很多很小的部分，这样就提高了发送的速度，加载解析模块速率
 ```
@@ -65,15 +71,6 @@ rollUp、
 
 5、缓存，将处理后的代码进行缓存。提高加载速度 
 
- 
-
-##### esbuild 快的原因
-
-1、js 是单线程串行，esbuild 是单独开一个进程，并且多线程并行，提高操作效率和多核优势。
-
-2、go 编译时，将编程语言解析成机器语言
-
-3、在编译阶段，共用类似的 ast 结构，减少 string 到 ast 的转换，提高效率
 
 
 
