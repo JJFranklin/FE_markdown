@@ -1,5 +1,6 @@
 import React from "react";
 
+// 无状态写法
 interface IPersonProps {
   name?:String,
   showPersonInfo?:(val:string)=>void;

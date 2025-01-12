@@ -6,11 +6,12 @@ interface userInfoProps {
   getName?:Function;
   children?:React.ReactNode
 }
+
+// class 的写法
 export class UserInfo extends React.Component<userInfoProps> {
   constructor(props:userInfoProps){
     super(props);
     console.log("this.props", props);
-    // this.handleNameClick = this.handleNameClick.bind(this);
   }
 
   handleNameClick = (val:string) => {
