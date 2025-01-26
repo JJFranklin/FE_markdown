@@ -1,4 +1,5 @@
 import React from 'react';
+import AComp from './aComp';
 
 interface userInfoProps {
   name?:String,
@@ -23,8 +24,9 @@ export class UserInfo extends React.Component<userInfoProps> {
     return (
       <div>
         用户信息：{this.props.name}
-        <button onClick={this.handleNameClick.bind(this, 'xijinping')}>猜猜我是谁</button>
+        <button onClick={()=>this.handleNameClick.bind('xijinping')}>猜猜我是谁</button>
         {this.props.children}
+        <AComp></AComp>
       </div>
     );
   }
