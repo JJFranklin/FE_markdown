@@ -11,12 +11,16 @@ import Router from '@/routers/index.js';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+import ArcoVue from '@arco-design/web-vue';
+import '@arco-design/web-vue/dist/arco.css';
+
 const app = createApp(App);
 app.component("PageLayout", PageLayout);
 app.component("CommonLayout", CommonLayout);
 
 //挂载第三方的组件
 app.use(ElementPlus);
+app.use(ArcoVue);
 app.use(Router);
 app.mount("#app");
 
