@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@element-plus/icons-vue':
+        specifier: ^2.3.1
+        version: 2.3.1(vue@3.5.17)
       element-plus:
         specifier: ^2.10.4
         version: 2.10.4(vue@3.5.17)

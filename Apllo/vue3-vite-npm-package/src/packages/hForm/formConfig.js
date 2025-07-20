@@ -4,7 +4,7 @@ export const userFormConfig = {
   statusIcon: true,
   labelPosition: "right",
   inline: false,
-  size: "small",
+  size: "",
   items: [
     {
       type: "input",

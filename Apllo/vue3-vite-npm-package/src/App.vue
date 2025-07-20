@@ -1,11 +1,13 @@
 <template>
   <div>
-    <Hform></Hform>
+    <!-- <Hform></Hform> -->
+     <SearchTable></SearchTable>
   </div>
 </template>
 
 <script setup>
 import Hform from './packages/hForm/FormDemo.vue';
+import SearchTable from './packages/hSearchTable/index.vue'
 
 </script>
 
