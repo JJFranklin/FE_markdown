@@ -32,9 +32,7 @@
               </el-icon> 新增
             </el-button>
           </el-form-item>
-
         </el-col>
-
       </el-row>
     </el-form>
 
@@ -42,23 +40,22 @@
     <el-table :data="tableData" v-loading="loading" border stripe style="width: 100%">
       <template v-for="column in tableColumns" :key="column.prop">
         <!-- 自定义插槽列 -->
-        <el-table-column v-if="column.slot" :prop="column.prop" :label="column.label" :width="column.width">
+        <el-table-column v-if="column.slot" :prop="column.prop" :label="column.label" :width="column.width" :align="column.align">
           <template #default="scope">
             <slot :name="column.slot" :row="scope.row"></slot>
           </template>
         </el-table-column>
 
         <!-- 普通列 -->
-        <el-table-column v-else :prop="column.prop" :label="column.label" :width="column.width"
-          :formatter="column.formatter" />
+        <el-table-column v-else :prop="column.prop" :label="column.label" :width="column.width" :formatter="column.formatter" :align="column.align" />
       </template>
 
       <!-- 操作列 -->
-      <el-table-column v-if="operationConfig && operationConfig.buttons" label="操作"
+      <el-table-column v-if="operationConfig && operationConfig.buttons" label="操作" align="center"
         :width="operationConfig.width || 180" fixed="right">
         <template #default="scope">
           <el-button v-for="(btn, index) in operationConfig.buttons" :key="index" :type="btn.type || 'primary'"
-            :icon="btn.icon" :size="btn.size || 'small'" @click="handleOperation(btn.event, scope.row)">
+            :size="btn.size || 'small'" @click="handleOperation(btn.event, scope.row)">
             {{ btn.label }}
           </el-button>
         </template>
@@ -232,32 +229,9 @@ watch(() => props.tableData, (newVal) => {
 </script>
 
 <style scoped>
-.search-table-container {
-  padding: 20px;
-  background-color: #f5f7fa;
-}
-
-.search-card {
-  margin-bottom: 20px;
-}
-
-.search-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.table-card {
-  margin-bottom: 20px;
-}
-
 .pagination {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-}
-
-.el-button+.el-button {
-  margin-left: 8px;
 }
 </style>

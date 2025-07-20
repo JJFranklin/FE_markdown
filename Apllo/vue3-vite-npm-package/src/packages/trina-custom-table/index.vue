@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <SearchTable
+    <TrinaCustomTable
       :search-config="searchConfig"
       :table-columns="tableColumns"
       :operation-config="operationConfig"
@@ -35,15 +35,15 @@
           </el-form-item>
         </el-form>
       </template>
-    </SearchTable>
+    </TrinaCustomTable>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import SearchTable from './searchTable.vue'
+import TrinaCustomTable from './trina-custom-table.vue'
 import { searchConfig, tableColumns, operationConfig } from './config.js'
-import { getPageData } from './mockData.js'
+import { getPageData } from './mock.js'
 
 const loading = ref(false)
 const tableData = ref([])
@@ -111,10 +111,4 @@ const handleDialogSubmit = (type, form) => {
 </script>
 
 <style scoped>
-.page-container {
-  height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #f0f2f5;
-}
 </style>

@@ -36,11 +36,13 @@ export const tableColumns = [
   {
     prop: 'id',
     label: 'ID',
+    align: 'center',
     width: 80
   },
   {
     prop: 'username',
     label: '用户名',
+    align: 'center',
     width: 150
   },
   {

@@ -16,14 +16,14 @@
 
     <!-- 单选按钮组 -->
     <el-radio-group v-else-if="item.type === 'radio'" v-model="modelValue" v-bind="item.attrs">
-      <el-radio v-for="option in item.options" :key="option.value" :label="option.value">
+      <el-radio v-for="option in item.options" :key="option.value" :label="option.value" :value="option.value">
         {{ option.label }}
       </el-radio>
     </el-radio-group>
 
     <!-- 多选框组 -->
     <el-checkbox-group v-else-if="item.type === 'checkbox'" v-model="modelValue" v-bind="item.attrs">
-      <el-checkbox v-for="option in item.options" :key="option.value" :label="option.value">
+      <el-checkbox v-for="option in item.options" :key="option.value" :label="option.value" :value="option.value">
         {{ option.label }}
       </el-checkbox>
     </el-checkbox-group>

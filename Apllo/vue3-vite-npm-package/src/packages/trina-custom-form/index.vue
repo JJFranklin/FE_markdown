@@ -1,15 +1,15 @@
 <template>
   <div class="form-demo-container">
     <div class="form-preview">
-      <FormBuilder v-model="formData" :config="formConfig" @action="handleAction" @validate="handleValidate"></FormBuilder>
+      <TrinaCustomForm v-model="formData" :config="formConfig" @action="handleAction" @validate="handleValidate"></TrinaCustomForm>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
-import FormBuilder from './FormBuilder.vue';
-import { userFormConfig } from './formConfig';
+import TrinaCustomForm from './trina-custom-form.vue';
+import { userFormConfig } from './config';
 import { ElMessage } from 'element-plus'
 
 const formConfig = ref(userFormConfig);

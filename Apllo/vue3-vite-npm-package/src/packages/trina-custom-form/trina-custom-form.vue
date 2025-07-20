@@ -4,7 +4,7 @@
       :label-position="config.labelPosition || 'right'" :size="config.size || 'default'"
       :status-icon="config.statusIcon" :inline="config.inline" @validate="handleValidate">
       <template v-for="(item, index) in config.items" :key="index">
-        <FormItem :item="item" v-model="formData[item.prop]" @change="handleItemChange(item.prop, $event)"></FormItem>
+        <TrinaCustomFormItem :item="item" v-model="formData[item.prop]" @change="handleItemChange(item.prop, $event)"></TrinaCustomFormItem>
       </template>
 
       <!-- 表单操作按钮 -->
@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref, reactive, watch, computed } from 'vue';
-import FormItem from './FormItem.vue';
+import TrinaCustomFormItem from './trina-custom-form-item.vue';
 
 const props = defineProps({
   config: {

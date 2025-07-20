@@ -1,17 +1,28 @@
 <template>
   <div>
-    <!-- <Hform></Hform> -->
-     <SearchTable></SearchTable>
+    <div class="item">
+      <TrinaCustomForm></TrinaCustomForm>
+    </div>
+    <div class="item table">
+      <TrinaCustomTable></TrinaCustomTable>
+    </div>
   </div>
 </template>
 
 <script setup>
-import Hform from './packages/hForm/FormDemo.vue';
-import SearchTable from './packages/hSearchTable/index.vue'
+import TrinaCustomForm from './packages/trina-custom-form/index.vue';
+import TrinaCustomTable from './packages/trina-custom-table/index.vue'
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.item {
+  max-width: 600px;
+  &.table {
+    max-width: 1200px;
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
